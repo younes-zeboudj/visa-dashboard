@@ -274,40 +274,20 @@ refreshState()
         text-align: center;
       "
     >
-      <button
-      url="/add.html"
-        class="btn btn-danger"
-      >
-        Add passport
-      </button>
-      <button
-      url="/change.html"
-      class="btn btn-danger appurl_missing"
-      >
+      <button url="/add.html" class="btn btn-danger">Add passport</button>
+      <button url="/change.html" class="btn btn-danger appurl_missing">
         Change
       </button>
-      <button
-      url="/cards.html"
-      class="btn btn-danger appurl_missing"
-      >
+      <button url="/cards.html" class="btn btn-danger appurl_missing">
         Payment cards
       </button>
-      <button
-      url="/otps.html"
-      class="btn btn-danger appurl_missing"
-      >
+      <button url="/otps.html" class="btn btn-danger appurl_missing">
         OTPs
       </button>
-      <button
-      url="/clients.html"
-      class="btn btn-danger appurl_missing"
-      >
+      <button url="/clients.html" class="btn btn-danger appurl_missing">
         Clients
       </button>
-      <button
-      url="/reservations.html"
-      class="btn btn-danger appurl_missing"
-      >
+      <button url="/reservations.html" class="btn btn-danger appurl_missing">
         Reservations
       </button>
       <button
@@ -317,23 +297,12 @@ refreshState()
       >
         Processes
       </button>
-      <button
-      url="/log.html"
-        class="btn btn-danger appurl_missing"
-      >
-        Log
-      </button>
-      <button
-      url="/edit_json.html"
-        class="btn btn-danger appurl_missing"
-      >
+      <button url="/log.html" class="btn btn-danger appurl_missing">Log</button>
+      <button url="/edit_json.html" class="btn btn-danger appurl_missing">
         Edit config
       </button>
 
-      <button
-      url="/edit_file.html"
-        class="btn btn-danger appurl_missing"
-      >
+      <button url="/edit_file.html" class="btn btn-danger appurl_missing">
         Edit proxies
       </button>
     </div>
@@ -372,13 +341,17 @@ refreshState()
     document.querySelector("[name=app_url]").value = window.appurl;
 
     //update buttons
-    let currentUrl= document.location.href;
-    if(currentUrl.endsWith('.html')) currentUrl= currentUrl.replace(/\/\w+\.html/, '')
-    else if( currentUrl.endsWith('/') )currentUrl= currentUrl.replace(/\/$/, '')
-    
+    let currentUrl = document.location.href;
+    if (currentUrl.endsWith(".html"))
+      currentUrl = currentUrl.replace(/\/\w+\.html/, "");
+    else if (currentUrl.endsWith("/"))
+      currentUrl = currentUrl.replace(/\/$/, "");
+
     document.querySelectorAll(".appurl_missing").forEach((e) => {
       e.onclick = (evt) =>
-        update_frame(`${currentUrl}${e.getAttribute("url")}?appurl=${window.appurl || ""}`);
+        update_frame(
+          `${currentUrl}${e.getAttribute("url")}?appurl=${window.appurl || ""}`
+        );
     });
     function update_frame(url) {
       document.querySelector("iframe").id = Date.now();

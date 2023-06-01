@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/object-gui@2/dist/js/object-gui.min.js"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+
+    <link
+      href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/css/bootstrap-editable.css"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/object-gui@2/dist/css/object-gui.css"
+      rel="stylesheet"
+    />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+  </head>
+  <style>
+td {
+  padding: 0px;
+    margin: 0px;
+}table {
+    table-layout:  auto !important;
+}
+    .table > tbody > tr > td {
+      vertical-align: middle;
+    }
+    #tablebody td button {
+      margin-top: 3px;
+    }
+    .more-details td {
+      background-color: grey;
+    }
+    #processlog {
+      overflow-y: scroll;
+      height: 400px;
+      white-space: pre-line;
+    }
+    #log_popup .modal-dialog {
+      max-width: 100%;
+      height: 90%;
+    }
+    .modal-content {
+      height: 100%;
+    }
+  </style>
+  <script>
+    function get_log(arg) {
+      if (!arg) {
+        window.get_log_interval = setInterval(() => get_log(true), 3000);
+
+        if(window.get_ui_interval) {
+          clearInterval(window.get_ui_interval)
+          window.get_ui_interval= undefined
+        }
+      }
+
+      if (window.process_log_pid) {
+        $.get(
+          `${window.appurl}/log?pid=${window.process_log_pid}`,
+          function (data, status) {
+            $("#processlog").text(
+              data.length < 10000 ? data : data.substring(0, 10000)
+            );
+            console.log(`set kig`);
+            const plog = document.querySelector("#processlog");
+            plog.scrollTo(0, plog.scrollHeight);
+          }
+        );
+        if (!arg) {
+          setTimeout(() => {
+            const plog = document.querySelector("#processlog");
+            plog.scrollTo(0, plog.scrollHeight);
+          }, 300);
+        }
+      }
+    }
+    function get_ui(arg) {
+      if (!arg) {
+        console.log(`21`);
+        window.get_ui_interval = setInterval(() => get_ui(true), 3000);
+
+        if(window.get_log_interval) {
+          clearInterval(window.get_log_interval)
+          window.get_log_interval= undefined
+        }
+      }
+
+      if (window.process_log_pid) {
+        $("#processlog").html(
+          `<img src="${window.appurl}/screenshot?pid=${
+            window.process_log_pid
+          }&ts=${Date.now()}" width="100%" height="100%" />`
+        );
+      }
+    }
+
+    function disposeModal() {
+      console.log(`disposing`);
+      window.process_log_pid = undefined;
+      $("#log_popup").modal("toggle");
+      clearInterval(window.get_log_interval);
+      clearInterval(window.get_ui_interval);
+    }
+
+    window.addEventListener("keydown", function (evt) {
+      //esc
+      evt = evt || window.event;
+      var charCode = evt.keyCode || evt.which;
+      console.log(`key ${charCode}`);
+
+      if (charCode == 27) {
+        disposeModal();
+      }
+    });
+  </script>
+  <body>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="log_popup"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="modalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="processlogtitle">
+              <div class="btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-secondary active">
+                  <input
+                    onchange="window.process_log_pid?(f=>{window.process_log_pid_old= window.process_log_pid;window.process_log_pid= undefined})():window.process_log_pid= window.process_log_pid_old"
+                    type="checkbox"
+                    autocomplete="off"
+                  />
+                  Toggle auto scroll/refresh
+                </label>
+              </div>
+            </h5>
+            <button onclick="disposeModal()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="processlog"></div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      style="
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+      "
+    >
+      <button
+        id="autorefresh"
+        class="btn btn-primary"
+        onclick="switch_tasks_interval()"
+      >
+        disable auto refresh
+      </button>
+      <button
+        id="removall"
+        class="btn btn-danger"
+        onclick="$.get(window.appurl+'/rmall')"
+      >
+        kill all
+      </button>
+      <span
+        class="form-control"
+        style="
+          border: 1px dashed black;
+          width: fit-content;
+          display: inline-block;
+        "
+      >
+        <label>show if last seen less than </label>
+        <input type="text" id="last_seen_max" style="width: 40px" value="0" />
+        <label> s ago. </label>
+      </span>
+      <span
+        class="form-control"
+        style="
+          border: 1px dashed black;
+          width: fit-content;
+          display: inline-block;
+        "
+      >
+        <label>refresh every </label>
+        <input type="text" id="refresh_every" style="width: 40px" value="1  " />
+        <label> seconds. </label>
+      </span>
+    </div>
+    <table
+      class="table table-striped table-dark table-sm"
+      style="table-layout: fixed"
+    >
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Change CIB</th>
+          <th scope="col">Name</th>
+          <th scope="col">Mobile</th>
+          <th scope="col">Type</th>
+          <th scope="col">Client</th>
+          <th scope="col">Card</th>
+          <th scope="col">Since</th>
+          <th scope="col">Status</th>
+          <th scope="col">Pay OTP</th>
+          <th scope="col">Command</th>
+        </tr>
+      </thead>
+      <tbody id="tablebody"></tbody>
+    </table>
+
+    <script>
+      if (!window.appurl) {
+        const params = document.location.href.split("?")[1];
+        if (params) {
+          const values = params.split("&");
+          for (const val of values) {
+            if (val.startsWith("appurl=")) {
+              window.appurl = decodeURIComponent(val.split("=")[1]);
+              break;
+            }
+          }
+        }
+        if (!window.appurl) {
+          window.appurl = "http://localhost:8889";
+        }
+
+        if (window.appurl.endsWith("/"))
+          window.appurl = window.appurl.substring(0, window.appurl.length - 1);
+
+        console.log(`app url ${window.appurl}`);
+      }
+
+      function get_tasks_commands(render) {
+        if (!window.okforrefresh && window.okforrefresh !== undefined) {
+          console.log(`refresh disabled`);
+          return;
+        }
+        $.get(`${window.appurl}/stat?processes=1`, (data) => {
+          if (!data) return console.log(`no tasks returned`);
+          if (typeof data == "string") data = JSON.parse(data);
+
+          for (const pid in data.processes) {
+            if (Object.hasOwnProperty.call(data.processes, pid)) {
+              const process = data.processes[pid];
+              process.pid = pid;
+            }
+          }
+          window.processes = data.processes;
+        });
+
+        let timeout = 3;
+        try {
+          timeout = parseFloat(document.querySelector("#refresh_every").value);
+        } catch (error) {
+          console.log(`${error.message}`);
+        }
+
+        if (timeout != window.refresh_interval_rate) {
+          clearInterval(window.refresh_interval);
+          window.refresh_interval = setInterval(
+            get_tasks_commands,
+            timeout * 1000
+          );
+        }
+
+        if (render) showProcesses();
+      }
+
+      var cards = [];
+
+      window.refresh_interval_rate = 3;
+      window.refresh_interval = setInterval(get_tasks_commands, 3000);
+      setInterval(get_payment_cards, 3000);
+      setInterval(showProcesses, 2000);
+      get_payment_cards(true);
+      get_tasks_commands(true);
+
+      function showProcesses() {
+        if (!window.okforrefresh && window.okforrefresh !== undefined) {
+          console.log(`refresh disabled`);
+          return;
+        }
+        let maxLastseen = 0;
+        try {
+          maxLastseen = parseInt(
+            document.querySelector("#last_seen_max").value
+          );
+        } catch (error) {}
+
+        let html = ``;
+        let i = 1;
+        if (!window.moreInfoStates) window.moreInfoStates = {};
+        for (const ppid in window.processes) {
+          const process = window.processes[ppid];
+          if (process.last_seen) {
+            if (
+              maxLastseen != 0 &&
+              (Date.now() - parseInt(process.last_seen)) / 1000 > maxLastseen
+            )
+              continue;
+          } else continue;
+          let row = ``;
+          const { applicationdata, pid, ...process_commands } = process;
+          if (!applicationdata) continue;
+          const rowId = process.pid;
+          if (!window.moreInfoStates[rowId])
+            window.moreInfoStates[rowId] = "folded";
+          row += `<td><button state='${
+            window.moreInfoStates[rowId]
+          }' onclick="(()=>{
+            if(this.getAttribute('state')=='folded'){
+                window.moreInfoStates[${rowId}]= 'unfolded'
+                this.setAttribute('state', 'unfolded')
+                $('#${rowId}').fadeIn(300)
+                this.innerText='^'
+            }else{
+                this.setAttribute('state', 'folded')
+                window.moreInfoStates[${rowId}]= 'folded'
+                $('#${rowId}').fadeOut(300)
+                this.innerText='>'
+              }
+                window.okforrefresh= document.querySelectorAll('[state=unfolded]').length==0
+          })();" >${
+            window.moreInfoStates[rowId] == "folded" ? ">" : "^"
+          }</button></td>`;
+          row += `<td>
+                          <select onchange="$(this).blur(); update_card(${
+                            process.pid
+                          }, this.value)" onfocus="window.okforrefresh=false" onblur="window.okforrefresh=true" onkeyup="this.blur()" onkeydown="this.blur()"  class="form-control col-sm-1" onchange='update_card("${
+            process.pid
+          }", this.value)' >
+                                  ${cardsHtml(process.cib)}
+                          </select>
+                      </td>`;
+          row += `<td>${process.applicationdata.customers[0].FirstName} ${process.applicationdata.customers[0].LastName}</td>`;
+          row += `<td>${process.applicationdata.customers[0].Mobile}</td>`;
+          row += `<td>${process.applicationdata.VisaCategoryId}</td>`;
+          row += `<td>${
+            process.applicationdata.watcher
+              ? "<strong style='color:orange'>WATCHER " +
+                (process.applicationdata.watcher_db ? "DB" : "") +
+                "</strong>"
+              : process.applicationdata.client
+          }</td>`;
+          row += `<td style="overflow-wrap:break-word">${
+            process.cib?.PAN || "BDL"
+          } ${process.cib ? process.cib?.TEXT || "<no name>" : ""}</td>`;
+          row += `<td>${(Date.now() - process.last_seen) / 1000}s</td>`;
+          row += `<td style="overflow:overlay;">${process.status}</td>`;
+          row += `<td><a href="#" onclick='sync("${
+            process.pid
+          }", {otp:prompt("otp")})' >${process.otp || "empty"}</a></td>`;
+       
+          row += `<td>
+                    <button class="btn btn-danger btn-sm" onclick="remove(${
+                      process.pid
+                    })">kill</button>
+
+
+                    ${command_button_html(process, "stop", "pause", "primary")}
+                    ${command_button_html(
+                      process,
+                      "do_reload",
+                      "reload",
+                      "info"
+                    )}
+
+
+          ${command_button_html(process, "pay")}
+          ${command_button_html(process, "cancellation", "cancel")}
+
+          ${command_button_html(process, "do_cancel")}
+
+          ${command_button_html(process, "do_book")}
+          
+          <button class="btn btn-sm btn-secondary"
+          
+          onclick="$('#log_popup').modal('show');window.process_log_pid=${
+            process.pid
+          };get_log();"
+          
+          >log</button>      
+          <button class="btn btn-sm btn-secondary"
+          
+          onclick="$('#log_popup').modal('show');window.process_log_pid=${
+            process.pid
+          };get_ui()"
+          
+          >ui</button>   
+  
+                    </td>`;
+
+          html += `<tr >${row}</tr>`;
+
+          const newFieldHtml = `<input id="newFK${rowId}"
+          placeholder="new key"
+                class="form-control form-control-sm" 
+                style="margin-top: 5px; margin-bottom: 5px; width: 49%; display:inline-block" 
+          />
+          
+          <input 
+          placeholder="new value"
+          id="newFV${rowId}"
+          onkeydown="((evt)=>{
+                evt = evt || window.event;
+    var charCode = evt.keyCode || evt.which;
+                  if(charCode==13){
+
+                  sync(${process.pid}, {
+                    [document.querySelector('#newFK${rowId}').value]: (this.value=='false'||this.value=='true'?this.value=='true':this.value)
+                  });
+
+                    $(this).fadeOut(100).fadeIn(100);
+
+                  }
+                })()"  
+                
+                class="form-control form-control-sm" 
+                style="margin-top: 5px; margin-bottom: 5px; width: 49%; display:inline-block" 
+              }"/>`;
+          html += `<tr  style="display: ${
+            window.moreInfoStates[rowId] == "folded" ? "none" : "table-row"
+          }" id="${rowId}" class="more-details" ><td id="td${rowId}" style='background: linear-gradient(359deg, grey, grey 70%, #2c3034)'  colspan="10">${formFromJson(
+            process_commands,
+            null,
+            process,
+            null
+          )}${newFieldHtml}</td></tr>`;
+        }
+
+        document.querySelector("#tablebody").innerHTML = html;
+      }
+
+      function formFromJson(json, depth, process, parentJson) {
+        let html = ``;
+        for (const k in json) {
+          html += `<label class="form-control-sm" style="width: 49%;vertical-align:top;">${k}</label>`;
+
+          if (typeof json[k] != "object") {
+            if (
+              ["last_log", "status", "last_seen", "start_time"].includes(k) ||
+              window.processes[parseInt(k)]
+            ) {
+              let val = json[k];
+              if (k == "last_seen") {
+                val = `${(Date.now() - parseInt(json[k])) / 1000} seconds`;
+              }
+              html += `<label  style="padding:3px; margin-left:3.5px; font-weight:bold; width: 49%; display:inline-block; margin-top:3px;margin-bottom:3px; border-radius:3px; background-color:white; color:black;" >${
+                val || "&nbsp;"
+              }</label>`;
+            } else {
+              html += `
+              <input onkeydown="((evt)=>{
+                evt = evt || window.event;
+    var charCode = evt.keyCode || evt.which;
+                  if(charCode==13){
+                  const payload= {}
+                  let targetPayload= payload
+
+                  if(${parentJson && parentJson.length}){
+                    const parentJsonpath= ['${
+                      !parentJson
+                        ? ""
+                        : parentJson.toString().replace(/,/g, "','")
+                    }'];
+
+                  for(const key in parentJsonpath){
+                    targetPayload[key]={}
+                    targetPayload=targetPayload[key]
+                  }
+                }
+                  targetPayload['${k}']= this.value=='false'||this.value=='true'?this.value=='true':this.value;
+                  sync(${process.pid}, payload);
+
+                    $(this).fadeOut(100).fadeIn(100);
+
+                  }
+                })()"  
+                
+                value="${json[k]}" 
+                
+                class="form-control form-control-sm" 
+                style="margin-top: 5px; margin-bottom: 5px; width: ${
+                  49 - (depth ? depth / 5 : 0)
+                }%; display:inline-block" 
+                type="${typeof json[k] == "number" ? "number" : "text"}"/>`;
+            }
+          } else {
+            html += `<label class="form-control-sm" style="width:50%">&#8628;</label>`;
+            let tmpParentJson = parentJson || [];
+            tmpParentJson.push(k);
+            html += `<div style="width:100%;margin-left:${
+              (depth || 0) + 15
+            }px">${formFromJson(
+              json[k],
+              (depth || 0) + 30,
+              process,
+              tmpParentJson
+            )}</div>`;
+          }
+        }
+
+        return `<div style="width:100%">${html}</div>`;
+      }
+
+      function switch_tasks_interval() {
+        if (window.okforrefresh || window.okforrefresh === undefined) {
+          //   clearInterval(get_tasks_interval);
+          //   get_tasks_interval = undefined;
+          window.okforrefresh = false;
+          document.querySelector("#autorefresh").innerText =
+            "enable auto refresh";
+          document.querySelector("#autorefresh").classList = "btn btn-warning";
+        } else {
+          //     window.select_open= false
+          //   get_tasks_interval = setInterval(get_tasks_commands, 3000);
+          window.okforrefresh = true;
+          get_tasks_commands();
+
+          document.querySelector("#autorefresh").innerText =
+            "disable auto refresh";
+          document.querySelector("#autorefresh").classList = "btn btn-primary";
+        }
+      }
+
+      function update_card(pid, cardid) {
+        const cardjson = cards.filter((e) => e.PAN == cardid)[0];
+
+        sync(pid, { cib: cardjson });
+      }
+
+      function sync(pid, data) {
+        const payload = encodeURIComponent(JSON.stringify(data));
+        $.get(`${window.appurl}/sync?pid=${pid}&payload=${payload}`, (data) =>
+          get_tasks_commands()
+        );
+      }
+
+      function remove(id) {
+        $.get(`${window.appurl}/stoppid?pid=${id}`, (data) =>
+          get_tasks_commands(true)
+        );
+      }
+
+      async function get_payment_cards(render) {
+        $.ajax(
+          "https://payment-cards-default-rtdb.europe-west1.firebasedatabase.app/.json",
+          {
+            method: "get",
+
+            success: (data, text, xhr) => {
+              cards = [];
+              for (const id in data) {
+                cards.push(data[id]);
+              }
+              //   if (render) get_tasks_commands();
+            },
+            error: (xhr, text, error) => {
+              console.log(error);
+            },
+          }
+        );
+      }
+
+      function cardsHtml(cib) {
+        let cardsHtml = `<option value=''>no db card used</option>`;
+
+        for (const card of cards) {
+          cardsHtml += `<option value="${card.PAN}" ${
+            cib?.PAN == card.PAN ? "selected" : ""
+          }>${card.PAN.substring(12)} ${card.TEXT}</option>`;
+        }
+        return cardsHtml;
+      }
+
+      function command_button_html(process, cmd, text, btnClass) {
+        const test = process[cmd];
+        return `<button style=""  class="btn btn-${
+          test ? "warning" : btnClass || "success"
+        } btn-sm" onclick="sync(${process.pid}, {${cmd}:${
+          test ? false : true
+        }})">${test ? "un" : ""}${text || cmd}</button>
+                  `;
+      }
+    </script>
+  </body>
+</html>
