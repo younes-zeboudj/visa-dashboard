@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+
+    <link
+      href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/css/bootstrap-editable.css"
+      rel="stylesheet"
+    />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+  </head>
+  <style>
+    .table > tbody > tr > td {
+      vertical-align: middle;
+    }
+    .modal-dialog {
+      max-width: 100%;
+    }
+    .modal-content {
+      height: 100%;
+    }
+  </style>
+  <body>
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="modal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="modalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">
+              Choose application to cancel
+            </h5>
+            <button
+              onclick="$('#modal').modal('toggle')"
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- radio bdl vs cib-->
+            <!-- <div style="display: inline" ;>
+              <input type="radio" id="bdl" name="payment" value="bdl" />
+              <label for="bdl">BDL</label>
+              <input type="radio" id="cib" name="payment" value="cib" checked />
+              <label for="cib">CIB</label><br />
+            </div> -->
+            <!--bootstrap table-->
+            <table
+              class="table table-striped table-dark table-sm"
+              style="background-color: cadetblue"
+            >
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name</th>
+                  <th scope="col">Client</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Ping</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Status.</th>
+                  <th scope="col">Passps.</th>
+                  <th scope="col">otp</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody id="reserved"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="modalOne"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="modalLaqbel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="text-align: center">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLaqbel">
+              Payment mode for the passport to book
+            </h5>
+            <button
+              onclick="$('#modalOne').modal('toggle')"
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <button
+              onclick="$('#modalOne').modal('toggle');window.tobook_payment_mode='bdl'"
+              class="btn btn-sm btn-primary"
+            >
+              BDL
+            </button>
+            <button
+              onclick="$('#modalOne').modal('toggle');window.tobook_payment_mode='cib'"
+              class="btn btn-sm btn-primary"
+            >
+              CIB
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center">
+      <h3>Application changes</h3>
+      <button
+        class="btn btn-sm btn-primary"
+        style="margin: 3px"
+        onclick="window.okforrefresh=!window.okforrefresh; window.okforrefresh? this.innerText='Pause refresh': this.innerText='Play refresh'"
+      >
+        Pause refresh
+      </button>
+    </div>
+    <table class="table table-dark">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Client</th>
+          <th scope="col">CIB?</th>
+          <th scope="col">Active since</th>
+
+          <th scope="col">Status</th>
+          <th scope="col">OTP Pay</th>
+          <th scope="col">Card</th>
+          <th scope="col">Command</th>
+        </tr>
+      </thead>
+      <tbody id="changes"></tbody>
+    </table>
+
+    <!--COLOR IN PINK-->
+    <div style="background-color: antiquewhite">
+      <div style="text-align: center">
+        <h3>Applications</h3>
+      </div>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Client</th>
+            <th scope="col">Type</th>
+            <th scope="col">After/Before</th>
+            <th scope="col">Book</th>
+          </tr>
+        </thead>
+        <tbody id="pasps"></tbody>
+      </table>
+    </div>
+
+    <script>
+      window.okforrefresh = true;
+      if (!window.appurl) {
+        const params = document.location.href.split("?")[1];
+        if (params) {
+          const values = params.split("&");
+          for (const val of values) {
+            if (val.startsWith("appurl=")) {
+              window.appurl = decodeURIComponent(val.split("=")[1]);
+              break;
+            }
+          }
+        }
+        if (!window.appurl) {
+          window.appurl = "http://localhost:8889";
+        }
+
+        if (window.appurl.endsWith("/"))
+          window.appurl = window.appurl.substring(0, window.appurl.length - 1);
+
+        console.log(`app url`);
+      }
+
+      window.appid = window.appurl
+        .split("://")[1]
+        .split("/")[0]
+        .replace(/[.]/g, "");
+
+      function get_tasks_commands() {
+        // if (!window.okforrefresh && window.okforrefresh !== undefined) return;
+        $.get(`${window.appurl}/tasks`, (data) => {
+          if (!data) return console.log(`no tasks returned`);
+          if (typeof data == "string") data = JSON.parse(data);
+          window.processes = [];
+          for (const processpid in data) {
+            let aProcess = data[processpid];
+            if (aProcess.last_seen) {
+              let maxLastseen = 60;
+              try {
+                maxLastseen = parseInt(
+                  document.querySelector("#last_seen_max").value
+                );
+              } catch (error) {}
+              if (
+                (Date.now() - parseInt(aProcess.last_seen)) / 1000 >
+                maxLastseen
+              )
+                continue;
+            } else continue;
+        
+            
+            aProcess.pid = processpid;
+            window.processes.push(aProcess);
+          }
+          // console.log(`showing`);
+          showProcesses(window.processes);
+        });
+        let timeout = 3;
+        // try {
+        //   timeout = parseFloat(document.querySelector("#refresh_every").value);
+        // } catch (error) {
+        //   console.log(`${error.message}`);
+        // }
+        console.log(`refresh after ${timeout} seconds ${Date.now()}`);
+
+        if (timeout != window.refresh_interval_rate) {
+          clearInterval(window.refresh_interval);
+          window.refresh_interval = setInterval(
+            get_tasks_commands,
+            timeout * 1000
+          );
+        }
+      }
+
+
+      var cards = [];
+
+      window.refresh_interval_rate = 3;
+      window.refresh_interval = setInterval(get_tasks_commands, 3000);
+      setInterval(get_payment_cards, 3000);
+      get_payment_cards(true);
+      get_tasks_commands();
+
+      function copyToClipboard(element) {
+        $(element).blink();
+
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val($(element).text()).select();
+        document.execCommand("copy");
+        $temp.remove();
+      }
+
+      setInterval(get_tasks, 2000);
+      get_tasks();
+      setInterval(get_passports, 3000);
+      get_passports();
+      // setInterval(get_reserved_passports, 3000);
+      // get_reserved_passports();
+
+      // function send_command(button) {
+      //   const command_buttons = document.querySelectorAll(".command-button");
+      //   command_buttons.forEach((btn) => (btn.disabled = true));
+      //   $.ajax(
+      //     `${button.getAttribute("process-command-url").replace(".json", "")}command/${
+      //       command_button.getAttribute("target-command")
+      //     }/.json`,
+      //     {
+      //       method: "put",
+      //       data: command_button.getAttribute("next-command-value"),
+      //       success: async (data) => {
+      //         update_command_buttons();
+      //         command_buttons.forEach((btn) => (btn.disabled = undefined));
+      //       },
+      //       error: (error) => {
+      //         console.log(error);
+      //         command_buttons.forEach((btn) => (btn.disabled = undefined));
+      //       },
+      //     }
+      //   );
+      // }
+      async function sync(pid, data) {
+        const payload = encodeURIComponent(JSON.stringify(data));
+        return new Promise((resolve, reject) => {
+          $.get(
+            `${window.appurl}/sync?pid=${pid}&payload=${payload}`,
+            (data) => {
+              get_tasks();
+              resolve(data);
+            }
+          );
+        });
+      }
+      async function get_tasks() {
+        if (!window.okforrefresh) return;
+        $.ajax(
+          `https://visa-application-launcher-default-rtdb.europe-west1.firebasedatabase.app/${window.appid}/.json`,
+          {
+            method: "get",
+            success: async (data) => {
+              let i = 1;
+              let newhtml = "";
+
+              for (const id in data) {
+                const task = data[id];
+
+                const tobook = await new Promise((resolve, reject) => {
+                  $.get(
+                    window.appurl + "/get_task?pid=" + task.tobook,
+                    (data) => {
+                      resolve(data);
+                    }
+                  );
+                });
+
+                if (Object.keys(tobook).length == 0) {
+                  $.ajax(
+                    `https://visa-application-launcher-default-rtdb.europe-west1.firebasedatabase.app/${window.appid}/${id}.json`,
+                    {
+                      method: "delete",
+                    }
+                  );
+
+                  return;
+                }
+
+                tobook.pid = task.tobook;
+
+                let tocancel;
+                if (task.tocancel) {
+                  tocancel = await new Promise((resolve, reject) => {
+                    $.get(
+                      window.appurl + "/get_task?pid=" + task.tocancel,
+                      (data) => {
+                        resolve(data);
+                      }
+                    );
+                  });
+
+                  tocancel.pid = task.tocancel;
+                }
+
+                newhtml += await htmlOfChangingTasks(tocancel, tobook, i++);
+                newhtml += '<tr style="height:10px;" ></tr>';
+
+                // const lastactive= await new Promise((resolve, reject) => {
+                //   $.ajax(task.tobook.firebase_url.replace('.json','')+"/info/last_ping/.json",{
+                //     method:"get",
+                //     success: (data)=>{
+                //       if(data){
+                //         resolve(`${(Date.now()-parseInt(data))/1000} s`)
+                //       }else resolve('NA')
+                //     },
+                //     error: (data)=> resolve(data)
+                //   })
+                // })
+              }
+              $("#changes").html(newhtml);
+            },
+          }
+        );
+
+        // update_command_buttons();
+      }
+
+      async function get_passports() {
+        $.ajax(
+          "https://passport-add-default-rtdb.europe-west1.firebasedatabase.app/.json",
+          {
+            method: "get",
+
+            success: (clientsdata, text, xhr) => {
+              let i = 1;
+              let html = "";
+              for (const clientid in clientsdata) {
+                const data = clientsdata[clientid];
+                for (const id in data) {
+                  html += `<tr>
+        <th scope="row">${i++}</th>
+        <td>${data[id].customers[0].FirstName} ${
+                    data[id].customers[0].LastName
+                  }</td>
+        <td>${data[id].user || data[id].client}</td>
+        <td>${data[id].VisaCategoryId}</td>
+        <td>${data[id].days_to_apt || ""}-${
+                    data[id].days_to_apt_max || ""
+                  } days</td>
+        <td>
+          <button onclick='book(JSON.parse(\`${JSON.stringify(
+            data[id]
+          )}\`))' class='btn btn-secondary'>Book</button>
+        </td>
+        </tr>
+
+                  `;
+                }
+              }
+              document.querySelector("#pasps").innerHTML = html;
+            },
+            error: (xhr, text, error) => {
+              console.log(error);
+            },
+          }
+        );
+      }
+
+      async function book(pasp_to_book) {
+        $("#modalOne").modal("show");
+
+        while (!window.tobook_payment_mode)
+          await new Promise((resolve, reject) => {
+            setTimeout(() => {
+              resolve();
+            }, 500);
+          });
+
+        if (window.tobook_payment_mode == "cib") {
+          pasp_to_book.cib = { PAN: "1", CVC: "", MM: "", YYYY: "", TEXT: "" };
+        } else if (!window.tobook_payment_mode) return;
+        window.tobook_payment_mode= undefined
+
+        pasp_to_book.booking_cancellation = true;
+        pasp_to_book.commands = {
+          booking_cancellation: true,
+        };
+
+        const pid = await new Promise((resolve, reject) => {
+          $.ajax(
+            `${window.appurl}` +
+              `/launch_process?appdata=` +
+              encodeURIComponent(JSON.stringify(pasp_to_book)),
+            {
+              method: "get",
+              success: (data) => {
+                resolve(data);
+              },
+              error: (xhr, text, error) => {
+                reject(error);
+              },
+            }
+          );
+        });
+
+        console.log(`pid is ${pid}`);
+        await new Promise((resolve, reject) => { // time for process to start and sync
+          setTimeout(() => {
+            resolve()
+          }, 3000);
+        })
+
+        $.ajax(
+          `https://visa-application-launcher-default-rtdb.europe-west1.firebasedatabase.app/${window.appid}/.json`,
+          {
+            method: "post",
+            success: (data) => {
+              console.log(`inserted in fb ${JSON.stringify(data)}`);
+              get_tasks();
+              window.newchangetaskid = data["name"];
+              $("#modal").modal("show");
+            },
+            data: JSON.stringify({
+              tobook: pid,
+              tocancel: "",
+            }),
+          }
+        );
+      }
+
+      // function proceed_to_book(id) {
+      //   $.ajax(
+      //     `https://visa-application-launcher-default-rtdb.europe-west1.firebasedatabase.app/${id}.json`,
+      //     {
+      //       method: "get",
+      //       success: (data) => {
+      //         proceed_to_book(data);
+      //       },
+      //     }
+      //   );
+      // }
+
+      // function proceed_to_cancel(id) {
+      //   $.ajax(
+      //     `https://visa-application-launcher-default- rtdb.europe-west1.firebasedatabase.app/${id}.json`,
+      //     {
+      //       method: "get",
+      //       success: (data) => {
+      //         proceed_to_cancel(data);
+      //       },
+      //     }
+      //   );
+      // }
+
+      function choose_tocancel(tocancel) {
+        $.ajax(
+          `https://visa-application-launcher-default-rtdb.europe-west1.firebasedatabase.app/${window.appid}/${window.newchangetaskid}/tocancel/.json`,
+          {
+            method: "put",
+            success: () => {
+              $("#modal").modal("hide");
+
+              get_tasks();
+            },
+            data: tocancel.toString(),
+          }
+        );
+      }
+
+      function showProcesses(processes) {
+        let html = ``;
+        let i = 1;
+
+        for (const process of processes) {
+          if (!process.cib?.PAN && process.exit_state != "reserved") continue;
+
+          let row = ``;
+          const { applicationdata, pid, ...process_commands } = process;
+
+          const rowId = process.pid;
+
+          row += `<td>${i++}</td>`;
+
+          row += `<td>${process.applicationdata.customers[0].FirstName} ${process.applicationdata.customers[0].LastName}</td>`;
+          row += `<td>${process.applicationdata.customers[0].Mobile}</td>`;
+          row += `<td>${process.applicationdata.VisaCategoryId}</td>`;
+            row += `<td>${(Date.now()-process.last_seen)/1000}s</td>`;
+            row += `<td>${process.apt_date}</td>`;
+            row += `<td "overflow:overlay;">${process.status}</td>`;
+          row += `<td style=>${applicationdata.customers.length}</td>`;
+          row += `<td><a href="#" onclick='sync("${
+            process.pid
+          }", {otp:prompt("otp")})' >${process.otp || "empty"}</a></td>`;
+
+          row += `<td>
+                      <button class="btn btn-success btn-sm" onclick="choose_tocancel(${process.pid})">choose</button>
+
+
+                      </td>`;
+
+          html += `<tr >${row}</tr>`;
+        }
+        // console.log(`setting`);
+        // console.log(document.querySelector("#reserved"));
+        document.querySelector("#reserved").innerHTML = html;
+        // console.log(document.querySelector("#reserved").innerHTML);
+      }
+
+      async function htmlOfChangingTasks(tocancel, tobook, i) {
+        let html = ``;
+
+        const allocationid = tocancel?tocancel.cancellation_allocationid:undefined
+
+        const tasks = [
+          {
+            process: tobook,
+            commands: [["book_cancellation", "do_book"]],
+            sign: "blue",
+          },
+        ];
+
+        let readyforchange = false;
+        if (tocancel) {
+          tasks.push({
+            process: tocancel,
+            commands: [
+              ["cancellation", "cancel"],
+              ["do_cancel", "do_cancel"],
+            ],
+            sign: "red",
+          });
+          if (allocationid) {
+            if (!window.synced_processes_cancellation)
+              window.synced_processes_cancellation = [];
+            if (!window.synced_processes_cancellation.includes(tocancel.pid)) {
+              const res = await sync(tocancel.pid, {
+                slot_id_to_book: allocationid,
+              });
+
+              window.synced_processes_cancellation.push(tocancel.pid);
+              readyforchange = res == "ok";
+            } else readyforchange = tocancel && tocancel.slot_id_to_book;
+          }
+        }
+
+        for (const task of tasks) {
+          const process = task.process;
+          if (process.exit_state == "reserved") continue;
+
+          let row = ``;
+          const { applicationdata, pid, ...process_commands } = process;
+
+          const rowId = process.pid;
+
+          row += `<td style="background: ${task.sign}"><bold>${i}</bold></td>`;
+
+          row += `<td>${process.applicationdata.customers[0].FirstName} ${process.applicationdata.customers[0].LastName}</td>`;
+          row += `<td>${process.applicationdata.customers[0].Mobile}</td>`;
+          row += `<td>${process.applicationdata.client}</td>`;
+          row += `<td style="overflow-wrap:break-word">${
+            process.cib?.PAN || "BDL"
+          } ${process.cib ? process.cib?.TEXT || "<no name>" : ""}</td>`;
+          row += `<td>${(Date.now() - process.last_seen) / 1000}s</td>`;
+          row += `<td style="overflow:overlay;">${process.status}</td>`;
+          row += `<td><a href="#" onclick='sync("${
+            process.pid
+          }", {otp:prompt("otp")})' >${process.otp || "empty"}</a></td>`;
+
+          row += `<td>
+                          <select onchange="$(this).blur(); update_card(${
+                            process.pid
+                          }, this.value)" onfocus="window.okforrefresh=false" onblur="window.okforrefresh=true" onkeyup="this.blur()" onkeydown="this.blur()"  class="form-control col-sm-1" onchange='update_card("${
+            process.pid
+          }", this.value)' >
+                                  ${cardsHtml(process.cib)}
+                          </select>
+                      </td>`;
+          row += `<td> <button class="btn btn-danger btn-sm" onclick="remove(${process.pid})">kill</button>`;
+
+          for (const command of task.commands) {
+            row += `  <button class="btn btn-${
+              process[command[0]] ? "warning" : "success"
+            } btn-sm" onclick="sync(${process.pid}, {
+                        ${command[0]}: ${process[command[0]] ? "false" : "true"}
+                      })">${process[command[0]] ? "un" : ""}${
+              command[0] || command[1]
+            }</button>
+                      `;
+          }
+          row += `</td>`;
+
+          row += `<td><label class='alert alert-sm alert-${
+            readyforchange ? "success" : "warning"
+          }'>${readyforchange ? "ready" : "not ready"}</label></td>`;
+
+          html += `<tr >${row}</tr>`;
+        }
+
+        return html;
+      }
+
+      // async function update_command_buttons() {
+      //   const command_buttons = document.querySelectorAll(".command-button");
+      //   for (const command_button of command_buttons) {
+      //     const url = command_button.getAttribute("process-command-url");
+      //     const ispresent = await new Promise((resolve, reject) => {
+      //       $.ajax(
+      //         url.replace(
+      //           ".json",
+      //           `command/${command_button.getAttribute("target-command")}/.json`
+      //         ),
+      //         {
+      //           method: "get",
+      //           success: (data) => resolve(data),
+      //           error: (data) => reject(data),
+      //         }
+      //       );
+      //     });
+
+      //     const action_text_prefix = ispresent ? "Block " : "Allow ";
+      //     command_button.innerText =
+      //       action_text_prefix +
+      //       command_button.getAttribute("target-text-action");
+      //     command_button.setAttribute(
+      //       "next-command-value",
+      //       ispresent ? "1" : ""
+      //     );
+      //   }
+      // }
+
+      function command_button_html(process, cmd, text, btnClass) {
+        const test = process[cmd];
+        return `<button style=""  class="btn btn-${
+          test ? "warning" : btnClass || "success"
+        } btn-sm" onclick="sync(${process.pid}, {${cmd}:${
+          test ? false : true
+        }})">${test ? "un" : ""}${text || cmd}</button>
+                    `;
+      }
+
+      function remove(id) {
+        $.get(`${window.appurl}/stoppid?pid=${id}`, (data) =>
+          // get_tasks_commands()
+          get_tasks()
+        );
+      }
+
+      async function get_payment_cards(render) {
+        $.ajax(
+          "https://payment-cards-default-rtdb.europe-west1.firebasedatabase.app/.json",
+          {
+            method: "get",
+
+            success: (data, text, xhr) => {
+              cards = [];
+              for (const id in data) {
+                cards.push(data[id]);
+              }
+              //   if (render) get_tasks_commands();
+            },
+            error: (xhr, text, error) => {
+              console.log(error);
+            },
+          }
+        );
+      }
+
+      function cardsHtml(cib) {
+        let cardsHtml = `<option value=''>no db card used</option>`;
+
+        for (const card of cards) {
+          cardsHtml += `<option value="${card.PAN}" ${
+            cib?.PAN == card.PAN ? "selected" : ""
+          }>${card.PAN.substring(12)} ${card.TEXT}</option>`;
+        }
+        return cardsHtml;
+      }
+    </script>
+  </body>
+</html>

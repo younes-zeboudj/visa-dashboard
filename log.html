@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/object-gui@2/dist/js/object-gui.min.js"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+
+    <link
+      href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/css/bootstrap-editable.css"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/object-gui@2/dist/css/object-gui.css"
+      rel="stylesheet"
+    />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+  </head>
+  <style>
+    .table > tbody > tr > td {
+      vertical-align: middle;
+    }
+    #tablebody td button {
+      margin-top: 3px;
+    }
+    .more-details td {
+      background-color: grey;
+    }
+  </style>
+  <body>
+    <button id="logbtn"
+    onclick="(function (){
+        $.get(`${window.appurl}/clear_log`)
+    })()"
+    class="btn btn-primary" style="width: 100%;">clear log</button>
+    <button 
+    onclick="(function (){
+        window.nolog= !window.nolog
+        $('#logbtn').innerText= window.nolog?'play log':'switch log';
+    })()"
+    class="btn btn-primary" style="width: 100%;">switch log</button>
+
+    <div id="log" style="width: 100%; max-height:500px; overflow-y: scroll; border: 1px solid black; border-radius: 5px; margin: 10px; padding: 5px;">
+
+    </div>
+
+    </textarea>
+    
+
+
+    <script>
+      if (!window.appurl) {
+        const params = document.location.href.split("?")[1];
+        if (params) {
+          const values = params.split("&");
+          for (const val of values) {
+            if (val.startsWith("appurl=")) {
+              window.appurl = decodeURIComponent(val.split("=")[1]);
+              break;
+            }
+          }
+        }
+        if (!window.appurl) {
+          window.appurl = "http://localhost:8889";
+        }
+
+        if (window.appurl.endsWith("/"))
+          window.appurl = window.appurl.substring(0, window.appurl.length - 1);
+
+        console.log(`app url ${window.appurl}`);
+      }
+
+      setInterval(() => {
+        if(window.nolog)return
+        $.get(`${window.appurl}/log`, (data)=>{
+            console.log(`new log`);
+            const log= document.querySelector("#log")
+            log.innerText= data
+            log.scrollTo(0, log.scrollHeight);
+
+        })
+      }, 3000);
+      $.get(`${window.appurl}/log`, (data)=>{
+            console.log(`new log`);
+            const log= document.querySelector("#log")
+            log.innerText= data
+            log.scrollTo(0, log.scrollHeight);
+
+        })
+
+        
+    </script>
+  </body>
+</html>

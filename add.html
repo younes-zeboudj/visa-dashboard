@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <title>new passport reservation</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  </head>
+
+  <body>
+    <h4>applicants</h4>
+
+    <table style="border: 3px dashed seagreen" class="table table-light">
+      <thead class="thead-dark">
+        <tr>
+          <th>#</th>
+          <th>name</th>
+          <th>bd</th>
+          <th>passp.</th>
+          <th>passp. exp.</th>
+          <th>gen</th>
+          <th>action</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+    <hr />
+    <style>
+      hr {
+        border: 0;
+        border-top: 1px solid rgba(241, 5, 5, 0.1);
+      }
+
+      #countrypan label {
+        margin: 5px;
+      }
+
+      #countrypan [type="radio"]:checked + label {
+        background-color: green;
+      }
+
+      input[name="GenderId"]:checked + label {
+        background-color: black !important;
+      }
+
+      input[type="checkbox"]:checked + .btn-danger {
+        background-color: rgb(97, 4, 27);
+      }
+
+      #visacatpan [type="radio"]:checked + label {
+        background-color: rgba(243, 126, 0, 0.904);
+      }
+      hr {
+        border-width: 5px;
+      }
+    </style>
+
+    <form id="general"></form>
+
+    <div class="row" role="group" aria-label="country" id="countrypan">
+      <input
+        form="general"
+        type="radio"
+        class="btn-check"
+        name="country"
+        id="option3"
+        value="fr"
+        autocomplete="off"
+      />
+      <label class="btn btn-primary" for="option3">France</label>
+    </div>
+    <br />
+    <div
+      class="container"
+      role="group"
+      aria-label="visacat"
+      id="visacatpan"
+    ></div>
+
+    <div class="inline">
+      <div class="container">
+        <div class="row">
+          <div
+            id="account"
+            style="border: 5px solid rgba(241, 5, 5, 0.1)"
+            class="col-md-5"
+          >
+            <label class="" for="EmailId">Email VFS:</label>
+
+            <input
+              form="general"
+              name="EmailId"
+              type="email"
+              class="form-control form-control-sm"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+              placeholder="vfs email"
+              value=""
+              style="width: 40%"
+            />
+
+            <label class="" for="Password">Password VFS:</label>
+
+            <input
+              form="general"
+              name="Password"
+              class="form-control form-control-sm"
+              id="exampleInputPassword1"
+              placeholder="vfs password"
+              value="Vfs2018@"
+              readonly
+              style="width: 40%"
+            />
+            <hr />
+
+            <label class="" for="days_to_apt">Days before appointment:</label>
+            <div style="width: 40%">
+              <input
+                form="general"
+                class="form-control form-control-sm"
+                name="days_to_apt"
+                placeholder="minimum days to appoinemnt"
+                value=""
+              />
+            </div>
+
+            <label class="" for="user">User</label>
+            <div style="width: 40%">
+              <select
+                class="form-control form-control-sm"
+                name="user"
+                form="general"
+                id="clients_select"
+              >
+                <option value="">no user</option>
+              </select>
+            </div>
+
+            <!-- <script>
+              let name;
+              while (!name) name = prompt("your name? اسمك؟");
+              document.querySelector("[name=client]").value = name.trim();
+            </script> -->
+          </div>
+          <div
+            class="col-md-6"
+            style="
+              border: 5px solid rgba(241, 5, 5, 0.1);
+              margin-left: 10px;
+              padding: 10px;
+            "
+          >
+            <form id="applicant">
+              <input
+                name="LastName"
+                placeholder="last name"
+                value=""
+                class="form-control form-control-sm"
+                style="width: 45%; display: inline"
+              />
+              <input
+                name="FirstName"
+                placeholder="first name"
+                value=""
+                class="form-control form-control-sm"
+                style="width: 45%; display: inline"
+              />
+              <label
+                style="width: 45%; display: inline-block"
+                class=""
+                for="DateOfBirth"
+                >birth date:</label
+              >
+
+              <input
+                name="DateOfBirth"
+                placeholder="birth date"
+                value=""
+                class="form-control form-control-sm"
+                style="width: 45%; display: inline"
+                size="10"
+                maxlength="10"
+                onkeyup="this.value=this.value.replace(/^(\d\d)(\d)$/g,'$1/$2').replace(/^(\d\d\/\d\d)(\d+)$/g,'$1/$2').replace(/[^\d\/]/g,'')"
+              />
+              <label
+                style="width: 45%; display: inline-block"
+                class=""
+                for="PassportExpiryDate"
+                >passport expiry:</label
+              >
+
+              <input
+                name="PassportExpiryDate"
+                placeholder="passp. expiration"
+                value=""
+                class="form-control form-control-sm"
+                style="width: 45%; display: inline"
+                size="10"
+                maxlength="10"
+                onkeyup="this.value=this.value.replace(/^(\d\d)(\d)$/g,'$1/$2').replace(/^(\d\d\/\d\d)(\d+)$/g,'$1/$2').replace(/[^\d\/]/g,'')"
+              />
+              <input
+                name="Mobile"
+                placeholder="phone N."
+                value=""
+                class="form-control form-control-sm"
+                style="width: 45%; display: inline; margin-bottom: 5px"
+              />
+              <input
+                name="PassportNumber"
+                placeholder="passp. num."
+                value=""
+                class="form-control form-control-sm"
+                style="width: 45%; display: inline; margin-bottom: 5px"
+              /><br />
+
+              <input
+                type="radio"
+                class="btn-check"
+                name="GenderId"
+                id="GenderId1"
+                autocomplete="off"
+                checked
+                value="1"
+              />
+              <label class="btn-sm btn-secondary" for="GenderId1">Man</label>
+              <input
+                type="radio"
+                class="btn-check"
+                name="GenderId"
+                id="GenderId2"
+                autocomplete="off"
+                value="2"
+              />
+              <label class="btn-sm btn-secondary" for="GenderId2">Woman</label>
+              <br />
+              <div id="visa_renew_div" style="display: none; margin-top: 5px">
+                <p style="font-weight: bold">old visa (only renouv.):</p>
+                <input
+                  name="vn"
+                  value=""
+                  type="text"
+                  placeholder="visa num."
+                  class="form-control form-control-sm"
+                  style="width: 45%; display: inline"
+                />
+                <input
+                  name="vi"
+                  value="alger"
+                  type="text"
+                  placeholder="visa place"
+                  class="form-control form-control-sm"
+                  style="width: 45%; display: inline"
+                />
+                <input
+                  name="vd"
+                  value="90"
+                  type="text"
+                  placeholder="visa duration"
+                  class="form-control form-control-sm"
+                  style="width: 45%; display: inline"
+                />
+              </div>
+              <br />
+              <br />
+              <span id="add" class="btn btn-primary" style="width: 100%"
+                >Add applicant</span
+              >
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button
+      id="save"
+      class="btn btn-success"
+      style="width: 100%; margin-top: 10px"
+    >
+      Send
+    </button>
+
+    <script>
+      function getFormData($form) {
+        var unindexed_array = $form.serializeArray();
+        var indexed_array = {};
+
+        $.map(unindexed_array, function (n, i) {
+          indexed_array[n["name"]] = n["value"];
+        });
+
+        return indexed_array;
+      }
+
+      function removeapp(i) {
+        let newapps = [];
+        for (let index = 0; index < apps.length; index++) {
+          const element = apps[index];
+          if (index != i) newapps.push(element);
+        }
+        apps = newapps;
+        populateTable();
+      }
+
+      function populateTable() {
+        let i = 0;
+        document.querySelector("#tbody").innerHTML = "";
+        for (const app of apps) {
+          $("#tbody").append(`<tr>
+            <th scope="row">${i}</th>
+            <td>${app.FirstName + " " + app.LastName}</td>
+            <td>${app.DateOfBirth}</td>
+            <td>${app.PassportNumber}</td>
+            <td>${app.PassportExpiryDate}</td>
+            <td>${app.GenderId == 1 ? "M" : "W"}</td>
+            <td><button class="remove-pasp" class='btn-sm btn-danger-sm' onclick='removeapp(${i})'>remove</button></td>
+            </tr>`);
+          i = i + 1;
+        }
+      }
+      var apps = [];
+      (function () {
+        document.querySelector("#add").onclick = (e) => {
+          let app = getFormData($("#applicant"));
+          console.log(app);
+          if (
+            !document.querySelector('[name="VisaCategoryId"][value="874"]')
+              .checked &&
+            !document.querySelector('[name="VisaCategoryId"][value="782"]')
+              .checked
+          ) {
+            alert("select visa type");
+            return;
+          }
+
+          if (
+            !/^[0-9]+$/.test(app.PassportNumber) ||
+            app.PassportNumber.length > 10 ||
+            app.PassportNumber.length < 9
+          ) {
+            alert("wrong passport number");
+            return;
+          }
+
+          if (
+            apps.filter((e) => e.PassportNumber == app.PassportNumber).length >
+            0
+          ) {
+            alert("passport already added");
+            return;
+          }
+
+          if (
+            !/^[0-9]+$/.test(app.Mobile) ||
+            app.Mobile.length > 10 ||
+            app.Mobile.length < 9
+          ) {
+            alert("wrong mobile number");
+            return;
+          }
+
+          if (!/^[a-zA-Z ]+$/.test(app.FirstName)) {
+            alert("enter valid firstname");
+            return;
+          }
+
+          if (!/^[a-zA-Z ]+$/.test(app.LastName)) {
+            alert("enter valid lastname");
+            return;
+          }
+
+          if (!/^\d\d\/\d\d\/\d\d\d\d+$/.test(app.DateOfBirth)) {
+            console.log(`${app.DateOfBirth}`);
+            alert("enter valid dateofbirth");
+            return;
+          }
+
+          if (!/^\d\d\/\d\d\/\d\d\d\d+$/.test(app.PassportExpiryDate)) {
+            alert("enter valid expiry date");
+            return;
+          }
+
+          if (
+            document.querySelector('[name="VisaCategoryId"][value="874"]')
+              .checked &&
+            (!/^[0-9]+$/.test(app.vn) ||
+              app.vn.length > 10 ||
+              app.vn.length < 9)
+          ) {
+            if (!/^[0-9]{8-11}$/.test(app.vn)) {
+              alert("wrong visa number");
+              return;
+            }
+          }
+
+          apps.push(app);
+          populateTable();
+        };
+
+        function send_data(endpoint) {
+          let data = getFormData($("#general"));
+
+          data.customers = apps;
+          console.log(data);
+          if (!data.country) {
+            alert("select country");
+            return;
+          }
+
+          if (data.EmailId.startsWith("autoaccount")) {
+            data.autoaccount = true;
+          } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.EmailId)) {
+            alert("enter valid email");
+            return;
+          }
+
+          if (!data.Password) {
+            alert("enter password ");
+            return;
+          }
+
+          if (!data.user) {
+            alert("عرف نفسك، اختر الـ user");
+            return;
+          }
+
+          if (data.customers.length == 0) {
+            alert("add customers");
+            return;
+          }
+
+          for (let i = 0; i < data.customers.length; i++) {
+            data.customers[i].FirstName = data.customers[i].FirstName.replace(
+              /[^a-zA-Z]/g,
+              ""
+            )
+              .trim()
+              .toUpperCase();
+            data.customers[i].LastName = data.customers[i].LastName.replace(
+              /[^a-zA-Z]/g,
+              ""
+            )
+              .trim()
+              .toUpperCase();
+            data.customers[i].DateOfBirth = data.customers[
+              i
+            ].DateOfBirth.replace(/[^0-9]/g, "/").trim();
+            data.customers[i].PassportExpiryDate = data.customers[
+              i
+            ].PassportExpiryDate.replace(/[^0-9]/g, "/").trim();
+            data.customers[i].PassportNumber = data.customers[
+              i
+            ].PassportNumber.replace(/[^0-9]/g, "").trim();
+            data.customers[i].vn = data.customers[i].vn
+              .replace(/[^0-9]/g, "")
+              .trim();
+            if (data.customers[i].Mobile.startsWith("0"))
+              data.customers[i].Mobile = data.customers[i].Mobile.slice(1);
+            data.customers[i].Mobile = data.customers[i].Mobile.replace(
+              /[^0-9]/g,
+              ""
+            ).trim();
+          }
+          data.Password = data.Password.trim();
+          data.EmailId = data.EmailId.trim();
+
+          if (data.user in passp_database)
+            for (const pasp of passp_database[data.user]) {
+              if (
+                pasp.customers[0].PassportNumber ==
+                  data.customers[0].PassportNumber &&
+                pasp.customers.length == data.customers.length &&
+                data.VisaCategoryId == pasp.VisaCategoryId
+              ) {
+                alert("passport already exists");
+                return;
+              }
+            }
+
+          if (data.days_to_apt.startsWith(".")) {
+            data.VisaCategoryId= data.days_to_apt.slice(1)
+            data.days_to_apt = "";
+          }
+          //MultiplePaymentModes: OnlinePayment
+          // data.global_form_elements = [];
+          // data.global_form_elements_values = [];
+
+          // data.cib = {};
+
+          // if (!data.capkey) data.manual_captcha = true;
+
+          // data.cib.PAN = document.querySelector("[name='PAN']").value;
+          // data.cib.CVC = document.querySelector("[name='CVC']").value;
+          // data.cib.MM = document.querySelector("[name='MM']").value;
+          // data.cib.YYYY = document.querySelector("[name='YYYY']").value;
+          // data.cib.TEXT = document.querySelector("[name='TEXT']").value;
+
+          // console.log(data.cib);
+
+          // if (data.cib?.PAN) {
+          //   data.global_form_elements.push("MultiplePaymentModes");
+          //   data.global_form_elements_values.push("OnlinePayment");
+          // }
+
+          // if (["fr"].indexOf(data.country) >= 0) data.recaptcha = true;
+
+          console.log(`data to send: ${JSON.stringify(data)}`);
+          document.querySelector("#save").disabled = true;
+          $.ajax({
+            url:
+              "https://passport-add-default-rtdb.europe-west1.firebasedatabase.app/" +
+              (document.querySelector("[name=user]").value || "default") +
+              ".json", // url where to submit the request
+            type: "POST", // type of action POST || GET
+            contentType: "text",
+            data: `${JSON.stringify(data)}`, // post data || get data
+            success: function (result) {
+              document.querySelector("#save").disabled = false;
+              console.log(result);
+              if (result?.name) alert("success");
+              else alert(result);
+              get_passports();
+              const allelts = document.querySelectorAll(".remove-pasp");
+              for (let index = allelts.length - 1; index >= 0; index--) {
+                allelts[index].click();
+              }
+              document.forms["applicant"].reset();
+              document.forms["general"].reset();
+              document.querySelector("[name=country][value=fr]").selected=true;
+              document.querySelector("[name=country][value=fr]").checked=true;
+            },
+            error: function (xhr, resp, text) {
+              document.querySelector("#save").disabled = false;
+
+              console.log(text);
+              alert(text);
+              console.log(xhr, resp, text);
+            },
+          });
+        }
+
+        document.querySelector("#save").onclick = (e) => {
+          send_data("save_db");
+        };
+
+        const visacats = {
+          fr: [
+            { name: "tourism", value: 782 },
+            { name: "renouv", value: 874 },
+          ],
+          gr: [
+            { name: "tourism", value: 4633 },
+            { name: "familly", value: 4632 },
+            { name: "business", value: 4631 },
+          ],
+          nl: [
+            { name: "business", value: 4036 },
+            { name: "short stay", value: 2779 },
+          ],
+          as: [
+            { name: "business/familly/others", value: 5148 },
+            { name: "renew", value: 5641 },
+            { name: "short stay", value: 5090 },
+            { name: "tourism", value: 1289 },
+          ],
+          mt: [{ name: "short stay", value: 3027 }],
+          it: [
+            { name: "business no prepayment", value: 5247 },
+            { name: "business prepayment", value: 5839 },
+            { name: "national visa d", value: 4632 },
+            { name: "other", value: 4633 },
+            { name: "tourism", value: 5508 },
+          ],
+          mopt: [{ name: "short stay", value: 3027 }],
+        };
+        document.querySelectorAll("[name=country]").forEach(
+          (e) =>
+            (e.onchange = () => {
+              $("#visacatpan").html("");
+              const lock = $(`<div class="row"></div>`);
+              const cats =
+                visacats[document.forms.general.elements.country.value];
+              let check = true;
+              if (cats)
+                for (const cat of cats) {
+                  lock.append(`
+                  <div class="form-group form-group-sm" style="width:45%">
+             <input
+             ${check ? "defaultvisa='defaultvisa'" : ""}
+          type="radio"
+          class="btn-check"
+          name="VisaCategoryId"
+          id="${cat.name}_vc"
+          value="${cat.value}"
+          autocomplete="off"
+      form="general"
+
+        />
+        <label class="btn btn-warning" style="width:100%" for="${
+          cat.name
+        }_vc">${cat.name}</label></div>
+             `);
+                  check = false;
+                }
+              if (cats)
+                $("#visacatpan").append(lock).append("<br/>").append("<br/>");
+              document.querySelectorAll('[name="VisaCategoryId"]').forEach(
+                (e) =>
+                  (e.onclick = function (a) {
+                    if (e.value == "874") {
+                      $("#visa_renew_div").show();
+                    } else $("#visa_renew_div").hide();
+                  })
+              );
+              // $("[defaultvisa]").click();
+            })
+        );
+
+        document.querySelector("[value=fr]").click();
+        document.querySelector("#countrypan").style = "display:none;";
+      })();
+
+      $("#watcher_block input[type=checkbox]").change(function () {
+        if (!this.checked) return;
+        for (const elt of $("#watcher_block input[type=checkbox]")) {
+          if (elt.id != this.id) elt.checked = false;
+        }
+      });
+
+      $.ajax(
+        "https://clients-visa-default-rtdb.europe-west1.firebasedatabase.app/.json",
+        {
+          method: "get",
+
+          success: (data, text, xhr) => {
+            let i = 1;
+            $("#clients_select").html(`<option value="">no user</option>`);
+
+            for (const id in data) {
+              $("#clients_select").append(
+                `<option value="${data[id].user}">${data[id].name}</option>`
+              );
+            }
+          },
+          error: (xhr, text, error) => {
+            console.log(error);
+          },
+        }
+      );
+
+      var passp_database = {};
+      function get_passports() {
+        $.ajax(
+          "https://passport-add-default-rtdb.europe-west1.firebasedatabase.app/.json",
+          {
+            method: "get",
+
+            success: (data, text, xhr) => {
+              for (const client in data) {
+                passp_database[client] = [];
+                for (const paspid in data[client]) {
+                  passp_database[client].push(data[client][paspid]);
+                }
+              }
+            },
+            error: (xhr, text, error) => {
+              console.log(error);
+            },
+          }
+        );
+      }
+      get_passports();
+    </script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

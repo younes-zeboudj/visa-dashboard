@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <link href="js/jsoneditor.min.css" rel="stylesheet" type="text/css">
+    <script src="js/jsoneditor.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/object-gui@2/dist/js/object-gui.min.js"></script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+
+    <link
+      href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/css/bootstrap-editable.css"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/object-gui@2/dist/css/object-gui.css"
+      rel="stylesheet"
+    />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+  </head>
+  <style>
+    .table > tbody > tr > td {
+      vertical-align: middle;
+    }
+    #tablebody td button {
+      margin-top: 3px;
+    }
+    .more-details td {
+      background-color: grey;
+    }
+  </style>
+  <body>
+    <button  disabled
+    onclick="(function (){
+        document.querySelector('#save_btn').setAttribute('disabled',true)
+        $.get(`${window.appurl}/update_file?filepath=${$('#jsonfile').val()}&isjson=true&content=${encodeURIComponent(JSON.stringify(window.editor.get()))}`)
+
+    })()"
+    class="btn btn-primary btn-sm"  id='save_btn' style="width: 30%;">save</button>
+    <select id="jsonfile" style="width: 40%;" onchange="updateEditor()">
+        <option value="config/periodic.config.json">Periodic config</option>
+        <option value="config/global.config.json">Global config</option>
+    </select>
+    <div id="jsoneditor" style="width: 100%; height: 500px;margin-top: 5px;"></div>
+    
+
+
+    <script>
+      if (!window.appurl) {
+        const params = document.location.href.split("?")[1];
+        if (params) {
+          const values = params.split("&");
+          for (const val of values) {
+            if (val.startsWith("appurl=")) {
+              window.appurl = decodeURIComponent(val.split("=")[1]);
+              break;
+            }
+          }
+        }
+        if (!window.appurl) {
+          window.appurl = "http://localhost:8889";
+        }
+
+        if (window.appurl.endsWith("/"))
+          window.appurl = window.appurl.substring(0, window.appurl.length - 1);
+
+        console.log(`app url ${window.appurl}`);
+      }
+
+      
+        // create the editor
+        const container = document.getElementById("jsoneditor")
+        const options = {
+            onChange: ()=>{
+                $('#save_btn').attr('disabled', false)
+            }
+        }
+        const editor = new JSONEditor(container, options)
+        window.editor= editor
+       async function updateEditor(){
+        $('#save_btn').attr('disabled', false)
+
+        const json= await new Promise((resolve, reject) => {
+            $.get(window.appurl+`/get_file?filepath=${$('#jsonfile').val()}`, function(data){
+                resolve(data)
+            })
+        })
+
+        window.editor.set(JSON.parse(json))
+
+        // get json
+        // const updatedJson = 
+       }
+    updateEditor()
+    </script>
+  </body>
+</html>
