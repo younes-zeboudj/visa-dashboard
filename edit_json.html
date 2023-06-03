@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
 
-    <link href="js/jsoneditor.min.css" rel="stylesheet" type="text/css">
+    <link href="js/jsoneditor.min.css" rel="stylesheet" type="text/css" />
     <script src="js/jsoneditor.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -45,20 +45,63 @@
     }
   </style>
   <body>
-    <button  disabled
-    onclick="(function (){
+    <button
+      disabled
+      onclick="(function (){
         document.querySelector('#save_btn').setAttribute('disabled',true)
         $.get(`${window.appurl}/update_file?filepath=${$('#jsonfile').val()}&isjson=true&content=${encodeURIComponent(JSON.stringify(window.editor.get()))}`)
 
     })()"
-    class="btn btn-primary btn-sm"  id='save_btn' style="width: 30%;">save</button>
-    <select id="jsonfile" style="width: 40%;" onchange="updateEditor()">
-        <option value="config/periodic.config.json">Periodic config</option>
-        <option value="config/global.config.json">Global config</option>
+      class="btn btn-primary btn-sm"
+      id="save_btn"
+      style="width: 30%"
+    >
+      save
+    </button>
+    <select id="jsonfile" style="width: 40%" onchange="updateEditor()">
+      <option value="config/periodic.config.json">Periodic config</option>
+      <option value="config/global.config.json">Global config</option>
     </select>
-    <div id="jsoneditor" style="width: 100%; height: 500px;margin-top: 5px;"></div>
-    
+    <div
+      id="jsoneditor"
+      style="width: 100%; height: 500px; margin-top: 5px"
+    ></div>
+    <input
+      id="newkey"
+      placeholder="new key"
+      class="form-control form-control-sm"
+      style="
+        margin-top: 5px;
+        margin-bottom: 5px;
+        width: 49%;
+        display: inline-block;
+      "
+    />
 
+    <input
+      placeholder="new value"
+      id="newval"
+      onkeydown="((evt)=>{
+                evt = evt || window.event;
+    var charCode = evt.keyCode || evt.which;
+                  if(charCode==13){
+
+                    $.get(`${window.appurl}/update_json_file?filepath=${encodeURIComponent($('#jsonfile').val())}&payload=${encodeURIComponent(JSON.stringify({[$('#newkey').val()]:$('#newval').val()}))}`)
+                    setTimeout(() => {
+                      updateEditor()
+                    }, 1000);
+                    $(this).fadeOut(100).fadeIn(100);
+
+                  }
+                })()"
+      class="form-control form-control-sm"
+      style="
+        margin-top: 5px;
+        margin-bottom: 5px;
+        width: 49%;
+        display: inline-block;
+      "
+    />
 
     <script>
       if (!window.appurl) {
@@ -82,31 +125,33 @@
         console.log(`app url ${window.appurl}`);
       }
 
-      
-        // create the editor
-        const container = document.getElementById("jsoneditor")
-        const options = {
-            onChange: ()=>{
-                $('#save_btn').attr('disabled', false)
+      // create the editor
+      const container = document.getElementById("jsoneditor");
+      const options = {
+        onChange: () => {
+          $("#save_btn").attr("disabled", false);
+        },
+      };
+      const editor = new JSONEditor(container, options);
+      window.editor = editor;
+      async function updateEditor() {
+        $("#save_btn").attr("disabled", false);
+
+        const json = await new Promise((resolve, reject) => {
+          $.get(
+            window.appurl + `/get_file?filepath=${$("#jsonfile").val()}`,
+            function (data) {
+              resolve(data);
             }
-        }
-        const editor = new JSONEditor(container, options)
-        window.editor= editor
-       async function updateEditor(){
-        $('#save_btn').attr('disabled', false)
+          );
+        });
 
-        const json= await new Promise((resolve, reject) => {
-            $.get(window.appurl+`/get_file?filepath=${$('#jsonfile').val()}`, function(data){
-                resolve(data)
-            })
-        })
-
-        window.editor.set(JSON.parse(json))
+        window.editor.set(JSON.parse(json));
 
         // get json
-        // const updatedJson = 
-       }
-    updateEditor()
+        // const updatedJson =
+      }
+      updateEditor();
     </script>
   </body>
 </html>

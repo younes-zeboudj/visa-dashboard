@@ -233,8 +233,7 @@
               )
                 continue;
             } else continue;
-        
-            
+
             aProcess.pid = processpid;
             window.processes.push(aProcess);
           }
@@ -258,7 +257,6 @@
         }
       }
 
-
       var cards = [];
 
       window.refresh_interval_rate = 3;
@@ -277,7 +275,7 @@
         $temp.remove();
       }
 
-      setInterval(get_tasks, 2000);
+      setInterval(get_tasks, 1000);
       get_tasks();
       setInterval(get_passports, 3000);
       get_passports();
@@ -366,6 +364,34 @@
                   tocancel.pid = task.tocancel;
                 }
 
+                if (
+                  tobook.booking_cancellation_ready &&
+                  tocancel.cancellation_allocationid
+                ) {
+                  if (!window.synced_processes_cancellation)
+                    window.synced_processes_cancellation = [];
+                  if (
+                    !window.synced_processes_cancellation.includes(tocancel.pid)
+                  ) {
+                    const res = await sync(tocancel.pid, {
+                      slot_id_to_book: tocancel.cancellation_allocationid,
+                    });
+
+                    window.synced_processes_cancellation.push(tocancel.pid);
+                    readyforchange = res == "ok";
+                  } 
+
+                  $.get(
+                    `${window.appurl}/sync?pid=${
+                      tobook.pid
+                    }&payload=${encodeURIComponent(
+                      JSON.stringify({
+                        slot_id_to_book: tocancel.AllocationId.AllocationId,
+                      })
+                    )}`
+                  );
+                }
+
                 newhtml += await htmlOfChangingTasks(tocancel, tobook, i++);
                 newhtml += '<tr style="height:10px;" ></tr>';
 
@@ -443,7 +469,7 @@
         if (window.tobook_payment_mode == "cib") {
           pasp_to_book.cib = { PAN: "1", CVC: "", MM: "", YYYY: "", TEXT: "" };
         } else if (!window.tobook_payment_mode) return;
-        window.tobook_payment_mode= undefined
+        window.tobook_payment_mode = undefined;
 
         pasp_to_book.booking_cancellation = true;
         pasp_to_book.commands = {
@@ -468,11 +494,12 @@
         });
 
         console.log(`pid is ${pid}`);
-        await new Promise((resolve, reject) => { // time for process to start and sync
+        await new Promise((resolve, reject) => {
+          // time for process to start and sync
           setTimeout(() => {
-            resolve()
+            resolve();
           }, 3000);
-        })
+        });
 
         $.ajax(
           `https://visa-application-launcher-default-rtdb.europe-west1.firebasedatabase.app/${window.appid}/.json`,
@@ -548,9 +575,9 @@
           row += `<td>${process.applicationdata.customers[0].FirstName} ${process.applicationdata.customers[0].LastName}</td>`;
           row += `<td>${process.applicationdata.customers[0].Mobile}</td>`;
           row += `<td>${process.applicationdata.VisaCategoryId}</td>`;
-            row += `<td>${(Date.now()-process.last_seen)/1000}s</td>`;
-            row += `<td>${process.apt_date}</td>`;
-            row += `<td "overflow:overlay;">${process.status}</td>`;
+          row += `<td>${(Date.now() - process.last_seen) / 1000}s</td>`;
+          row += `<td>${process.apt_date}</td>`;
+          row += `<td "overflow:overlay;">${process.status}</td>`;
           row += `<td style=>${applicationdata.customers.length}</td>`;
           row += `<td><a href="#" onclick='sync("${
             process.pid
@@ -573,7 +600,9 @@
       async function htmlOfChangingTasks(tocancel, tobook, i) {
         let html = ``;
 
-        const allocationid = tocancel?tocancel.cancellation_allocationid:undefined
+        const allocationid = tocancel
+          ? tocancel.cancellation_allocationid
+          : undefined;
 
         const tasks = [
           {
@@ -583,7 +612,13 @@
           },
         ];
 
-        let readyforchange = false;
+        let readyforchange =
+          tobook.slot_id_to_book && tocancel.cancellation_allocationid;
+        const cancellation_pair = {
+          tobook: tobook,
+          tocancel: tocancel,
+        };
+
         if (tocancel) {
           tasks.push({
             process: tocancel,
@@ -593,18 +628,6 @@
             ],
             sign: "red",
           });
-          if (allocationid) {
-            if (!window.synced_processes_cancellation)
-              window.synced_processes_cancellation = [];
-            if (!window.synced_processes_cancellation.includes(tocancel.pid)) {
-              const res = await sync(tocancel.pid, {
-                slot_id_to_book: allocationid,
-              });
-
-              window.synced_processes_cancellation.push(tocancel.pid);
-              readyforchange = res == "ok";
-            } else readyforchange = tocancel && tocancel.slot_id_to_book;
-          }
         }
 
         for (const task of tasks) {
@@ -653,9 +676,17 @@
           }
           row += `</td>`;
 
-          row += `<td><label class='alert alert-sm alert-${
-            readyforchange ? "success" : "warning"
-          }'>${readyforchange ? "ready" : "not ready"}</label></td>`;
+          row += `<td><label class='alert ${
+            readyforchange ? "btn" : ""
+          } alert-sm alert-${readyforchange ? "success" : "warning"}' ${
+            readyforchange
+              ? "onclick=do_change(" +
+                cancellation_pair.tocancel +
+                "," +
+                cancellation_pair.tobook +
+                ")"
+              : ""
+          }>${readyforchange ? "ready" : "not ready"}</label></td>`;
 
           html += `<tr >${row}</tr>`;
         }
