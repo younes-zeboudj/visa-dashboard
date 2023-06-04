@@ -114,7 +114,8 @@ refreshState()
             <span>System memory:</span>
 
             <span id="memoryStatus"><span> unknown</span></span>
-          </span> <br />
+          </span>
+          <br />
           <span>
             <span>Captcha server memory:</span>
 
@@ -160,7 +161,10 @@ refreshState()
             refresh
           </button>
 
-          <button class="btn btn-primary btn-sm" onclick="exec_command('git pull')">
+          <button
+            class="btn btn-primary btn-sm"
+            onclick="exec_command('git pull')"
+          >
             update
           </button>
 
@@ -466,7 +470,7 @@ refreshState()
         isup == "not ok" ? true : false;
 
       document.querySelector("#memoryStatus span").innerText = stat.memory;
-      document.querySelector("#captchaServerMemoryStatus span").innerText = stat.captcha_server_memory+` (${stat.captcha_server_pid}`);
+      document.querySelector("#captchaServerMemoryStatus span").innerText = stat.captcha_server_memory+` (${stat.captcha_server_pid})`;
       window.processes = stat.processes;
     }
 
