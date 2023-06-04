@@ -466,7 +466,7 @@ refreshState()
         isup == "not ok" ? true : false;
 
       document.querySelector("#memoryStatus span").innerText = stat.memory;
-      document.querySelector("#captchaServerMemoryStatus span").innerText = stat.captcha_server_memory;
+      document.querySelector("#captchaServerMemoryStatus span").innerText = stat.captcha_server_memory+` (${stat.captcha_server_pid}`);
       window.processes = stat.processes;
     }
 
