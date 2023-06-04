@@ -114,6 +114,11 @@ refreshState()
             <span>System memory:</span>
 
             <span id="memoryStatus"><span> unknown</span></span>
+          </span> <br />
+          <span>
+            <span>Captcha server memory:</span>
+
+            <span id="captchaServerMemoryStatus"><span> unknown</span></span>
           </span>
         </div>
         <div
@@ -426,7 +431,7 @@ refreshState()
     async function refreshState() {
       if (!window.appurl) return;
       const stat = await new Promise((resolve, reject) => {
-        $.ajax(`${window.appurl}/stat?memory=1&isup=1`, {
+        $.ajax(`${window.appurl}/stat?memory=1&isup=1&captcha_server=1`, {
           success: (data, textstatus, xhr) => {
             console.log(`received resp ${data}`);
             resolve(data);
@@ -461,6 +466,7 @@ refreshState()
         isup == "not ok" ? true : false;
 
       document.querySelector("#memoryStatus span").innerText = stat.memory;
+      document.querySelector("#captchaServerMemoryStatus span").innerText = stat.captcha_server_memory;
       window.processes = stat.processes;
     }
 
