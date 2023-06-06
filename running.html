@@ -370,7 +370,7 @@ td {
             process.cib?.PAN || "BDL"
           } ${process.cib ? process.cib?.TEXT || "<no name>" : ""}</td>`;
           row += `<td>${(Date.now() - process.last_seen) / 1000}s</td>`;
-          row += `<td style="overflow:hidden;width:23%;">${process.status}</td>`;
+          row += `<td style="overflow:hidden;white-space:nowrap;width:23%;">${process.status}</td>`;
           row += `<td><a href="#" onclick='sync("${
             process.pid
           }", {otp:prompt("otp")})' >${process.otp || "empty"}</a></td>`;
@@ -392,6 +392,7 @@ td {
 
           ${command_button_html(process, "pay")}
           ${command_button_html(process, "cancellation", "cancel")}
+          ${command_button_html(process, "booking_cancellation", "change")}
 
           ${command_button_html(process, "do_cancel")}
 

@@ -146,6 +146,7 @@ refreshState()
           <button
             id="run_btn_gui"
             class="btn btn-success btn-sm cmd"
+            command="nohup node main.js"
             onclick="exec_command(this.getAttribute('command'))"
           >
             run gui
@@ -173,9 +174,9 @@ refreshState()
               const cmds= document.querySelectorAll('.cmd')
 for (const cmd of cmds) {
   if(this.checked)
-  cmd.setAttribute('command', cmd.getAttribute('command').replace('node', 'node --inspect'))
+  cmd.setAttribute('command', cmd.getAttribute('command')+' debug')
  else
-cmd.setAttribute('command', cmd.getAttribute('command').replace('--inspect ', ''))
+cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug ', ''))
 
             }
           })()"
