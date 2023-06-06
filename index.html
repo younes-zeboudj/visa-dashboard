@@ -151,6 +151,13 @@ refreshState()
             run gui
           </button>
           <button
+            id="run_btn_gui"
+            class="btn btn-success btn-sm"
+            onclick="exec_command('node main.js')"
+          >
+            run gui win
+          </button>
+          <button
             id="stop_btn"
             class="btn btn-danger btn-sm"
             onclick="stopapp()"
@@ -160,7 +167,14 @@ refreshState()
           <button class="btn btn-primary btn-sm" onclick="refreshState()">
             refresh
           </button>
-
+          <input  
+          name="debug"
+          class="form-check-input"
+          type="checkbox"
+          style="width: 20px; display: inline-block"
+        /><label class="form-check-label" for="defaultCheck1">
+          debug
+        </label>
           <button
             class="btn btn-primary btn-sm"
             onclick="exec_command('git pull')"
