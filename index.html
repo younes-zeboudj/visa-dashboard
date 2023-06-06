@@ -145,15 +145,16 @@ refreshState()
           </button>
           <button
             id="run_btn_gui"
-            class="btn btn-success btn-sm"
-            onclick="exec_command('nohup node main.js')"
+            class="btn btn-success btn-sm cmd"
+            onclick="exec_command(this.getAttribute('command'))"
           >
             run gui
           </button>
           <button
-            id="run_btn_gui"
-            class="btn btn-success btn-sm"
-            onclick="exec_command('node main.js')"
+            id="run_btn_gui_win"
+            class="btn btn-success btn-sm cmd"
+            command="node main.js"
+            onclick="exec_command(this.getAttribute('command'))"
           >
             run gui win
           </button>
@@ -167,14 +168,22 @@ refreshState()
           <button class="btn btn-primary btn-sm" onclick="refreshState()">
             refresh
           </button>
-          <input  
-          name="debug"
-          class="form-check-input"
-          type="checkbox"
-          style="width: 20px; display: inline-block"
-        /><label class="form-check-label" for="defaultCheck1">
-          debug
-        </label>
+          <input
+            onchange="(()=>{
+              const cmds= document.querySelectorAll('.cmd')
+for (const cmd of cmds) {
+  if(this.checked)
+  cmd.setAttribute('command', cmd.getAttribute('command').replace('node', 'node --inspect'))
+ else
+cmd.setAttribute('command', cmd.getAttribute('command').replace('--inspect ', ''))
+
+            }
+          })()"
+            name="debug"
+            class="form-check-input"
+            type="checkbox"
+            style="width: 20px; display: inline-block"
+          /><label class="form-check-label" for="defaultCheck1"> debug </label>
           <button
             class="btn btn-primary btn-sm"
             onclick="exec_command('git pull')"
@@ -481,11 +490,14 @@ refreshState()
       document.querySelector("#run_btn").disabled = isup == "ok" ? true : false;
       document.querySelector("#run_btn_gui").disabled =
         isup == "ok" ? true : false;
+      document.querySelector("#run_btn_gui_win").disabled =
+        isup == "ok" ? true : false;
       document.querySelector("#stop_btn").disabled =
         isup == "not ok" ? true : false;
 
       document.querySelector("#memoryStatus span").innerText = stat.memory;
-      document.querySelector("#captchaServerMemoryStatus span").innerText = stat.captcha_server_memory+` (${stat.captcha_server_pid})`;
+      document.querySelector("#captchaServerMemoryStatus span").innerText =
+        stat.captcha_server_memory + ` (${stat.captcha_server_pid})`;
       window.processes = stat.processes;
     }
 
