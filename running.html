@@ -30,12 +30,13 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/js/bootstrap-editable.min.js"></script>
   </head>
   <style>
-td {
-  padding: 0px;
-    margin: 0px;
-}table {
-    table-layout:  auto !important;
-}
+    td {
+      padding: 0px;
+      margin: 0px;
+    }
+    table {
+      table-layout: auto !important;
+    }
     .table > tbody > tr > td {
       vertical-align: middle;
     }
@@ -63,9 +64,9 @@ td {
       if (!arg) {
         window.get_log_interval = setInterval(() => get_log(true), 3000);
 
-        if(window.get_ui_interval) {
-          clearInterval(window.get_ui_interval)
-          window.get_ui_interval= undefined
+        if (window.get_ui_interval) {
+          clearInterval(window.get_ui_interval);
+          window.get_ui_interval = undefined;
         }
       }
 
@@ -94,9 +95,9 @@ td {
         console.log(`21`);
         window.get_ui_interval = setInterval(() => get_ui(true), 3000);
 
-        if(window.get_log_interval) {
-          clearInterval(window.get_log_interval)
-          window.get_log_interval= undefined
+        if (window.get_log_interval) {
+          clearInterval(window.get_log_interval);
+          window.get_log_interval = undefined;
         }
       }
 
@@ -226,6 +227,7 @@ td {
           <th scope="col">Since</th>
           <th scope="col">Status</th>
           <th scope="col">Pay OTP</th>
+          <th scope="col">Pasps</th>
           <th scope="col">Command</th>
         </tr>
       </thead>
@@ -374,7 +376,8 @@ td {
           row += `<td><a href="#" onclick='sync("${
             process.pid
           }", {otp:prompt("otp")})' >${process.otp || "empty"}</a></td>`;
-       
+          row += `<td>${process.applicationdata.customers.length}</td>`;
+
           row += `<td>
                     <button class="btn btn-danger btn-sm" onclick="remove(${
                       process.pid
