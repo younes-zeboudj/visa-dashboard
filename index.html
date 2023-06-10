@@ -116,11 +116,11 @@ refreshState()
             <span id="memoryStatus"><span> unknown</span></span>
           </span>
           <br />
-          <span>
+          <!-- <span>
             <span>Captcha server memory:</span>
 
             <span id="captchaServerMemoryStatus"><span> unknown</span></span>
-          </span>
+          </span> -->
         </div>
         <div
           style="
@@ -211,6 +211,28 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
           >
             restart proxy
           </button>
+          <button
+            style="
+              padding: 0.3em 0.6em;
+              box-shadow: 0 2px 1px rgba(0, 0, 0, 0.3),
+                0 1px 0 rgba(255, 255, 255, 0.4) inset;
+              background-color: #a59696;
+              color: #fff;
+              border: 1px solid #000;
+              border-radius: 3px;
+              text-decoration: none;
+              cursor: pointer;
+              font-size: 9pt;
+            "
+          >
+            <a
+              style="text-decoration: none; color: #000"
+              target="_blank"
+              href="http://152.70.179.226:2223/accounts_edit"
+              >Edit accounts</a
+            >
+          </button>
+
           <hr />
           <div class="command">
             <button
@@ -290,6 +312,24 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
               <option value="907">907</option>
             </select>
           </div>
+
+          <div class="command">
+            <button
+              id="stop_btn"
+              class="mb-1 btn btn-danger btn-sm"
+              onclick="exec_command('node src/wrappers/new.accounts.js '+$('[name=newacc_n]').val())"
+            >
+              new accounts
+            </button>
+            <input
+              value="1"
+              name="newacc_n"
+              placeholder="Num"
+              class="form-control-sm form-control"
+              style="width: 50px; display: inline-block"
+            />
+          </div>
+
           <hr />
           <span
             id="server_resp"
@@ -497,8 +537,8 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
         isup == "not ok" ? true : false;
 
       document.querySelector("#memoryStatus span").innerText = stat.memory;
-      document.querySelector("#captchaServerMemoryStatus span").innerText =
-        stat.captcha_server_memory + ` (${stat.captcha_server_pid})`;
+      // document.querySelector("#captchaServerMemoryStatus span").innerText =
+      //   stat.captcha_server_memory + ` (${stat.captcha_server_pid})`;
       window.processes = stat.processes;
     }
 
