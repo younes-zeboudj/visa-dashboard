@@ -456,7 +456,9 @@
         }
 
         if(html)
-        document.querySelector("#tablebody").innerHTML = html;
+          document.querySelector("#tablebody").innerHTML = html;
+        else
+          document.querySelector("#tablebody").innerHTML = `<tr><td colspan="11">no processes</td></tr>`;
       }
 
       function formFromJson(json, depth, process, parentJson) {
