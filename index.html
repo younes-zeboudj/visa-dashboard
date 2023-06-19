@@ -145,7 +145,7 @@ refreshState()
                         const clients= document.querySelector('#run_cloud_clients').value
                         const applicants= document.querySelector('#run_cloud_applicants').value
 
-                        const cmd= `node folder.console.js - ${isDupBdl?'bdl':''} ${isBdlOnly?'bdlo':''} ${clients?'clients='+clients:''} ${applicants?'names='+applicants:''}`
+                        const cmd= `node folder.run.js - ${isDupBdl?'bdl':''} ${isBdlOnly?'bdlo':''} ${clients?'clients='+clients:''} ${applicants?'names='+applicants:''}`
                         exec_command(cmd)
                         })()"
                 >
