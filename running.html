@@ -325,8 +325,7 @@
               continue;
           } else continue;
           let row = ``;
-          const { applicationdata, pid, ...process_commands } = process;
-          if (!applicationdata) continue;
+          const { pid, ...process_commands } = process;
           const rowId = process.pid;
           if (!window.moreInfoStates[rowId])
             window.moreInfoStates[rowId] = "folded";
@@ -357,15 +356,15 @@
                                   ${cardsHtml(process.cib)}
                           </select>
                       </td>`;
-          row += `<td>${process.applicationdata.customers[0].FirstName} ${process.applicationdata.customers[0].LastName}</td>`;
-          row += `<td>${process.applicationdata.customers[0].Mobile}</td>`;
-          row += `<td>${process.applicationdata.VisaCategoryId}</td>`;
+          row += `<td>${process.customers[0].FirstName} ${process.customers[0].LastName}</td>`;
+          row += `<td>${process.customers[0].Mobile}</td>`;
+          row += `<td>${process.VisaCategoryId}</td>`;
           row += `<td>${
-            process.applicationdata.watcher
+            process.watcher
               ? "<strong style='color:orange'>WATCHER " +
-                (process.applicationdata.watcher_db ? "DB" : "") +
+                (process.watcher_db ? "DB" : "") +
                 "</strong>"
-              : process.applicationdata.client
+              : process.client
           }</td>`;
           row += `<td style="overflow-wrap:break-word">${
             process.cib?.PAN || "BDL"
@@ -375,7 +374,7 @@
           row += `<td><a href="#" onclick='sync("${
             process.pid
           }", {otp:prompt("otp")})' >${process.otp || "empty"}</a></td>`;
-          row += `<td>${process.applicationdata.customers.length}</td>`;
+          row += `<td>${process.customers.length}</td>`;
 
           row += `<td>
                     <button class="btn btn-danger btn-sm" onclick="remove(${
@@ -448,7 +447,7 @@
           html += `<tr  style="display: ${
             window.moreInfoStates[rowId] == "folded" ? "none" : "table-row"
           }" id="${rowId}" class="more-details" ><td id="td${rowId}" style='background: linear-gradient(359deg, grey, grey 70%, #2c3034)'  colspan="11">${formFromJson(
-            {...process_commands, applicationdata:{...applicationdata}},
+            {...process_commands},
             null,
             process,
             null
@@ -458,7 +457,7 @@
         if(html)
           document.querySelector("#tablebody").innerHTML = html;
         else
-          document.querySelector("#tablebody").innerHTML = `<tr><td colspan="11">no processes</td></tr>`;
+          document.querySelector("#tablebody").innerHTML = `<tr><td colspan="12" style="text-align: center">no processes</td></tr>`;
       }
 
       function formFromJson(json, depth, process, parentJson) {
