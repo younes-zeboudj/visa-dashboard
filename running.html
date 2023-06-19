@@ -231,7 +231,7 @@
           <th scope="col">Command</th>
         </tr>
       </thead><tbody id="tablebody"><tr style="text-align: center"><td colspan="12" style="text-align: center;background:grey">loading...</td></tr></tbody>
-      
+
     </table>
 
     <script>
@@ -284,7 +284,7 @@
         if (timeout != window.refresh_interval_rate) {
           clearInterval(window.refresh_interval);
           window.refresh_interval = setInterval(
-            get_tasks_commands,
+                  ()=>get_tasks_commands(true),
             timeout * 1000
           );
         }
@@ -399,33 +399,33 @@
           ${command_button_html(process, "do_cancel")}
 
           ${command_button_html(process, "do_book")}
-          
+
           <button class="btn btn-sm btn-secondary"
-          
+
           onclick="$('#log_popup').modal('show');window.process_log_pid=${
             process.pid
           };get_log();"
-          
-          >log</button>      
+
+          >log</button>
           <button class="btn btn-sm btn-secondary"
-          
+
           onclick="$('#log_popup').modal('show');window.process_log_pid=${
             process.pid
           };get_ui()"
-          
-          >ui</button>   
-  
+
+          >ui</button>
+
                     </td>`;
 
           html += `<tr >${row}</tr>`;
 
           const newFieldHtml = `<input id="newFK${rowId}"
           placeholder="new key"
-                class="form-control form-control-sm" 
-                style="margin-top: 5px; margin-bottom: 5px; width: 49%; display:inline-block" 
+                class="form-control form-control-sm"
+                style="margin-top: 5px; margin-bottom: 5px; width: 49%; display:inline-block"
           />
-          
-          <input 
+
+          <input
           placeholder="new value"
           id="newFV${rowId}"
           onkeydown="((evt)=>{
@@ -440,10 +440,10 @@
                     $(this).fadeOut(100).fadeIn(100);
 
                   }
-                })()"  
-                
-                class="form-control form-control-sm" 
-                style="margin-top: 5px; margin-bottom: 5px; width: 49%; display:inline-block" 
+                })()"
+
+                class="form-control form-control-sm"
+                style="margin-top: 5px; margin-bottom: 5px; width: 49%; display:inline-block"
               }"/>`;
           html += `<tr  style="display: ${
             window.moreInfoStates[rowId] == "folded" ? "none" : "table-row"
@@ -503,14 +503,14 @@
                     $(this).fadeOut(100).fadeIn(100);
 
                   }
-                })()"  
-                
-                value="${json[k]}" 
-                
-                class="form-control form-control-sm" 
+                })()"
+
+                value="${json[k]}"
+
+                class="form-control form-control-sm"
                 style="margin-top: 5px; margin-bottom: 5px; width: ${
                   49 - (depth ? depth / 5 : 0)
-                }%; display:inline-block" 
+                }%; display:inline-block"
                 type="${typeof json[k] == "number" ? "number" : "text"}"/>`;
             }
           } else {
