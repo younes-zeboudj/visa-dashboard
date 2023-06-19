@@ -1,56 +1,56 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
-      crossorigin="anonymous"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+            crossorigin="anonymous"
     />
 
     <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-      crossorigin="anonymous"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+            crossorigin="anonymous"
     ></script>
 
     <link
-      href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/css/bootstrap-editable.css"
-      rel="stylesheet"
+            href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/css/bootstrap-editable.css"
+            rel="stylesheet"
     />
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/js/bootstrap-editable.min.js"></script>
-  </head>
-  <style>
+</head>
+<style>
     #tabs button:disabled {
-      border: 3px solid rgba(255, 255, 255, 0.4);
+        border: 3px solid rgba(255, 255, 255, 0.4);
     }
-  </style>
-  <body>
-    <div
-      style="
+</style>
+<body>
+<div
+        style="
         padding: 10px;
         background-color: antiquewhite;
         border-bottom: 1px solid goldenrod;
         margin-bottom: 10px;
         text-align: center;
       "
+>
+    <div
+            style="width: 100%; text-align: center; align-items: center; gap: 3px"
+            class="row"
     >
-      <div
-        style="width: 100%; text-align: center; align-items: center; gap: 3px"
-        class="row"
-      >
         <label style="width: 17%; display: inline-block">App URL:</label>
         <input
-          onkeyup="document.querySelector('#appurl_btnset').disabled= undefined"
-          style="width: 65%; display: inline-block"
-          name="app_url"
-          placeholder="app url"
+                onkeyup="document.querySelector('#appurl_btnset').disabled= undefined"
+                style="width: 65%; display: inline-block"
+                name="app_url"
+                placeholder="app url"
         />
         <button
-          id="appurl_btnset"
-          onclick="(()=>{
+                id="appurl_btnset"
+                onclick="(()=>{
         console.log('btn clicked')
 window.appurl= document.querySelector('[name=app_url]').value
 if(window.appurl && window.appurl.endsWith('/'))window.appurl= window.appurl.substring(0, window.appurl.length-1);
@@ -58,72 +58,155 @@ setCookie('appurl', window.appurl)
 this.disabled= true
 refreshState()
       })()"
-          style="width: 10%; display: inline-block"
-          class="btn btn-sm btn-primary"
-          disabled
+                style="width: 10%; display: inline-block"
+                class="btn btn-sm btn-primary"
+                disabled
         >
-          Set
+            Set
         </button>
         <button
-          style="width: 10%; display: inline-bloc; width: 5%"
-          class="btn btn-sm btn-primary"
-          onclick="
+                style="width: 10%; display: inline-bloc; width: 5%"
+                class="btn btn-sm btn-primary"
+                onclick="
       if(this.innerText=='^')
-        document.querySelector('#controlpan').style.display='none'; 
+        document.querySelector('#controlpan').style.display='none';
         else
-        document.querySelector('#controlpan').style.display='flex'; 
+        document.querySelector('#controlpan').style.display='flex';
 
         this.innerText=this.innerText=='^'?'o':'^'
       "
         >
-          ^
+            ^
         </button>
-      </div>
-      <div
-        id="controlpan"
-        style="
+    </div>
+    <div
+            id="controlpan"
+            style="
           border: 2px black stripped;
           margin: 1%;
           align-items: flex-start;
           justify-content: space-around;
           display: flex;
         "
-      >
-        <div
-          style="
-            width: 40%;
-            padding: 30px;
-            display: inline-block;
-            border: 2px dashed;
-            border-radius: 10px;
+    >
+        <div style="
+          width: 40%;
+          display: inline-block;
+          ">
+            <div
+                    style="
+
+          padding: 30px;
+          border: 2px dashed;
+          border-radius: 10px;
           "
-        >
+            >
           <span>
             <span>Is running:</span>
 
             <span id="status"
-              ><button
-                style="width: 25px; height: 25px; border-radius: 30px"
-                class="btn btn-secondary"
-              ></button
-              ><span> unknown</span></span
+            ><button
+                    style="width: 25px; height: 25px; border-radius: 30px"
+                    class="btn btn-secondary"
+            ></button
+            ><span> unknown</span></span
             >
           </span>
-          <br />
-          <span>
+                <br/>
+                <span>
             <span>System memory:</span>
 
             <span id="memoryStatus"><span> unknown</span></span>
           </span>
-          <br />
-          <!-- <span>
-            <span>Captcha server memory:</span>
+                <br/>
+                <!-- <span>
+                  <span>Captcha server memory:</span>
 
-            <span id="captchaServerMemoryStatus"><span> unknown</span></span>
-          </span> -->
+                  <span id="captchaServerMemoryStatus"><span> unknown</span></span>
+                </span> -->
+            </div>
+
+            <div
+                    style="
+  margin-top: 15px;
+          padding-top: 30px;
+          padding-bottom: 30px;
+          border: 2px dashed;
+          border-radius: 10px;
+          "
+            >
+                <button
+                        style="margin-bottom: 15px"
+                        id="run_cloud_btn"
+                        class="btn btn-success btn-sm"
+                        onclick="(()=>{
+                        const isDupBdl= document.querySelector('#cloud_dup_bdl').checked
+                        const isBdlOnly= document.querySelector('#cloud_bdl_only').checked
+                        const clients= document.querySelector('#run_cloud_clients').value
+                        const applicants= document.querySelector('#run_cloud_applicants').value
+
+                        const cmd= `node folder.console.js - ${isDupBdl?'bdl':''} ${isBdlOnly?'bdlo':''} ${clients?'clients='+clients:''} ${applicants?'names='+applicants:''}`
+                        exec_command(cmd)
+                        })()"
+                >
+                    run from cloud
+                </button>
+                <br/>
+                <div
+                        class="form-check"
+                        style="display: inline-block; border: 0.1px dashed black"
+                >
+                    <input
+                            id="cloud_dup_bdl"
+                            name="cloud_dup_bdl"
+                            class="form-check-input"
+                            type="checkbox"
+                            style="width: 20px; display: inline-block"
+                    /><label class="form-check-label" for="cloud_dup_bdl">
+                    DUP BDL
+                </label>
+                </div>
+                <div
+                        class="form-check"
+                        style="display: inline-block; border: 0.1px dashed black"
+                >
+                    <input
+                            id="cloud_bdl_only"
+                            name="cloud_bdl_only"
+                            class="form-check-input"
+                            type="checkbox"
+                            style="width: 20px; display: inline-block"
+                    /><label class="form-check-label" for="cloud_bdl_only">
+                    BDL ONLY
+                </label>
+                </div>
+                <br/>
+                <label style="display: inline-block">clients:</label>
+                <input
+                        value=""
+                        name="run_cloud_clients"
+                        id="run_cloud_clients"
+                        placeholder="c1,c2,..."
+                        class="form-control-sm form-control"
+                        style="width: 150px; display: inline-block"
+                />
+                <br/>
+                <label style="display: inline-block">applicants:</label>
+                <input
+                        value=""
+                        name="run_cloud_applicants"
+                        id="run_cloud_applicants"
+                        placeholder="a1,a2,..."
+                        class="form-control-sm form-control"
+                        style="width: 150px; display: inline-block"
+                />
+                <br/>
+
+            </div>
         </div>
+
         <div
-          style="
+                style="
             width: 50%;
             padding: 30px;
             display: inline-block;
@@ -131,46 +214,46 @@ refreshState()
             border-radius: 10px;
           "
         >
-          <style>
-            button {
-              margin-top: 3px;
-            }
-          </style>
-          <button
-            id="run_btn"
-            class="btn btn-success btn-sm"
-            onclick="startapp()"
-          >
-            run
-          </button>
-          <button
-            id="run_btn_gui"
-            class="btn btn-success btn-sm cmd"
-            command="nohup node main.js"
-            onclick="exec_command(this.getAttribute('command'))"
-          >
-            run gui
-          </button>
-          <button
-            id="run_btn_gui_win"
-            class="btn btn-success btn-sm cmd"
-            command="node main.js"
-            onclick="exec_command(this.getAttribute('command'))"
-          >
-            run gui win
-          </button>
-          <button
-            id="stop_btn"
-            class="btn btn-danger btn-sm"
-            onclick="stopapp()"
-          >
-            stop
-          </button>
-          <button class="btn btn-primary btn-sm" onclick="refreshState()">
-            refresh
-          </button>
-          <input
-            onchange="(()=>{
+            <style>
+                button {
+                    margin-top: 3px;
+                }
+            </style>
+            <button
+                    id="run_btn"
+                    class="btn btn-success btn-sm"
+                    onclick="startapp()"
+            >
+                run
+            </button>
+            <button
+                    id="run_btn_gui"
+                    class="btn btn-success btn-sm cmd"
+                    command="nohup node main.js"
+                    onclick="exec_command(this.getAttribute('command'))"
+            >
+                run gui
+            </button>
+            <button
+                    id="run_btn_gui_win"
+                    class="btn btn-success btn-sm cmd"
+                    command="node main.js"
+                    onclick="exec_command(this.getAttribute('command'))"
+            >
+                run gui win
+            </button>
+            <button
+                    id="stop_btn"
+                    class="btn btn-danger btn-sm"
+                    onclick="stopapp()"
+            >
+                stop
+            </button>
+            <button class="btn btn-primary btn-sm" onclick="refreshState()">
+                refresh
+            </button>
+            <input
+                    onchange="(()=>{
               const cmds= document.querySelectorAll('.cmd')
 for (const cmd of cmds) {
   if(this.checked)
@@ -180,22 +263,22 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
 
             }
           })()"
-            name="debug"
-            class="form-check-input"
-            type="checkbox"
-            style="width: 20px; display: inline-block"
-          /><label class="form-check-label" for="defaultCheck1"> debug </label>
-          <button
-            class="btn btn-primary btn-sm"
-            onclick="exec_command('git pull')"
-          >
-            update
-          </button>
+                    name="debug"
+                    class="form-check-input"
+                    type="checkbox"
+                    style="width: 20px; display: inline-block"
+            /><label class="form-check-label" for="defaultCheck1"> debug </label>
+            <button
+                    class="btn btn-primary btn-sm"
+                    onclick="exec_command('git stash; git pull')"
+            >
+                update
+            </button>
 
-          <br />
-          <button
-            id="restart_proxy"
-            style="
+            <br/>
+            <button
+                    id="restart_proxy"
+                    style="
               padding: 0.3em 0.6em;
               box-shadow: 0 2px 1px rgba(0, 0, 0, 0.3),
                 0 1px 0 rgba(255, 255, 255, 0.4) inset;
@@ -207,12 +290,12 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
               cursor: pointer;
               font-size: 7pt;
             "
-            onclick="restartproxy()"
-          >
-            restart proxy
-          </button>
-          <button
-            style="
+                    onclick="restartproxy()"
+            >
+                restart proxy
+            </button>
+            <button
+                    style="
               padding: 0.3em 0.6em;
               box-shadow: 0 2px 1px rgba(0, 0, 0, 0.3),
                 0 1px 0 rgba(255, 255, 255, 0.4) inset;
@@ -224,196 +307,240 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
               cursor: pointer;
               font-size: 9pt;
             "
-          >
-            <a
-              style="text-decoration: none; color: #000"
-              target="_blank"
-              href="http://152.70.179.226:2223/accounts_edit"
-              >Edit accounts</a
             >
-          </button>
-
-          <hr />
-          <div class="command">
-            <button
-              onclick="start_random(this)"
-              id="stop_btn"
-              class="mb-1 btn btn-danger btn-sm"
-            >
-              start random
+                <a
+                        style="text-decoration: none; color: #000"
+                        target="_blank"
+                        href="http://152.70.179.226:2223/accounts_edit"
+                >Edit accounts</a
+                >
             </button>
-            <input
-              value="1"
-              name="n"
-              placeholder="Num"
-              class="form-control-sm form-control"
-              style="width: 50px; display: inline-block"
-            />
 
-            <div
-              class="form-check"
-              style="display: inline-block; border: 0.1px dashed black"
-            >
-              <input
-                checked
-                name="cib"
-                class="form-check-input"
-                type="checkbox"
-                style="width: 20px; display: inline-block"
-              /><label class="form-check-label" for="defaultCheck1">
-                CIB
-              </label>
+            <hr/>
+            <div class="command">
+                <button
+                        onclick="start_random(this)"
+                        id="stop_btn"
+                        class="mb-1 btn btn-danger btn-sm"
+                >
+                    start random
+                </button>
+                <input
+                        value="1"
+                        name="n"
+                        placeholder="Num"
+                        class="form-control-sm form-control"
+                        style="width: 50px; display: inline-block"
+                />
+
+                <div
+                        class="form-check"
+                        style="display: inline-block; border: 0.1px dashed black"
+                >
+                    <input
+                            checked
+                            name="cib"
+                            class="form-check-input"
+                            type="checkbox"
+                            style="width: 20px; display: inline-block"
+                    /><label class="form-check-label" for="defaultCheck1">
+                    CIB
+                </label>
+                </div>
+
+                <select name="type" class="form-select-sm">
+                    <option value="782" selected>782</option>
+                    <option value="874">874</option>
+                    <option value="1005" selected>1005</option>
+                    <option value="1012" selected>1012</option>
+                    <option value="1004">1004</option>
+                    <option value="907">907</option>
+                </select>
             </div>
 
-            <select name="type" class="form-select-sm">
-              <option value="782" selected>782</option>
-              <option value="874">874</option>
-              <option value="1005" selected>1005</option>
-              <option value="1012" selected>1012</option>
-              <option value="1004">1004</option>
-              <option value="907">907</option>
-            </select>
-          </div>
+            <div class="command">
+                <button
+                        id="stop_btn"
+                        class="mb-1 btn btn-danger btn-sm"
+                        onclick="startwatcher(this)"
+                >
+                    start watcher
+                </button>
+                <input
+                        value="1"
+                        name="nw"
+                        placeholder="Num"
+                        class="form-control-sm form-control"
+                        style="width: 50px; display: inline-block"
+                />
 
-          <div class="command">
-            <button
-              id="stop_btn"
-              class="mb-1 btn btn-danger btn-sm"
-              onclick="startwatcher(this)"
-            >
-              start watcher
-            </button>
-            <input
-              value="1"
-              name="nw"
-              placeholder="Num"
-              class="form-control-sm form-control"
-              style="width: 50px; display: inline-block"
-            />
+                <div
+                        class="form-check"
+                        style="display: inline-block; border: 0.1px dashed black"
+                >
+                    <input
+                            checked
+                            name="iswatcherdb"
+                            class="form-check-input"
+                            type="checkbox"
+                            style="width: 20px; display: inline-block"
+                    /><label class="form-check-label" for="defaultCheck2"> DB </label>
+                </div>
 
-            <div
-              class="form-check"
-              style="display: inline-block; border: 0.1px dashed black"
-            >
-              <input
-                checked
-                name="iswatcherdb"
-                class="form-check-input"
-                type="checkbox"
-                style="width: 20px; display: inline-block"
-              /><label class="form-check-label" for="defaultCheck2"> DB </label>
+                <select name="watchertype" class="form-select-sm">
+                    <option value="782" selected>782</option>
+                    <option value="874">874</option>
+                    <option value="1005" selected>1005</option>
+                    <option value="1004">1004</option>
+                    <option value="907">907</option>
+                </select>
             </div>
 
-            <select name="watchertype" class="form-select-sm">
-              <option value="782" selected>782</option>
-              <option value="874">874</option>
-              <option value="1005" selected>1005</option>
-              <option value="1004">1004</option>
-              <option value="907">907</option>
-            </select>
-          </div>
+            <div class="command">
+                <button
+                        id="newAccBtn"
+                        class="mb-1 btn btn-danger btn-sm"
+                        onclick="()=>{
+                const phone= $('[name=newacc_phone]').val()
+                let bootstrap= ''
+                if(phone) bootstrap=`Mobile=${phone}`
+                exec_command('node src/wrappers/new.accounts.js '+$('[name=newacc_n]').val()+ ' '+bootstrap)
+              }"
+                >
+                    new accounts
+                </button>
+                <input
+                        value="1"
+                        name="newacc_n"
+                        placeholder="Num"
+                        class="form-control-sm form-control"
+                        style="width: 30px; display: inline-block"
+                />
+                <input
+                        value=""
+                        name="newacc_phone"
+                        placeholder="phone?"
+                        class="form-control-sm form-control"
+                        style="width: 140px; display: inline-block"
+                />
+            </div>
 
-          <div class="command">
-            <button
-              id="stop_btn"
-              class="mb-1 btn btn-danger btn-sm"
-              onclick="exec_command('node src/wrappers/new.accounts.js '+$('[name=newacc_n]').val())"
-            >
-              new accounts
-            </button>
-            <input
-              value="1"
-              name="newacc_n"
-              placeholder="Num"
-              class="form-control-sm form-control"
-              style="width: 50px; display: inline-block"
-            />
-          </div>
 
-          <hr />
-          <span
-            id="server_resp"
-            style="
+            <div class="command">
+                <button
+                        id="runCloudBtn"
+                        class="mb-1 btn btn-danger btn-sm"
+                        onclick="()=>{
+                const phone= $('[name=newacc_phone]').val()
+                let bootstrap= ''
+                if(phone) bootstrap=`Mobile=${phone}`
+                exec_command('node src/wrappers/new.accounts.js '+$('[name=newacc_n]').val()+ ' '+bootstrap)
+              }"
+                >
+                    new accounts
+                </button>
+                <input
+                        value="1"
+                        name="newacc_n"
+                        placeholder="Num"
+                        class="form-control-sm form-control"
+                        style="width: 30px; display: inline-block"
+                />
+                <input
+                        value=""
+                        name="newacc_phone"
+                        placeholder="phone?"
+                        class="form-control-sm form-control"
+                        style="width: 140px; display: inline-block"
+                />
+            </div>
+
+            <hr/>
+            <span
+                    id="server_resp"
+                    style="
               font-size: 9pt;
               font-family: Verdana, Geneva, Tahoma, sans-serif;
               font-weight: 400;
             "
-          ></span>
+            ></span>
         </div>
-      </div>
     </div>
-    <div
-      id="tabs"
-      style="
+</div>
+<div
+        id="tabs"
+        style="
         padding: 10px;
         background-color: cadetblue;
         border-top: 1px solid darkslategrey;
         margin-bottom: 10px;
         text-align: center;
       "
-    >
-      <button url="/add.html" class="btn btn-danger">Add passport</button>
-      <button url="/change.html" class="btn btn-danger appurl_missing">
+>
+    <button url="/add.html" class="btn btn-danger appurl_missing">Add passport</button>
+    <button url="/change.html" class="btn btn-danger appurl_missing">
         Change
-      </button>
-      <button url="/cards.html" class="btn btn-danger appurl_missing">
+    </button>
+    <button url="/cards.html" class="btn btn-danger appurl_missing">
         Payment cards
-      </button>
-      <button url="/otps.html" class="btn btn-danger appurl_missing">
+    </button>
+    <button url="/otps.html" class="btn btn-danger appurl_missing">
         OTPs
-      </button>
-      <button url="/clients.html" class="btn btn-danger appurl_missing">
+    </button>
+    <button url="/clients.html" class="btn btn-danger appurl_missing">
         Clients
-      </button>
-      <button url="/reservations.html" class="btn btn-danger appurl_missing">
+    </button>
+    <button url="/reservations.html" class="btn btn-danger appurl_missing">
         Reservations
-      </button>
-      <button
-        id="activetab"
-        url="/running.html"
-        class="btn btn-danger appurl_missing"
-      >
+    </button>
+    <button
+            id="activetab"
+            url="/running.html"
+            class="btn btn-danger appurl_missing"
+    >
         Processes
-      </button>
-      <button url="/log.html" class="btn btn-danger appurl_missing">Log</button>
-      <button url="/edit_json.html" class="btn btn-danger appurl_missing">
+    </button>
+    <button url="/log.html" class="btn btn-danger appurl_missing">Log</button>
+    <button url="/edit_json.html" class="btn btn-danger appurl_missing">
         Edit config
-      </button>
+    </button>
 
-      <button url="/edit_file.html" class="btn btn-danger appurl_missing">
+    <button url="/edit_file.html" class="btn btn-danger appurl_missing">
         Edit proxies
-      </button>
-    </div>
-    <iframe width="100%" style="height: 100%; position: absolute"></iframe>
-  </body>
-  <script>
+    </button>
+</div>
+<iframe width="100%" style="height: 100%; position: absolute"></iframe>
+</body>
+<script>
     function setCookie(name, value, days) {
-      var expires = "";
-      if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-        expires = "; expires=" + date.toUTCString();
-      }
-      document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
     }
+
     function getCookie(name) {
-      var nameEQ = name + "=";
-      var ca = document.cookie.split(";");
-      for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == " ") c = c.substring(1, c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-      }
-      return null;
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(";");
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == " ") c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
     }
+
     function eraseCookie(name) {
-      document.cookie =
-        name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        document.cookie =
+            name + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
     }
 
     window.appurl = getCookie("appurl") || "";
     if (window.appurl.endsWith("/"))
-      window.appurl = window.appurl.substring(0, window.appurl.length - 1);
+        window.appurl = window.appurl.substring(0, window.appurl.length - 1);
 
     console.log(`app url is ${window.appurl}`);
     document.querySelector("[name=app_url]").value = window.appurl;
@@ -421,204 +548,206 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
     //update buttons
     let currentUrl = document.location.href;
     if (currentUrl.endsWith(".html"))
-      currentUrl = currentUrl.replace(/\/\w+\.html/, "");
+        currentUrl = currentUrl.replace(/\/\w+\.html/, "");
     else if (currentUrl.endsWith("/"))
-      currentUrl = currentUrl.replace(/\/$/, "");
+        currentUrl = currentUrl.replace(/\/$/, "");
 
     document.querySelectorAll(".appurl_missing").forEach((e) => {
-      e.onclick = (evt) =>
-        update_frame(
-          `${currentUrl}${e.getAttribute("url")}?appurl=${window.appurl || ""}`
-        );
+        e.onclick = (evt) =>
+            update_frame(
+                `${currentUrl}${e.getAttribute("url")}?appurl=${window.appurl || ""}`
+            );
     });
+
     function update_frame(url) {
-      document.querySelector("iframe").id = Date.now();
-      document.querySelector("iframe").src = url;
+        document.querySelector("iframe").id = Date.now();
+        document.querySelector("iframe").src = url;
     }
+
     document.querySelectorAll("#tabs button").forEach((e) => {
-      e.addEventListener("click", (evt) => {
-        e.parentElement
-          .querySelectorAll("button")
-          .forEach((e) => (e.disabled = false));
-        e.disabled = true;
-      });
+        e.addEventListener("click", (evt) => {
+            e.parentElement
+                .querySelectorAll("button")
+                .forEach((e) => (e.disabled = false));
+            e.disabled = true;
+        });
     });
     $("#activetab").click();
 
     //CANCELLATION ROUTINE
 
     async function startapp() {
-      const resp = await new Promise((resolve, reject) => {
-        $.ajax(`${window.appurl}/launch`, {
-          success: (data, textstatus, xhr) => {
-            console.log(`received resp ${data}`);
-            resolve(data);
-          },
-          error: (xhr, textstatus, error) => {
-            reject(error);
-          },
+        const resp = await new Promise((resolve, reject) => {
+            $.ajax(`${window.appurl}/launch`, {
+                success: (data, textstatus, xhr) => {
+                    console.log(`received resp ${data}`);
+                    resolve(data);
+                },
+                error: (xhr, textstatus, error) => {
+                    reject(error);
+                },
+            });
         });
-      });
 
-      console.log(`server returned ${resp}`);
-      document.querySelector(
-        "#server_resp"
-      ).innerHTML = `<b>response></b> ${resp}`;
+        console.log(`server returned ${resp}`);
+        document.querySelector(
+            "#server_resp"
+        ).innerHTML = `<b>response></b> ${resp}`;
 
-      clearLog();
-      setTimeout(refreshState, 1500);
+        clearLog();
+        setTimeout(refreshState, 1500);
     }
 
     function clearLog() {
-      setTimeout(
-        () => (document.querySelector("#server_resp").innerText = ""),
-        3000
-      );
+        setTimeout(
+            () => (document.querySelector("#server_resp").innerText = ""),
+            3000
+        );
     }
 
     async function stopapp() {
-      const resp = await new Promise((resolve, reject) => {
-        $.ajax(`${window.appurl}/stop`, {
-          success: (data, textstatus, xhr) => {
-            console.log(`received resp ${data}`);
-            resolve(data);
-          },
-          error: (xhr, textstatus, error) => {
-            reject(error);
-          },
+        const resp = await new Promise((resolve, reject) => {
+            $.ajax(`${window.appurl}/stop`, {
+                success: (data, textstatus, xhr) => {
+                    console.log(`received resp ${data}`);
+                    resolve(data);
+                },
+                error: (xhr, textstatus, error) => {
+                    reject(error);
+                },
+            });
         });
-      });
 
-      document.querySelector(
-        "#server_resp"
-      ).innerHTML = `<b>response></b> ${resp}`;
+        document.querySelector(
+            "#server_resp"
+        ).innerHTML = `<b>response></b> ${resp}`;
 
-      clearLog();
-      refreshState();
+        clearLog();
+        refreshState();
     }
 
     async function refreshState() {
-      if (!window.appurl) return;
-      const stat = await new Promise((resolve, reject) => {
-        $.ajax(`${window.appurl}/stat?memory=1&isup=1&captcha_server=1`, {
-          success: (data, textstatus, xhr) => {
-            console.log(`received resp ${data}`);
-            resolve(data);
-          },
-          error: (xhr, textstatus, error) => {
-            reject(error);
-          },
-        });
-      }).catch((e) => "unknown");
+        if (!window.appurl) return;
+        const stat = await new Promise((resolve, reject) => {
+            $.ajax(`${window.appurl}/stat?memory=1&isup=1&captcha_server=1`, {
+                success: (data, textstatus, xhr) => {
+                    console.log(`received resp ${data}`);
+                    resolve(data);
+                },
+                error: (xhr, textstatus, error) => {
+                    reject(error);
+                },
+            });
+        }).catch((e) => "unknown");
 
-      const isup = stat.isup;
+        const isup = stat.isup;
 
-      document
-        .querySelector("#status button")
-        .classList.remove("btn-secondary", "btn-success", "btn-danger");
-      document
-        .querySelector("#status button")
-        .classList.add(
-          isup == "ok"
-            ? "btn-success"
-            : isup == "not ok"
-            ? "btn-danger"
-            : "btn-secondary"
+        document
+            .querySelector("#status button")
+            .classList.remove("btn-secondary", "btn-success", "btn-danger");
+        document
+            .querySelector("#status button")
+            .classList.add(
+            isup == "ok"
+                ? "btn-success"
+                : isup == "not ok"
+                    ? "btn-danger"
+                    : "btn-secondary"
         );
-      document.querySelector("#status span").innerText =
-        " " +
-        (isup == "ok" ? "running" : isup == "not ok" ? "stopped" : "unknown");
-      document.querySelector("#run_btn").disabled = isup == "ok" ? true : false;
-      document.querySelector("#run_btn_gui").disabled =
-        isup == "ok" ? true : false;
-      document.querySelector("#run_btn_gui_win").disabled =
-        isup == "ok" ? true : false;
-      document.querySelector("#stop_btn").disabled =
-        isup == "not ok" ? true : false;
+        document.querySelector("#status span").innerText =
+            " " +
+            (isup == "ok" ? "running" : isup == "not ok" ? "stopped" : "unknown");
+        document.querySelector("#run_btn").disabled = isup == "ok" ? true : false;
+        document.querySelector("#run_btn_gui").disabled =
+            isup == "ok" ? true : false;
+        document.querySelector("#run_btn_gui_win").disabled =
+            isup == "ok" ? true : false;
+        document.querySelector("#stop_btn").disabled =
+            isup == "not ok" ? true : false;
 
-      document.querySelector("#memoryStatus span").innerText = stat.memory;
-      // document.querySelector("#captchaServerMemoryStatus span").innerText =
-      //   stat.captcha_server_memory + ` (${stat.captcha_server_pid})`;
-      window.processes = stat.processes;
+        document.querySelector("#memoryStatus span").innerText = stat.memory;
+        // document.querySelector("#captchaServerMemoryStatus span").innerText =
+        //   stat.captcha_server_memory + ` (${stat.captcha_server_pid})`;
+        window.processes = stat.processes;
     }
 
     refreshState()
-      .catch((e) => console.log(e))
-      .finally(() => {
-        setInterval(() => {
-          refreshState();
-        }, 3000);
-      });
+        .catch((e) => console.log(e))
+        .finally(() => {
+            setInterval(() => {
+                refreshState();
+            }, 3000);
+        });
 
     async function restartproxy() {
-      const resp = await new Promise((resolve, reject) => {
-        $.ajax(`${window.appurl}/restart`, {
-          success: (data, textstatus, xhr) => {
-            console.log(`received resp ${data}`);
-            resolve(data);
-          },
-          error: (xhr, textstatus, error) => {
-            reject(error);
-          },
+        const resp = await new Promise((resolve, reject) => {
+            $.ajax(`${window.appurl}/restart`, {
+                success: (data, textstatus, xhr) => {
+                    console.log(`received resp ${data}`);
+                    resolve(data);
+                },
+                error: (xhr, textstatus, error) => {
+                    reject(error);
+                },
+            });
         });
-      });
 
-      console.log(`server returned ${resp}`);
-      document.querySelector(
-        "#server_resp"
-      ).innerHTML = `<b>response></b> ${resp}`;
+        console.log(`server returned ${resp}`);
+        document.querySelector(
+            "#server_resp"
+        ).innerHTML = `<b>response></b> ${resp}`;
 
-      clearLog();
-      setTimeout(refreshState, 1000);
+        clearLog();
+        setTimeout(refreshState, 1000);
     }
 
     function start_random(btn) {
-      const parent = btn.closest(".command");
-      const howmany = parseInt(parent.querySelector("[name=n]").value);
-      const iscib = parent.querySelector("[name=cib]").checked;
-      const type = parent.querySelector("[name=type]").value;
+        const parent = btn.closest(".command");
+        const howmany = parseInt(parent.querySelector("[name=n]").value);
+        const iscib = parent.querySelector("[name=cib]").checked;
+        const type = parent.querySelector("[name=type]").value;
 
-      exec_command(
-        `node random.booking.js ${howmany} ${type} ${iscib ? "cib" : ""}`
-      );
+        exec_command(
+            `node random.booking.js ${howmany} ${type} ${iscib ? "cib" : ""}`
+        );
     }
 
     function startwatcher(btn) {
-      const parent = btn.closest(".command");
-      const howmany = parseInt(parent.querySelector("[name=nw]").value);
-      const iswatcherdb = parent.querySelector("[name=iswatcherdb]").checked;
-      const type = parent.querySelector("[name=watchertype]").value;
+        const parent = btn.closest(".command");
+        const howmany = parseInt(parent.querySelector("[name=nw]").value);
+        const iswatcherdb = parent.querySelector("[name=iswatcherdb]").checked;
+        const type = parent.querySelector("[name=watchertype]").value;
 
-      let i = parseInt(howmany);
-      while (i-- > 0)
-        exec_command(`node watch.js ${type} ${iswatcherdb ? "true" : ""}`);
+        let i = parseInt(howmany);
+        while (i-- > 0)
+            exec_command(`node watch.js ${type} ${iswatcherdb ? "true" : ""}`);
     }
 
     async function exec_command(cmd) {
-      const resp = await new Promise((resolve, reject) => {
-        $.ajax(
-          `${window.appurl}${
-            window.appurl.endsWith("/") ? "" : "/"
-          }exec?cmd=${cmd}`,
-          {
-            success: (data, textstatus, xhr) => {
-              console.log(`received resp ${data}`);
-              resolve(data);
-            },
-            error: (xhr, textstatus, error) => {
-              reject(error);
-            },
-          }
-        );
-      });
+        const resp = await new Promise((resolve, reject) => {
+            $.ajax(
+                `${window.appurl}${
+                    window.appurl.endsWith("/") ? "" : "/"
+                }exec?cmd=${cmd}`,
+                {
+                    success: (data, textstatus, xhr) => {
+                        console.log(`received resp ${data}`);
+                        resolve(data);
+                    },
+                    error: (xhr, textstatus, error) => {
+                        reject(error);
+                    },
+                }
+            );
+        });
 
-      console.log(`server returned ${resp}`);
-      document.querySelector(
-        "#server_resp"
-      ).innerHTML = `<b>response></b> ${resp}`;
+        console.log(`server returned ${resp}`);
+        document.querySelector(
+            "#server_resp"
+        ).innerHTML = `<b>response></b> ${resp}`;
 
-      clearLog();
-      setTimeout(refreshState, 1000);
+        clearLog();
+        setTimeout(refreshState, 1000);
     }
-  </script>
+</script>
 </html>
