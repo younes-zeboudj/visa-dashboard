@@ -297,9 +297,9 @@
       window.refresh_interval_rate = 3;
       window.refresh_interval = setInterval(get_tasks_commands, 3000);
       setInterval(get_payment_cards, 3000);
-      setInterval(showProcesses, 2000);
+      setInterval(showProcesses, 1000);
       get_payment_cards(true);
-      get_tasks_commands(true);
+      get_tasks_commands(true)
 
       function showProcesses() {
         if (!window.okforrefresh && window.okforrefresh !== undefined) {
