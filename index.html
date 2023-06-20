@@ -316,6 +316,28 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
                 >
             </button>
 
+            <button
+                    style="
+              padding: 0.3em 0.6em;
+              box-shadow: 0 2px 1px rgba(0, 0, 0, 0.3),
+                0 1px 0 rgba(255, 255, 255, 0.4) inset;
+              background-color: #a59696;
+              color: #fff;
+              border: 1px solid #000;
+              border-radius: 3px;
+              text-decoration: none;
+              cursor: pointer;
+              font-size: 9pt;
+            "
+            >
+                <a
+                        style="text-decoration: none; color: #000"
+                        target="_blank"
+                        href="http://152.70.179.226:2223/accounts_edit"
+                >Edit accounts</a
+                >
+            </button>
+
             <hr/>
             <div class="command">
                 <button
@@ -400,42 +422,12 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
                 <button
                         id="newAccBtn"
                         class="mb-1 btn btn-danger btn-sm"
-                        onclick="()=>{
+                        onclick="(()=>{
                 const phone= $('[name=newacc_phone]').val()
                 let bootstrap= ''
                 if(phone) bootstrap=`Mobile=${phone}`
                 exec_command('node src/wrappers/new.accounts.js '+$('[name=newacc_n]').val()+ ' '+bootstrap)
-              }"
-                >
-                    new accounts
-                </button>
-                <input
-                        value="1"
-                        name="newacc_n"
-                        placeholder="Num"
-                        class="form-control-sm form-control"
-                        style="width: 30px; display: inline-block"
-                />
-                <input
-                        value=""
-                        name="newacc_phone"
-                        placeholder="phone?"
-                        class="form-control-sm form-control"
-                        style="width: 140px; display: inline-block"
-                />
-            </div>
-
-
-            <div class="command">
-                <button
-                        id="runCloudBtn"
-                        class="mb-1 btn btn-danger btn-sm"
-                        onclick="()=>{
-                const phone= $('[name=newacc_phone]').val()
-                let bootstrap= ''
-                if(phone) bootstrap=`Mobile=${phone}`
-                exec_command('node src/wrappers/new.accounts.js '+$('[name=newacc_n]').val()+ ' '+bootstrap)
-              }"
+              })()"
                 >
                     new accounts
                 </button>
