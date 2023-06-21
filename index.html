@@ -741,6 +741,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
     function update_ui(notClicked){
         $.get(`http://152.70.179.226:2287/exec?cmd=${encodeURIComponent('cd ~/visa-dashboard; git fetch')}`, (data)=>{
             if(data){
+                document.body.innerHTML=`<h1 style='text-align:center'>Updating...</h1>`
                 $.get(`http://152.70.179.226:2287/exec?cmd=${encodeURIComponent('cd ~/visa-dashboard; git pull')}`, (data)=>{
                     window.location.href=window.location.href
                 })
