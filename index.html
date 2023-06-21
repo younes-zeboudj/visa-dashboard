@@ -42,9 +42,12 @@
             class="row"
     >
         <label onclick="(()=>{
-            alert('click')
             if(window.last_click===undefined) return window.last_click= Date.now()
-            if(Date.now()-window.last_click<500) { document.querySelector('[name=app_url]').value= 'http://localhost:8889'; refreshState(); return}
+            if(Date.now()-window.last_click<500) {
+                document.querySelector('[name=app_url]').value= 'http://localhost:8889';
+                window.appurl= 'http://localhost:8889'
+                if(!getCookie('appurl')) setCookie('appurl', 'http://localhost:8889')
+                refreshState(); return}
             window.last_click= Date.now()
         })()" style="width: 17%; display: inline-block">App URL:</label>
         <input
