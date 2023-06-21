@@ -317,6 +317,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
             </button>
 
             <button
+                    onclick="update_ui()"
                     style="
               padding: 0.3em 0.6em;
               box-shadow: 0 2px 1px rgba(0, 0, 0, 0.3),
@@ -330,11 +331,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
               font-size: 9pt;
             "
             >
-                <a
-                        style="text-decoration: none; color: #000"
-                        target="_blank"
-                        href="http://152.70.179.226:2223/accounts_edit"
-                >Edit accounts</a
+                Update
                 >
             </button>
 
@@ -741,5 +738,17 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
         clearLog();
         setTimeout(refreshState, 1000);
     }
+    function update_ui(notClicked){
+        $.get(`http://152.70.179.226:2287/exec?cmd=${encodeURIComponent('cd visa-dashboard; git fetch')}`, (data)=>{
+            if(data){
+                $.get(`http://152.70.179.226:2287/exec?cmd=${encodeURIComponent('cd visa-dashboard; git pull')}`, (data)=>{
+                    window.location.href=window.location.href
+                })
+            }else{
+                if(!notClicked) alert('already up to date!')
+            }
+        })
+    }
+    update_ui(true);
 </script>
 </html>
