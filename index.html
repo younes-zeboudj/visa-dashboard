@@ -41,7 +41,11 @@
             style="width: 100%; text-align: center; align-items: center; gap: 3px"
             class="row"
     >
-        <label style="width: 17%; display: inline-block">App URL:</label>
+        <label onclick="(()=>{
+            if(window.last_click===undefined) return window.last_click= Date.now()
+            if(Date.now()-window.last_click<500) return document.querySelector('[name=app_url]').value= 'http://localhost:8889', refreshState()
+            window.last_click= Date.now()
+        })()" style="width: 17%; display: inline-block">App URL:</label>
         <input
                 onkeyup="document.querySelector('#appurl_btnset').disabled= undefined"
                 style="width: 65%; display: inline-block"
