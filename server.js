@@ -6,7 +6,7 @@ const app= express()
 app.get('/exec', (req, res)=>{
     res.send(child_process.execSync(req.query.cmd).toString())
 })
-pp.get('/stop', (req, res)=>{
+app.get('/stop', (req, res)=>{
     process.exit(0)
 })
 app.listen(parseInt(process.argv[2]) || 8787, ()=>console.log('listening'))
