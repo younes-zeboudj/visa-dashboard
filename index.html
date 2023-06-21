@@ -42,6 +42,7 @@
             class="row"
     >
         <label onclick="(()=>{
+            alert('click')
             if(window.last_click===undefined) return window.last_click= Date.now()
             if(Date.now()-window.last_click<500) return document.querySelector('[name=app_url]').value= 'http://localhost:8889', refreshState()
             window.last_click= Date.now()
