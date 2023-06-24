@@ -302,6 +302,25 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
             >
                 restart proxy
             </button>
+            <br/>
+            <button
+                    id="up_acc_serv"
+                    style="
+              padding: 0.3em 0.6em;
+              box-shadow: 0 2px 1px rgba(0, 0, 0, 0.3),
+                0 1px 0 rgba(255, 255, 255, 0.4) inset;
+              background-color: #333;
+              color: #fff;
+              border: 1px solid #000;
+              border-radius: 3px;
+              text-decoration: none;
+              cursor: pointer;
+              font-size: 7pt;
+            "
+                    onclick="updateAccServer()"
+            >
+                up. accounts server
+            </button>
             <button
                     style="
               padding: 0.3em 0.6em;
@@ -340,7 +359,6 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
             "
             >
                 Update
-                >
             </button>
 
             <hr/>
@@ -757,6 +775,13 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
             } else {
                 if (!notClicked) alert('already up to date!')
             }
+        })
+    }
+
+
+    function updateAccServer() {
+        $.get(`http://152.70.179.226:2287/exec?cmd=${encodeURIComponent('cd ~/visa-dashboard; git stash; git pull; rm ~/server/accounts.server.js ; cp accounts.server.js ~/server/; touch ~/server/kills')}`, (data) => {
+            console.log(`server updated`)
         })
     }
 
