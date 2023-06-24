@@ -156,6 +156,7 @@ async function choose(payload) {
         }
 
         if (!acc.password) continue;
+        if (acc.not_activated) continue;
         if (acc.not_confirmed) continue;
         if (acc.not_permitted) continue;
         if (acc.max_reservation) continue;
