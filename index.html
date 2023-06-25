@@ -362,115 +362,129 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
             </button>
 
             <hr/>
-            <div class="command">
-                <button
-                        onclick="start_random(this)"
-                        id="stop_btn"
-                        class="mb-1 btn btn-danger btn-sm"
-                >
-                    start random
-                </button>
-                <input
-                        value="1"
-                        name="n"
-                        placeholder="Num"
-                        class="form-control-sm form-control"
-                        style="width: 50px; display: inline-block"
-                />
-
-                <div
-                        class="form-check"
-                        style="display: inline-block; border: 0.1px dashed black"
-                >
+            <div style="display: inline-block; border: 1px solid grey; border-radius: 5px; padding: 5px">
+                <div class="command">
+                    <button
+                            onclick="start_random(this)"
+                            id=""
+                            class="mb-1 btn btn-danger btn-sm"
+                    >
+                        start random
+                    </button>
                     <input
-                            checked
-                            name="cib"
-                            class="form-check-input"
-                            type="checkbox"
-                            style="width: 20px; display: inline-block"
-                    /><label class="form-check-label" for="defaultCheck1">
-                    CIB
-                </label>
+                            value="1"
+                            name="n"
+                            placeholder="Num"
+                            class="form-control-sm form-control"
+                            style="width: 50px; display: inline-block"
+                    />
+
+                    <div
+                            class="form-check"
+                            style="display: inline-block; border: 0.1px dashed black"
+                    >
+                        <input
+                                checked
+                                name="cib"
+                                class="form-check-input"
+                                type="checkbox"
+                                style="width: 20px; display: inline-block"
+                        /><label class="form-check-label" for="defaultCheck1">
+                        CIB
+                    </label>
+                    </div>
+
+                    <select name="type" class="form-select-sm">
+                        <option value="782" selected>782</option>
+                        <option value="874">874</option>
+                        <option value="1005" selected>1005</option>
+                        <option value="1012" selected>1012</option>
+                        <option value="1004">1004</option>
+                        <option value="907">907</option>
+                        <option value="5839">Italy - 5839</option>
+                    </select>
                 </div>
 
-                <select name="type" class="form-select-sm">
-                    <option value="782" selected>782</option>
-                    <option value="874">874</option>
-                    <option value="1005" selected>1005</option>
-                    <option value="1012" selected>1012</option>
-                    <option value="1004">1004</option>
-                    <option value="907">907</option>
-                    <option value="5839">Italy - 5839</option>
-                </select>
-            </div>
-
-            <div class="command">
-                <button
-                        id="stop_btn"
-                        class="mb-1 btn btn-danger btn-sm"
-                        onclick="startwatcher(this)"
-                >
-                    start watcher
-                </button>
-                <input
-                        value="1"
-                        name="nw"
-                        placeholder="Num"
-                        class="form-control-sm form-control"
-                        style="width: 50px; display: inline-block"
-                />
-
-                <div
-                        class="form-check"
-                        style="display: inline-block; border: 0.1px dashed black"
-                >
+                <div class="command">
+                    <button
+                            id="stop_btn"
+                            class="mb-1 btn btn-danger btn-sm"
+                            onclick="startwatcher(this)"
+                    >
+                        start watcher
+                    </button>
                     <input
-                            checked
-                            name="iswatcherdb"
-                            class="form-check-input"
-                            type="checkbox"
-                            style="width: 20px; display: inline-block"
-                    /><label class="form-check-label" for="defaultCheck2"> DB </label>
+                            value="1"
+                            name="nw"
+                            placeholder="Num"
+                            class="form-control-sm form-control"
+                            style="width: 50px; display: inline-block"
+                    />
+
+                    <div
+                            class="form-check"
+                            style="display: inline-block; border: 0.1px dashed black"
+                    >
+                        <input
+                                checked
+                                name="iswatcherdb"
+                                class="form-check-input"
+                                type="checkbox"
+                                style="width: 20px; display: inline-block"
+                        /><label class="form-check-label" for="defaultCheck2"> DB </label>
+                    </div>
+
+                    <select name="watchertype" class="form-select-sm">
+                        <option value="782" selected>782</option>
+                        <option value="874">874</option>
+                        <option value="1005" selected>1005</option>
+                        <option value="1012" selected>1012</option>
+                        <option value="1004">1004</option>
+                        <option value="907">907</option>
+                        <option value="5839">Italy - 5839</option>
+                    </select>
                 </div>
 
-                <select name="watchertype" class="form-select-sm">
-                    <option value="782" selected>782</option>
-                    <option value="874">874</option>
-                    <option value="1005" selected>1005</option>
-                    <option value="1004">1004</option>
-                    <option value="907">907</option>
-                </select>
-            </div>
-
-            <div class="command">
-                <button
-                        id="newAccBtn"
-                        class="mb-1 btn btn-danger btn-sm"
-                        onclick="(()=>{
+                <div class="command">
+                    <button
+                            id="newAccBtn"
+                            class="mb-1 btn btn-danger btn-sm"
+                            onclick="(()=>{
                 const phone= $('[name=newacc_phone]').val()
                 let bootstrap= ''
                 if(phone) bootstrap=`Mobile=${phone}`
                 exec_command('node src/wrappers/new.accounts.js '+$('[name=newacc_n]').val()+ ' '+bootstrap)
               })()"
-                >
-                    new accounts
-                </button>
-                <input
-                        value="1"
-                        name="newacc_n"
-                        placeholder="Num"
-                        class="form-control-sm form-control"
-                        style="width: 30px; display: inline-block"
-                />
-                <input
-                        value=""
-                        name="newacc_phone"
-                        placeholder="phone?"
-                        class="form-control-sm form-control"
-                        style="width: 140px; display: inline-block"
-                />
+                    >
+                        new accounts
+                    </button>
+                    <input
+                            value="1"
+                            name="newacc_n"
+                            placeholder="Num"
+                            class="form-control-sm form-control"
+                            style="width: 30px; display: inline-block"
+                    />
+                    <input
+                            value=""
+                            name="newacc_phone"
+                            placeholder="phone?"
+                            class="form-control-sm form-control"
+                            style="width: 140px; display: inline-block"
+                    />
+                </div>
             </div>
+            <div style="display: inline-block; border: 1px solid grey; border-radius: 5px; padding: 5px">
+                <div class="command">
+                    <label>wilaya
+                    </label>
 
+                    <select name="wilaya" class="form-select-sm">
+                        <option selected value="alg" selected>alger</option>
+                        <option value="oran">oran</option>
+                        <option value="adrar">adrar</option>
+                </div>
+            </div>
             <hr/>
             <span
                     id="server_resp"
@@ -717,7 +731,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
         setTimeout(refreshState, 1000);
     }
 
-    const inverse_country_visacats_map={
+    const inverse_country_visacats_map = {
         5839: 'it'
     }
 
@@ -728,7 +742,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
         const type = parent.querySelector("[name=type]").value;
 
         exec_command(
-            `node random.booking.js ${howmany} ${type} ${iscib ? "cib" : ""} ${parseInt(type) in inverse_country_visacats_map? '-c '+inverse_country_visacats_map[parseInt(type)] : ""}`
+            `node random.booking.js ${howmany} ${type} ${iscib ? "cib" : ""} ${parseInt(type) in inverse_country_visacats_map ? '-c ' + inverse_country_visacats_map[parseInt(type)] : ""} -w ${document.querySelector("[name=wilaya]").value}`
         );
     }
 
@@ -740,7 +754,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
 
         let i = parseInt(howmany);
         while (i-- > 0)
-            exec_command(`node watch.js ${type} ${iswatcherdb ? "true" : ""}`);
+            exec_command(`node watch.js ${type} ${iswatcherdb ? "-wd 1" : ""} ${parseInt(type) in inverse_country_visacats_map ? '-c ' + inverse_country_visacats_map[parseInt(type)] : ""} -w ${document.querySelector("[name=wilaya]").value}`);
     }
 
     async function exec_command(cmd) {
