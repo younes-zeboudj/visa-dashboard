@@ -400,6 +400,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
                     <option value="1012" selected>1012</option>
                     <option value="1004">1004</option>
                     <option value="907">907</option>
+                    <option value="5839">Italy - 5839</option>
                 </select>
             </div>
 
@@ -716,6 +717,10 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
         setTimeout(refreshState, 1000);
     }
 
+    const inverse_country_visacats_map={
+        5839: 'it'
+    }
+
     function start_random(btn) {
         const parent = btn.closest(".command");
         const howmany = parseInt(parent.querySelector("[name=n]").value);
@@ -723,7 +728,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
         const type = parent.querySelector("[name=type]").value;
 
         exec_command(
-            `node random.booking.js ${howmany} ${type} ${iscib ? "cib" : ""}`
+            `node random.booking.js ${howmany} ${type} ${iscib ? "cib" : ""} ${parseInt(type) in inverse_country_visacats_map? '-c '+inverse_country_visacats_map[parseInt(type)] : ""}`
         );
     }
 
