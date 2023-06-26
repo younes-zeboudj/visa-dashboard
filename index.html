@@ -453,7 +453,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
                 const phone= $('[name=newacc_phone]').val()
                 let bootstrap= ''
                 if(phone) bootstrap=`Mobile=${phone}`
-                exec_command('node src/wrappers/new.accounts.js '+$('[name=newacc_n]').val()+ ' '+bootstrap)
+                exec_command('node src/wrappers/new.accounts.js '+$('[name=newacc_n]').val()+ ' '+bootstrap+' -c '+$('[name=newacccountry]').val())
               })()"
                     >
                         new accounts
