@@ -67,26 +67,32 @@ app.get("/accounts_edit", function (req, res, next) {
     res.sendFile("edit.html", {root: "."});
 });
 
-app.post("/accounts_set", function (req, res) {
+async function update(payload) {
     const accounts = fs.readFileSync("accounts.json", "utf-8");
     const accountsJson = JSON.parse(accounts);
-
-    const bundle = JSON.parse(req.body.data);
+    const bundle = JSON.parse(payload);
     let resp = "";
     for (const key in bundle) {
-        if (!accountsJson[key]) {
-            resp += "" + key + " not there,";
-        } else resp += "ok,";
-        for (const key2 in bundle[key]) {
-            if (Object.hasOwnProperty.call(bundle[key], key2)) {
-                const value = bundle[key][key2];
-                if (!accountsJson[key]) accountsJson[key] = {};
-                accountsJson[key][key2] = value;
+        if (Object.hasOwnProperty.call(bundle, key)) {
+            const value = bundle[key];
+            if (!accountsJson[key]) {
+                resp += "" + key + " not there,";
+            } else resp += "ok,";
+            for (const key2 in bundle[key]) {
+                if (Object.hasOwnProperty.call(bundle[key], key2)) {
+                    const value = bundle[key][key2];
+                    if (!accountsJson[key]) accountsJson[key] = {};
+                    accountsJson[key][key2] = value;
+                }
             }
         }
     }
     fs.writeFileSync("accounts.json", JSON.stringify(accountsJson, null, 2));
-    res.send(resp);
+    return resp;
+}
+app.post("/accounts_set", function (req, res) {
+    const accounts = fs.readFileSync("accounts.json", "utf-8");
+    res.send(update(req.body.data));
 });
 app.post("/accounts_add", function (req, res) {
     const accounts = fs.readFileSync("accounts.json", "utf-8");
@@ -165,21 +171,21 @@ async function choose(payload) {
 
         if (acc.already_booked) {
             if (
-                process.businessDate() - parseInt(acc.lastlogged) < 3 * 24 * 60 * 60 * 1000
+                process.businessDate().getTime() - parseInt(acc.lastlogged) < 3 * 24 * 60 * 60 * 1000
             )
                 continue;
         }
 
         if (
             acc.lastused &&
-            process.businessDate() - parseInt(acc.lastused) < 60000 &&
+            process.businessDate().getTime() - parseInt(acc.lastused) < 180000 &&
             !payload.no_account_usage_wait
         )
             continue;
 
         if (
             acc.lastlogged &&
-            process.businessDate() - parseInt(acc.lastlogged) < 1800000 &&
+            process.businessDate().getTime() - parseInt(acc.lastlogged) < 1800000 &&
             !payload.no_account_usage_wait
         )
             continue;
@@ -194,6 +200,11 @@ async function choose(payload) {
                 Password: acc.password,
                 EmailPassword: acc.email_password,
             };
+            update({
+                accountsID: {
+                    lastused: process.businessDate().getTime(),
+                }
+            })
             break;
         }
     }
