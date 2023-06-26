@@ -763,7 +763,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
         const paspsn = parent.querySelector("[name=randpaspn]").value
 
         exec_command(
-            `node random.booking.js ${howmany} ${type} ${iscib ? "cib" : ""} ${parseInt(type) in inverse_country_visacats_map ? '-c ' + inverse_country_visacats_map[parseInt(type)] : ""} -w ${document.querySelector("[name=wilaya]").value} ${paspsn? '-a ' + paspsn : ""}
+            `node random.booking.js ${howmany} ${type} ${iscib ? "cib" : ""} ${parseInt(type) in inverse_country_visacats_map ? '-c ' + inverse_country_visacats_map[parseInt(type)] : ""} -w ${document.querySelector("[name=wilaya]").value} ${paspsn? '-a ' + paspsn : ""}`
         );
     }
 
