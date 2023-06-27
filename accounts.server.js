@@ -169,7 +169,7 @@ async function choose(payload) {
         if (acc.not_permitted) continue;
         if (acc.booked) continue;
 
-        if (acc.already_booked) {
+        if (acc.already_booked && !payload.country=='it') {
             if (
                 process.businessDate().getTime() - parseInt(acc.lastlogged) < 3 * 24 * 60 * 60 * 1000
             )
@@ -178,7 +178,7 @@ async function choose(payload) {
 
         if (
             acc.lastused &&
-            process.businessDate().getTime() - parseInt(acc.lastused) < 180000 &&
+            process.businessDate().getTime() - parseInt(acc.lastused) < 60000 &&
             !payload.no_account_usage_wait
         )
             continue;
@@ -195,16 +195,16 @@ async function choose(payload) {
             payload.phone == acc.phone ||
             payload.pick_any_account
         ) {
-            result = {
-                EmailId: acc.email,
-                Password: acc.password,
-                EmailPassword: acc.email_password,
-            };
             update({
                 accountsID: {
                     lastused: process.businessDate().getTime(),
                 }
             })
+            result = {
+                EmailId: acc.email,
+                Password: acc.password,
+                EmailPassword: acc.email_password,
+            };
             break;
         }
     }
