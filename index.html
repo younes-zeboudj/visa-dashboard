@@ -27,8 +27,13 @@
         border: 3px solid rgba(255, 255, 255, 0.4);
     }
 
-    .command{
+    .command {
         text-align: start;
+        display: flex;
+        margin: 10px;
+    }
+    .command button, .command input, .command select {
+        margin: 5px;
     }
 </style>
 <body>
@@ -216,7 +221,7 @@ refreshState()
 
             </div>
 
-<div
+            <div
                     style="
             margin-top: 15px;
             padding-top: 30px;
@@ -224,8 +229,10 @@ refreshState()
             border: 2px dashed;
             border-radius: 10px;
             ">
-    <button class="btn btn-success" style="accent-color: #1abc9c" onclick="showAddPasspPage()">add new process</button>
-</div>
+                <button class="btn btn-success" style="accent-color: #1abc9c" onclick="showAddPasspPage()">add new
+                    process
+                </button>
+            </div>
         </div>
 
         <div
@@ -413,15 +420,16 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
 
                     <div
                             class="form-check"
-                            style="display: inline-block; border: 0.1px dashed black"
+                            style="display: flex; align-items: center; border: 0.1px dashed black"
                     >
                         <input
                                 checked
                                 name="cib"
+                                id="isRunCIB"
                                 class="form-check-input"
                                 type="checkbox"
                                 style="width: 20px; display: inline-block"
-                        /><label class="form-check-label" for="defaultCheck1">
+                        /><label class="form-check-label" for="isRunCIB">
                         CIB
                     </label>
                         <input
@@ -446,7 +454,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
 
                 <div class="command">
                     <button
-                            id="stop_btn"
+                            id="startwatchertn"
                             class="mb-1 btn btn-danger btn-sm"
                             onclick="startwatcher(this)"
                     >
@@ -460,17 +468,27 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
                             style="width: 50px; display: inline-block"
                     />
 
-                    <div
-                            class="form-check"
-                            style="display: inline-block; border: 0.1px dashed black"
-                    >
-                        <input
-                                checked
-                                name="iswatcherdb"
-                                class="form-check-input"
-                                type="checkbox"
-                                style="width: 20px; display: inline-block"
-                        /><label class="form-check-label" for="defaultCheck2"> DB </label>
+                    <div style="display: inline-block; border: 0.1px dashed black">
+                        <div class="form-check">
+
+                            <input class="form-check-input" type="radio" name="watcherType" id="iswatcherdb" value="iswatcherdb">
+                            <label class="form-check-label" for="iswatcherdb">
+                                DB
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="watcherType" id="iswatcherapplist" value="iswatcherapplist"
+                                   checked>
+                            <label class="form-check-label" for="iswatcherapplist">
+                                OTPE
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="watcherType" id="iswatchervac"  value="iswatchervac" checked>
+                            <label class="form-check-label" for="iswatchervac">
+                                VAC
+                            </label>
+                        </div>
                     </div>
 
                     <select name="watchertype" class="form-select-sm">
@@ -513,50 +531,50 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
                     />
                     <select name="newacccountry" class="form-select-sm">
                         <option value="fr" selected>fr</option>
-                        <option value="it" >it</option>
-                        <option value="gr" >gr</option>
-                        <option value="fl" >fl</option>
-                        <option value="nl" >nl</option>
+                        <option value="it">it</option>
+                        <option value="gr">gr</option>
+                        <option value="fl">fl</option>
+                        <option value="nl">nl</option>
 
                     </select>
                 </div>
             </div>
             <script>
-                function showAddPasspPage(){
-                    const div=document.createElement('div')
+                function showAddPasspPage() {
+                    const div = document.createElement('div')
                     div.setAttribute('style', 'margin: 10%; position:absolute; top:0; left:0; width:80%; height:80%; background-color:rgba(200,200,200,1); z-index:10000')
 
-                    const iframe= $(`<iframe style="border: 3px #0A9B6A solid; position: absolute; border-radius: 10px; transform:translate(10%, 10%); width:80%; height:80%" src="/add.html${window.appurl?'?appurl='+window.appurl:''}" ></iframe>`)[0]
+                    const iframe = $(`<iframe style="border: 3px #0A9B6A solid; position: absolute; border-radius: 10px; transform:translate(10%, 10%); width:80%; height:80%" src="/add.html${window.appurl ? '?appurl=' + window.appurl : ''}" ></iframe>`)[0]
                     // no click propagation
-                    iframe.onclick=(e)=>{
+                    iframe.onclick = (e) => {
                         e.stopPropagation()
                     }
                     // div.innerHTML= iframe
 
-                    const background= document.createElement('div')
+                    const background = document.createElement('div')
                     background.setAttribute('style', 'position:absolute; top:0; left:0; width:100%; height:100%; background-color:rgba(0,0,0,0.5); z-index:1000')
 
                     document.body.appendChild(background)
                     background.appendChild(iframe)
-                    background.onclick=()=>{
+                    background.onclick = () => {
                         document.body.removeChild(background)
                     }
                     //prevent document scroll
 
                     //hide on escape
-                    iframe.onkeydown=(e)=>{
-                        if(e.key==='Escape'){
+                    iframe.onkeydown = (e) => {
+                        if (e.key === 'Escape') {
                             document.body.removeChild(background)
                         }
                     }
-                    document.onkeydown=(e)=>{
-                        if(e.key==='Escape'){
+                    document.onkeydown = (e) => {
+                        if (e.key === 'Escape') {
                             document.body.removeChild(background)
                         }
                     }
                 }
             </script>
-             <hr/>
+            <hr/>
             <span
                     id="server_resp"
                     style="
@@ -814,19 +832,19 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
         const paspsn = parent.querySelector("[name=randpaspn]").value
 
         exec_command(
-            `node random.booking.js ${howmany} ${type} ${iscib ? "cib" : ""} ${parseInt(type) in inverse_country_visacats_map ? '-c ' + inverse_country_visacats_map[parseInt(type)] : ""} -w ${document.querySelector("[name=wilaya]").value} ${paspsn? '-a ' + paspsn : ""}`
+            `node random.booking.js ${howmany} ${type} ${iscib ? "cib" : ""} ${parseInt(type) in inverse_country_visacats_map ? '-c ' + inverse_country_visacats_map[parseInt(type)] : ""} -w ${document.querySelector("[name=wilaya]").value} ${paspsn ? '-a ' + paspsn : ""}`
         );
     }
 
     function startwatcher(btn) {
         const parent = btn.closest(".command");
         const howmany = parseInt(parent.querySelector("[name=nw]").value);
-        const iswatcherdb = parent.querySelector("[name=iswatcherdb]").checked;
+        const watcherType = parent.querySelector("[name=watcherType]").value;
         const type = parent.querySelector("[name=watchertype]").value;
 
         let i = parseInt(howmany);
         while (i-- > 0)
-            exec_command(`node watch.js ${type} ${iswatcherdb ? "-wd 1" : ""} ${parseInt(type) in inverse_country_visacats_map ? '-c ' + inverse_country_visacats_map[parseInt(type)] : ""} -w ${document.querySelector("[name=wilaya]").value}`);
+            exec_command(`node watch.js ${type} ${watcherType=='iswatcherdb' ? "-wd 1" : ""}  ${watcherType=='iswatcherapplist' ? "-wa 1" : ""} ${parseInt(type) in inverse_country_visacats_map ? '-c ' + inverse_country_visacats_map[parseInt(type)] : ""} -w ${document.querySelector("[name=wilaya]").value}`);
     }
 
     async function exec_command(cmd) {
