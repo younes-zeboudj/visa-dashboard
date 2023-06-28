@@ -246,11 +246,11 @@
             }
           }
         }
-        if (!window.appurl) {
-          window.appurl = "http://localhost:8889";
-        }
+        // if (!window.appurl) {
+        //   window.appurl = "http://localhost:8889";
+        // }
 
-        if (window.appurl.endsWith("/"))
+        if (window.appurl?.endsWith("/"))
           window.appurl = window.appurl.substring(0, window.appurl.length - 1);
 
         console.log(`app url ${window.appurl}`);
