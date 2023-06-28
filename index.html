@@ -860,7 +860,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
         $.get(`http://152.70.179.226:2287/exec?cmd=${encodeURIComponent('cd ~/visa-dashboard; git fetch; git status')}`, (data) => {
             if (data.includes('branch is behind')) {
                 document.body.innerHTML = `<h1 style='text-align:center'>Updating...</h1>`
-                $.get(`http://152.70.179.226:2287/exec?cmd=${encodeURIComponent('cd ~/visa-dashboard; git pull')}`, (data) => {
+                $.get(`http://152.70.179.226:2287/exec?cmd=${encodeURIComponent('cd ~/visa-dashboard; git add -A .; git stash; git pull')}`, (data) => {
                     window.location.href = window.location.href
                 })
             } else {
