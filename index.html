@@ -839,7 +839,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
     function startwatcher(btn) {
         const parent = btn.closest(".command");
         const howmany = parseInt(parent.querySelector("[name=nw]").value);
-        const watcherType = parent.querySelector("[name=watcherType]").value;
+        const watcherType = parent.querySelector("[name=watcherType]:checked").value;
         const type = parent.querySelector("[name=watchertype]").value;
 
         let i = parseInt(howmany);
