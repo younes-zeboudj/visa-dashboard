@@ -21,6 +21,8 @@
             rel="stylesheet"
     />
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+
+    <script type="module" src="js/dashboard_functions.js"></script>
 </head>
 <style>
     #tabs button:disabled {
@@ -232,6 +234,9 @@ refreshState()
             ">
                 <button class="btn btn-success" style="accent-color: #1abc9c" onclick="showAddPasspPage()">add new
                     process
+                </button>
+
+                <button class="btn btn-success" style="accent-color: #1abc9c" onclick="window.show_bdl_success_table()">cancel bdl
                 </button>
             </div>
         </div>
