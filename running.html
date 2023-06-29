@@ -422,10 +422,14 @@
           <button class="btn btn-sm btn-secondary"
 
           onclick="$('#log_popup').modal('show');window.process_log_pid=${
-            process.pid
+                  process.pid
           };get_ui()"
 
           >ui</button>
+
+         <button class="btn btn-info btn-sm" onclick="recreate(${
+                  process.pid
+          })">recreate</button>
 
                     </td>`;
 
@@ -580,7 +584,12 @@
 
       function remove(id) {
         $.get(`${window.appurl}/stoppid?pid=${id}`, (data) =>
-          get_tasks_commands(true)
+                get_tasks_commands(true)
+        );
+      }
+      function recreate(id) {
+        $.get(`${window.appurl}/recreate?pid=${id}`, (data) =>
+                get_tasks_commands(true)
         );
       }
 
