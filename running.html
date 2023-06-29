@@ -222,6 +222,7 @@
           <th scope="col">#</th>
           <th scope="col">Change CIB</th>
           <th scope="col">Name</th>
+          <th scope="col">Country</th>
           <th scope="col">Mobile</th>
           <th scope="col">Type</th>
           <th scope="col">Client</th>
@@ -232,7 +233,7 @@
           <th scope="col">Pasps</th>
           <th scope="col">Command</th>
         </tr>
-      </thead><tbody id="tablebody"><tr style="text-align: center"><td colspan="12" style="text-align: center;background:grey">loading...</td></tr></tbody>
+      </thead><tbody id="tablebody"><tr style="text-align: center"><td colspan="13" style="text-align: center;background:grey">loading...</td></tr></tbody>
 
     </table>
 
@@ -367,12 +368,14 @@
                           </select>
                       </td>`;
           row += `<td>${process.customers[0].FirstName} ${process.customers[0].LastName}</td>`;
+          row += `<td>${process.country}</td>`;
           row += `<td>${process.customers[0].Mobile}</td>`;
           row += `<td>${process.VisaCategoryId}</td>`;
           row += `<td>${
             process.watcher
               ? "<strong style='color:orange'>WATCHER " +
-                (process.watcher_db ? "DB" : "") +
+                    (process.watcher_db ? "DB" : "") +
+                    (process.watcher_applist ? "OTP" : "") +
                 "</strong>"
               : process.client
           }</td>`;
@@ -456,7 +459,7 @@
               }"/>`;
           html += `<tr  style="display: ${
             window.moreInfoStates[rowId] == "folded" ? "none" : "table-row"
-          }" id="${rowId}" class="more-details" ><td id="td${rowId}" style='background: linear-gradient(359deg, grey, grey 70%, #2c3034)'  colspan="12">${formFromJson(
+          }" id="${rowId}" class="more-details" ><td id="td${rowId}" style='background: linear-gradient(359deg, grey, grey 70%, #2c3034)'  colspan="13">${formFromJson(
             {...process_commands},
             null,
             process,
@@ -467,7 +470,7 @@
         if(html)
           document.querySelector("#tablebody").innerHTML = html;
         else
-          document.querySelector("#tablebody").innerHTML = `<tr><td colspan="12" style="text-align: center">no processes</td></tr>`;
+          document.querySelector("#tablebody").innerHTML = `<tr><td colspan="13" style="text-align: center">no processes</td></tr>`;
       }
 
       function formFromJson(json, depth, process, parentJson) {
