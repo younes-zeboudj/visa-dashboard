@@ -35,6 +35,7 @@
         margin: 10px;
         align-items: center;
     }
+
     .command button, .command input, .command select {
         margin: 5px;
     }
@@ -169,7 +170,7 @@ refreshState()
                         exec_command(cmd)
                         })()"
                 >
-                    run from cloud
+                    run multi
                 </button>
                 <br/>
                 <div
@@ -236,7 +237,12 @@ refreshState()
                     process
                 </button>
 
-                <button class="btn btn-success" style="accent-color: #1abc9c" onclick="window.show_bdl_success_table()">cancel bdl
+                <button class="btn btn-success" style="accent-color: #1abc9c" onclick="window.show_bdl_success_table()">
+                    cancel bdl
+                </button>
+
+                <button class="btn btn-success" style="accent-color: #1abc9c" onclick="window.show_db_table()">
+                    database
                 </button>
             </div>
         </div>
@@ -330,7 +336,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
             >
                 restart proxy
             </button>
-            <br/>
+
             <button
                     id="up_acc_serv"
                     style="
@@ -348,7 +354,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
                     onclick="updateAccServer()"
             >
                 up. accounts server
-            </button>
+            </button><br/>
             <button
                     style="
               padding: 0.3em 0.6em;
@@ -390,159 +396,168 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
             </button>
 
             <hr/>
-            <div style="display: inline-block; border: 1px solid grey; border-radius: 5px; padding: 5px">
-                <div style="display: inline-block; border: 1px solid grey; border-radius: 5px;">
-                    <div class="command">
-                        <label>wilaya
-                        </label>
+            <div    style="display: flex; align-items: center; justify-content: center; gap: 10px">
+                <div style="display: inline-block; border: 1px solid grey; border-radius: 5px; padding: 5px">
+                    <div style="display: inline-block; border: 1px solid grey; border-radius: 5px;">
+                        <div class="command">
+                            <label>wilaya
+                            </label>
 
-                        <select name="wilaya" class="form-select-sm">
-                            <option selected value="alg" selected>alger</option>
-                            <option value="oran">oran</option>
-                            <option value="adrar">adrar</option>
-                            <option value="annaba">annaba</option>
-                            <option value="ghard">ghardaia</option>
-                            <option value="const">constantine</option>
-                            <option value="tindouf">tindouf</option>
-                        </select>
+                            <select name="wilaya" class="form-select-sm">
+                                <option selected value="alg" selected>alger</option>
+                                <option value="oran">oran</option>
+                                <option value="adrar">adrar</option>
+                                <option value="annaba">annaba</option>
+                                <option value="ghard">ghardaia</option>
+                                <option value="const">constantine</option>
+                                <option value="tindouf">tindouf</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
 
-                <div class="command">
-                    <button
-                            onclick="start_random(this)"
-                            id=""
-                            class="mb-1 btn btn-danger btn-sm"
-                    >
-                        start random
-                    </button>
-                    <input
-                            value="1"
-                            name="n"
-                            placeholder="Num"
-                            class="form-control-sm form-control"
-                            style="width: 50px; display: inline-block"
-                    />
-
-                    <div
-                            class="form-check"
-                            style="display: flex; align-items: center; border: 0.1px dashed black"
-                    >
+                    <div class="command">
+                        <button
+                                onclick="start_random(this)"
+                                id=""
+                                class="mb-1 btn btn-primary btn-sm"
+                        >
+                            start random
+                        </button>
                         <input
-                                checked
-                                name="cib"
-                                id="isRunCIB"
-                                class="form-check-input"
-                                type="checkbox"
-                                style="width: 20px; display: inline-block"
-                        /><label class="form-check-label" for="isRunCIB">
-                        CIB
-                    </label>
-                        <input
-                                value=""
-                                name="randpaspn"
-                                placeholder="Pasps?"
+                                value="1"
+                                name="n"
+                                placeholder="Num"
                                 class="form-control-sm form-control"
                                 style="width: 50px; display: inline-block"
                         />
+
+                        <div
+                                class="form-check"
+                                style="display: flex; align-items: center; border: 0.1px dashed black"
+                        >
+                            <input
+                                    checked
+                                    name="cib"
+                                    id="isRunCIB"
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    style="width: 20px; display: inline-block"
+                            /><label class="form-check-label" for="isRunCIB">
+                            CIB
+                        </label>
+                            <input
+                                    value=""
+                                    name="randpaspn"
+                                    placeholder="Pasps?"
+                                    class="form-control-sm form-control"
+                                    style="width: 50px; display: inline-block"
+                            />
+                        </div>
+
+                        <select name="type" class="form-select-sm">
+                            <option value="782" selected>782</option>
+                            <option value="874">874</option>
+                            <option value="1005" selected>1005</option>
+                            <option value="1012" selected>1012</option>
+                            <option value="1004">1004</option>
+                            <option value="907">907</option>
+                            <option value="5839">Italy - 5839</option>
+                        </select>
                     </div>
 
-                    <select name="type" class="form-select-sm">
-                        <option value="782" selected>782</option>
-                        <option value="874">874</option>
-                        <option value="1005" selected>1005</option>
-                        <option value="1012" selected>1012</option>
-                        <option value="1004">1004</option>
-                        <option value="907">907</option>
-                        <option value="5839">Italy - 5839</option>
-                    </select>
-                </div>
+                    <div class="command">
+                        <button
+                                id="startwatchertn"
+                                class="mb-1 btn btn-primary btn-sm"
+                                onclick="startwatcher(this)"
+                        >
+                            start watcher
+                        </button>
+                        <input
+                                value="1"
+                                name="nw"
+                                placeholder="Num"
+                                class="form-control-sm form-control"
+                                style="width: 50px; display: inline-block"
+                        />
 
-                <div class="command">
-                    <button
-                            id="startwatchertn"
-                            class="mb-1 btn btn-danger btn-sm"
-                            onclick="startwatcher(this)"
-                    >
-                        start watcher
-                    </button>
-                    <input
-                            value="1"
-                            name="nw"
-                            placeholder="Num"
-                            class="form-control-sm form-control"
-                            style="width: 50px; display: inline-block"
-                    />
+                        <div style="display: inline-block; border: 0.1px dashed black">
+                            <div class="form-check">
 
-                    <div style="display: inline-block; border: 0.1px dashed black">
-                        <div class="form-check">
+                                <input class="form-check-input" type="radio" name="watcherType" id="iswatcherdb"
+                                       value="iswatcherdb">
+                                <label class="form-check-label" for="iswatcherdb">
+                                    DB
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="watcherType" id="iswatcherapplist"
+                                       value="iswatcherapplist"
+                                       checked>
+                                <label class="form-check-label" for="iswatcherapplist">
+                                    OTPE
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="watcherType" id="iswatchervac"
+                                       value="iswatchervac" checked>
+                                <label class="form-check-label" for="iswatchervac">
+                                    VAC
+                                </label>
+                            </div>
+                        </div>
 
-                            <input class="form-check-input" type="radio" name="watcherType" id="iswatcherdb" value="iswatcherdb">
-                            <label class="form-check-label" for="iswatcherdb">
-                                DB
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="watcherType" id="iswatcherapplist" value="iswatcherapplist"
-                                   checked>
-                            <label class="form-check-label" for="iswatcherapplist">
-                                OTPE
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="watcherType" id="iswatchervac"  value="iswatchervac" checked>
-                            <label class="form-check-label" for="iswatchervac">
-                                VAC
-                            </label>
-                        </div>
+                        <select name="watchertype" class="form-select-sm">
+                            <option value="782" selected>782</option>
+                            <option value="874">874</option>
+                            <option value="1005" selected>1005</option>
+                            <option value="1012" selected>1012</option>
+                            <option value="1004">1004</option>
+                            <option value="907">907</option>
+                            <option value="5839">Italy - 5839</option>
+                        </select>
                     </div>
 
-                    <select name="watchertype" class="form-select-sm">
-                        <option value="782" selected>782</option>
-                        <option value="874">874</option>
-                        <option value="1005" selected>1005</option>
-                        <option value="1012" selected>1012</option>
-                        <option value="1004">1004</option>
-                        <option value="907">907</option>
-                        <option value="5839">Italy - 5839</option>
-                    </select>
                 </div>
 
-                <div class="command">
-                    <button
-                            id="newAccBtn"
-                            class="mb-1 btn btn-danger btn-sm"
-                            onclick="(()=>{
+                <div style="display: inline-block; border: 1px solid grey; border-radius: 5px; padding: 5px">
+
+                    <div class="command">
+                        <button
+                                id="newAccBtn"
+                                class="mb-1 btn btn-primary btn-sm"
+                                onclick="(()=>{
                 const phone= $('[name=newacc_phone]').val()
                 let bootstrap= ''
                 if(phone) bootstrap=`Mobile=${phone}`
                 exec_command('node src/wrappers/new.accounts.js '+$('[name=newacc_n]').val()+ ' '+bootstrap+' -c '+$('[name=newacccountry]').val())
               })()"
-                    >
-                        new accounts
-                    </button>
-                    <input
-                            value="1"
-                            name="newacc_n"
-                            placeholder="Num"
-                            class="form-control-sm form-control"
-                            style="width: 30px; display: inline-block"
-                    />
-                    <input
-                            value=""
-                            name="newacc_phone"
-                            placeholder="phone?"
-                            class="form-control-sm form-control"
-                            style="width: 140px; display: inline-block"
-                    />
-                    <select name="newacccountry" class="form-select-sm">
-                        <option value="fr" selected>fr</option>
-                        <option value="it">it</option>
-                        <option value="gr">gr</option>
-                        <option value="fl">fl</option>
-                        <option value="nl">nl</option>
+                        >
+                            new accounts
+                        </button>
+                        <input
+                                value="1"
+                                name="newacc_n"
+                                placeholder="Num"
+                                class="form-control-sm form-control"
+                                style="width: 30px; display: inline-block"
+                        />
+                        <input
+                                value=""
+                                name="newacc_phone"
+                                placeholder="phone?"
+                                class="form-control-sm form-control"
+                                style="width: 140px; display: inline-block"
+                        />
+                        <select name="newacccountry" class="form-select-sm">
+                            <option value="fr" selected>fr</option>
+                            <option value="it">it</option>
+                            <option value="gr">gr</option>
+                            <option value="fl">fl</option>
+                            <option value="nl">nl</option>
 
-                    </select>
+                        </select>
+                    </div>
                 </div>
             </div>
             <script>
@@ -550,7 +565,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
                     const div = document.createElement('div')
                     div.setAttribute('style', 'margin: 10%; position:absolute; top:0; left:0; width:80%; height:80%; background-color:rgba(200,200,200,1); z-index:10000')
 
-                    const iframe = $(`<iframe style="border: 3px #0A9B6A solid; position: absolute; border-radius: 10px; transform:translate(10%, 10%); width:80%; height:80%" src="/add.html${window.appurl ? '?appurl=' + window.appurl : ''}" ></iframe>`)[0]
+                    const iframe = $(`<iframe frameborder="0" scrolling="no"  onload="resizeIframe(this)" style="border: 3px #0A9B6A solid; position: absolute; border-radius: 10px; transform:translate(10%, 10%); width:80%;" src="/add.html?embedded=true${window.appurl ? '&appurl=' + window.appurl : ''}" ></iframe>`)[0]
                     // no click propagation
                     iframe.onclick = (e) => {
                         e.stopPropagation()
@@ -602,35 +617,32 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
         text-align: center;
       "
 >
-    <button url="/add.html" class="btn btn-danger appurl_missing">Add passport</button>
-    <button url="/change.html" class="btn btn-danger appurl_missing">
-        Change
-    </button>
-    <button url="/cards.html" class="btn btn-danger appurl_missing">
+
+    <button url="/cards.html" class="btn btn-light appurl_missing">
         Payment cards
     </button>
-    <button url="/otps.html" class="btn btn-danger appurl_missing">
-        OTPs
-    </button>
-    <button url="/clients.html" class="btn btn-danger appurl_missing">
+<!--    <button url="/otps.html" class="btn btn-danger appurl_missing">-->
+<!--        OTPs-->
+<!--    </button>-->
+    <button url="/clients.html" class="btn btn-light appurl_missing">
         Clients
     </button>
-    <button url="/reservations.html" class="btn btn-danger appurl_missing">
+    <button url="/reservations.html" class="btn btn-light appurl_missing">
         Reservations
     </button>
     <button
             id="activetab"
             url="/running.html"
-            class="btn btn-danger appurl_missing"
+            class="btn btn-light appurl_missing"
     >
         Processes
     </button>
-    <button url="/log.html" class="btn btn-danger appurl_missing">Log</button>
-    <button url="/edit_json.html" class="btn btn-danger appurl_missing">
+    <button url="/log.html" class="btn btn-light appurl_missing">Log</button>
+    <button url="/edit_json.html" class="btn btn-light appurl_missing">
         Edit config
     </button>
 
-    <button url="/edit_file.html" class="btn btn-danger appurl_missing">
+    <button url="/edit_file.html" class="btn btn-light appurl_missing">
         Edit proxies
     </button>
 </div>
@@ -850,7 +862,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
 
         let i = parseInt(howmany);
         while (i-- > 0)
-            exec_command(`node watch.js ${type} ${watcherType=='iswatcherdb' ? "-wd 1" : ""}  ${watcherType=='iswatcherapplist' ? "-wa 1" : ""} ${parseInt(type) in inverse_country_visacats_map ? '-c ' + inverse_country_visacats_map[parseInt(type)] : ""} -w ${document.querySelector("[name=wilaya]").value}`);
+            exec_command(`node watch.js ${type} ${watcherType == 'iswatcherdb' ? "-wd 1" : ""}  ${watcherType == 'iswatcherapplist' ? "-wa 1" : ""} ${parseInt(type) in inverse_country_visacats_map ? '-c ' + inverse_country_visacats_map[parseInt(type)] : ""} -w ${document.querySelector("[name=wilaya]").value}`);
     }
 
     async function exec_command(cmd) {
@@ -901,5 +913,9 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
     }
 
     update_ui(true);
+
+    function resizeIframe(obj) {
+        obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
+    }
 </script>
 </html>

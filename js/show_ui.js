@@ -66,6 +66,40 @@ const reservedApplicationRenderer = {
 }
 
 
+
+const dbApplicationRenderer = {
+    'client': (element) => element.client,
+    'Start': (element) => {
+        const button = document.createElement('button')
+        button.setAttribute('class', 'btn btn-success')
+        button.innerText = 'Start'
+        button.setAttribute('onclick', `$.get('${window.appurl}/launch_process?appdata=${encodeURIComponent(JSON.stringify(element))}', (data) => {
+            console.log(data)
+            showPopup('app respone: ' + data)
+        })`)
+        return button.outerHTML
+    },
+    'Delete': (element) => {
+        const button = document.createElement('button')
+        button.setAttribute('class', 'btn btn-danger')
+        button.innerText = 'Delete'
+        button.setAttribute('onclick', `$.ajax({url: '${element.db_url}', type:'DELETE', success: (data, textStatus, xhr) => {
+                console.log(data)
+                showPopup('result: ' + (data==null?'success':data))
+                if(data===null && xhr.status===200){
+                    this.parentElement.parentElement.parentElement.removeChild(this.parentElement.parentElement)
+                }
+            },
+            error: (xhr, ajaxOptions, thrownError) => {
+                console.log(xhr.status);
+                showPopup('deletion error: ' + xhr.status)
+            }
+        })`)
+        return button.outerHTML
+    }
+}
+
+
 function renderTable(data, renderers) {
     const columns = Object.keys(renderers)
 
@@ -134,4 +168,4 @@ function titled_pane(ui, title){
 }
 
 window.showPopup = showPopup
-export { show_ui, renderTable, basicApplicationRenderer, reservedApplicationRenderer, showPopup, titled_pane }
+export { show_ui, renderTable, basicApplicationRenderer, reservedApplicationRenderer, showPopup, titled_pane, dbApplicationRenderer }
