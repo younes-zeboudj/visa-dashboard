@@ -445,14 +445,14 @@
          <button class="btn btn-info btn-sm" onclick="recreate(${
                   process.pid
           })">recreate</button>
-
+           <br/>
          <button class="btn btn-info btn-sm" onclick="toClipboard(${
                   process.AllocationId
           })">cp. allocation id</button>
 
-         ${process.slot_id_to_book?renderBadge(process.slot_id_to_book):''}
-
          <button class="btn btn-info btn-sm" onclick="pasteAllocationId(${process.pid})">paste allocation id</button>
+
+         ${process.slot_id_to_book?renderBadge(process.slot_id_to_book):''}
 
                     </td>`;
 
