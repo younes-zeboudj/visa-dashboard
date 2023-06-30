@@ -658,8 +658,12 @@
       }
 
       async function toClipboard(text) {
-        await copyTextToClipboard(text);
-        showPopup(`Allocation ID copied to clipboard &#128077;`);
+        if(text) {
+          await copyTextToClipboard(text);
+          showPopup(`Allocation ID copied to clipboard &#128077;`);
+        }else{
+          showPopup(`Allocation ID is empty`);
+        }
       }
 
       function pasteAllocationId(pid) {
