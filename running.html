@@ -404,7 +404,7 @@
           }", {otp:prompt("otp")})' >${process.otp || "empty"}</a></td>`;
           row += `<td>${process.customers.length}</td>`;
 
-          row += `<td>
+          row += `<td style="display:flex; align-items: baseline; gap:5px">
                     <button class="btn btn-danger btn-sm" onclick="remove(${
                       process.pid
                     })">kill</button>
@@ -676,8 +676,8 @@
 
       function renderBadge(text){
         return `
-        <div role="alert" class="alert alert-primary d-flex align-items-center" style="width: 111px;padding: 1px;font-size: 11px;font-family: Arial;font-weight: bold;height: 19px;">
-          <svg width="24" height="24" role="img" aria-label="Info:" style="width: 13px; height: 13px" class="flex-shrink-0"><use xlink:href="#info-fill"></use></svg>
+        <div role="alert" class="alert alert-primary i-flex align-items-center" style="width: 121px;padding: 1px;font-size: 15px;height: 30px; overflow: hidden; margin-bottom: 0px;">
+          <svg width="15" height="15" role="img" aria-label="Info:" style="width: 15px; height: 15px" class="flex-shrink-0"><use xlink:href="#info-fill"></use></svg>
           <div>${text}</div>
         </div>`
       }
