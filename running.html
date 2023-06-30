@@ -404,7 +404,7 @@
           }", {otp:prompt("otp")})' >${process.otp || "empty"}</a></td>`;
           row += `<td>${process.customers.length}</td>`;
 
-          row += `<td style="display:flex; align-items: baseline; gap:5px">
+          row += `<td style="display:flex; align-items: baseline; gap:5px; flex-wrap: wrap">
                     <button class="btn btn-danger btn-sm" onclick="remove(${
                       process.pid
                     })">kill</button>
@@ -445,7 +445,7 @@
          <button class="btn btn-info btn-sm" onclick="recreate(${
                   process.pid
           })">recreate</button>
-           <br/>
+
          <button class="btn btn-info btn-sm" onclick="toClipboard(${
                   process.AllocationId
           })">cp. allocation id</button>
@@ -676,7 +676,7 @@
 
       function renderBadge(text){
         return `
-        <div role="alert" class="alert alert-primary i-flex align-items-center" style="width: 121px;padding: 1px;font-size: 15px;height: 30px; overflow: hidden; margin-bottom: 0px;">
+        <div role="alert" class="alert alert-primary d-flex align-items-center" style="width: 121px;padding: 1px;font-size: 15px;height: 21px; overflow: hidden; margin-bottom: 0px;">
           <svg width="15" height="15" role="img" aria-label="Info:" style="width: 15px; height: 15px" class="flex-shrink-0"><use xlink:href="#info-fill"></use></svg>
           <div>${text}</div>
         </div>`
