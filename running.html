@@ -600,7 +600,7 @@
 
       function sync(pid, data) {
         const payload = encodeURIComponent(JSON.stringify(data));
-        $.get(`${window.appurl}/sync?pid=${pid}&payload=${encodeURIComponent(JSON.stringify(payload))}`, (data) =>
+        $.get(`${window.appurl}/sync?pid=${pid}&payload=${payload}`, (data) =>
           get_tasks_commands()
         );
       }
@@ -660,7 +660,7 @@
       async function toClipboard(text) {
         if(text) {
           await copyTextToClipboard(text);
-          showPopup(`Allocation ID copied to clipboard &#128077;`);
+          showPopup(`Allocation ID copied to clipboard &#128077; ( ${text} )`);
         }else{
           showPopup(`Allocation ID is empty`);
         }
