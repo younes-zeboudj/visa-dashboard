@@ -146,7 +146,7 @@ const showPopup = (message) => {
     div.setAttribute('style', 'margin-left: 50%; position:absolute; top:0; left:0; width:40%; height:30%; background-color:rgba(200,200,200,1); z-index:10000; display:flex; flex-direction:column; justify-content:center; align-items:center; font-size:1.5em; transform: translate(-50%, 0);')
 
     const text = document.createElement('div')
-    text.innerText = message
+    text.innerHTML = message
     div.appendChild(text)
 
     document.body.appendChild(div)

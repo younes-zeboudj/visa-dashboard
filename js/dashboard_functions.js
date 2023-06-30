@@ -33,5 +33,6 @@ async function show_db_table(){
 }
 
 
+
 window.show_bdl_success_table = show_bdl_success_table
 window.show_db_table = show_db_table
