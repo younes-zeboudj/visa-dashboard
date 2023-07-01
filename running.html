@@ -408,7 +408,7 @@
 
                       onmouseout="(()=>{
                           console.log('out')
-                          if(window.oldState===undefined) return;
+                          if(window.oldState===undefined) window.oldState= true
                           window.okforrefresh= window.oldState
                           console.log('okforrefresh', window.okforrefresh)
                       })()"
