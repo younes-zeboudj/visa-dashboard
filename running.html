@@ -408,13 +408,15 @@
 
                       onmouseout="(()=>{
                           console.log('out')
-                          if(window.oldState===undefined) window.oldState= true
+                          if(window.oldState===undefined) return
                           window.okforrefresh= window.oldState
-                          console.log('okforrefresh', window.okforrefresh)
+                            window.oldState=undefined
+                            console.log('okforrefresh', window.okforrefresh)
                       })()"
 
                       onmouseover="(()=>{
                             console.log('in')
+                            if(window.oldState!==undefined) return
                           window.oldState= window.okforrefresh
                           window.okforrefresh=false
                           console.log('okforrefresh', window.okforrefresh)
