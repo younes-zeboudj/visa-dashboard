@@ -454,7 +454,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
                             />
                         </div>
 
-                        <select name="type" class="form-select-sm">
+                        <select name="type" class="form-select-sm visatypes">
                             <option value="782" selected>782</option>
                             <option value="874">874</option>
                             <option value="1005" selected>1005</option>
@@ -507,7 +507,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
                             </div>
                         </div>
 
-                        <select name="watchertype" class="form-select-sm">
+                        <select name="watchertype" class="form-select-sm visatypes">
                             <option value="782" selected>782</option>
                             <option value="874">874</option>
                             <option value="1005" selected>1005</option>
@@ -838,8 +838,14 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
         setTimeout(refreshState, 1000);
     }
 
+
     const inverse_country_visacats_map = {
-        5839: 'it'
+        5839: 'it',
+        5247: 'it',
+        4632: 'it',
+        4633: 'it',
+        5838: 'it',
+        5508: 'it',
     }
 
     function start_random(btn) {
@@ -917,5 +923,56 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
     function resizeIframe(obj) {
         obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
     }
+
+
+    const visacats = {
+        fr: [
+            {name: "tourism", value: 782},
+            {name: "student", value: 781},
+            {name: "renouv", value: 874},
+            {name: "ofii", value: 1005},
+            {name: "medical", value: 907},
+            {name: "typenew", value: 1012},
+            {name: "kafala", value: 1004},
+        ],
+        it: [
+            {name: "business vac", value: 5247},
+            {name: "business cib", value: 5839},
+            {name: "national d (vac)", value: 4632},
+            {name: "other (vac)", value: 4633},
+            {name: "student (cib)", value: 5838},
+            {name: "tourism (cib)", value: 5508},
+        ],
+        gr: [
+            {name: "tourism", value: 4633},
+            {name: "familly", value: 4632},
+            {name: "business", value: 4631},
+        ],
+        nl: [
+            {name: "business", value: 4036},
+            {name: "short", value: 2779},
+        ],
+        as: [
+            {name: "business", value: 5148},
+            {name: "renew", value: 5641},
+            {name: "short", value: 5090},
+            {name: "tourism", value: 1289},
+        ],
+        mt: [{name: "short", value: 3027}],
+    };
+
+    document.querySelectorAll('.visatypes').forEach(e=>{
+        e.innerHTML=''
+
+        let html = ''
+        for (const [key, value] of Object.entries(visacats)) {
+            html += `<optgroup label="${key}">`
+            value.forEach(v=>{
+                html += `<option value="${v.value}">${v.name}</option>`
+            })
+            html += `</optgroup>`
+        }
+        e.innerHTML=html
+    })
 </script>
 </html>
