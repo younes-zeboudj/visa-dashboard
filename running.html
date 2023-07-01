@@ -404,7 +404,18 @@
           }", {otp:prompt("otp")})' >${process.otp || "empty"}</a></td>`;
           row += `<td>${process.customers.length}</td>`;
 
-          row += `<td style="display:flex; align-items: baseline; gap:5px; flex-wrap: wrap">
+          row += `<td style="display:flex; align-items: baseline; gap:5px; flex-wrap: wrap"
+
+                      onmouseout="(()=>{
+                          if(window.oldState===undefined) return;
+                          window.okforrefresh= window.oldState
+                      })()"
+
+                      onmouseenter="(()=>{
+                          window.oldState= window.okforrefresh
+                          window.okforrefresh=false
+                      })()"
+                  >
                     <button class="btn btn-danger btn-sm" onclick="remove(${
                       process.pid
                     })">kill</button>
