@@ -870,9 +870,11 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
         const iscib = parent.querySelector("[name=cib]").checked;
         const type = parent.querySelector("[name=type]").value;
         const paspsn = parent.querySelector("[name=randpaspn]").value
+        const visatype= type.split('/')[1];
+        const country = type.split('/')[0];
 
         exec_command(
-            `node random.booking.js ${howmany} ${type} ${iscib ? "cib" : ""} ${parseInt(type) in inverse_country_visacats_map ? '-c ' + inverse_country_visacats_map[parseInt(type)] : ""} -w ${document.querySelector("[name=wilaya]").value} ${paspsn ? '-a ' + paspsn : ""}`
+            `node random.booking.js ${howmany} ${visatype} ${iscib ? "cib" : ""} -c ${country} -w ${document.querySelector("[name=wilaya]").value} ${paspsn ? '-a ' + paspsn : ""}`
         );
     }
 
@@ -881,10 +883,12 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
         const howmany = parseInt(parent.querySelector("[name=nw]").value);
         const watcherType = parent.querySelector("[name=watcherType]:checked").value;
         const type = parent.querySelector("[name=watchertype]").value;
+        const visaType = type.split('/')[1];
+        const country = type.split('/')[0];
 
         let i = parseInt(howmany);
         while (i-- > 0)
-            exec_command(`node watch.js ${type} ${watcherType == 'iswatcherdb' ? "-wd 1" : ""}  ${watcherType == 'iswatcherapplist' ? "-wa 1" : ""} ${parseInt(type) in inverse_country_visacats_map ? '-c ' + inverse_country_visacats_map[parseInt(type)] : ""} -w ${document.querySelector("[name=wilaya]").value}`);
+            exec_command(`node watch.js ${visaType} ${watcherType == 'iswatcherdb' ? "-wd 1" : ""}  ${watcherType == 'iswatcherapplist' ? "-wa 1" : ""} -c ${country} -w ${document.querySelector("[name=wilaya]").value}`);
     }
 
     async function exec_command(cmd) {
@@ -985,7 +989,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
         for (const [key, value] of Object.entries(visacats)) {
             html += `<optgroup label="${key}">`
             value.forEach(v=>{
-                html += `<option value="${v.value}">${v.name}</option>`
+                html += `<option value="${key}/${v.value}">${v.name}</option>`
             })
             html += `</optgroup>`
         }
