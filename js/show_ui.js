@@ -168,4 +168,7 @@ function titled_pane(ui, title){
 }
 
 window.showPopup = showPopup
+window.show_titled_ui = (ui, title) => {
+    show_ui(titled_pane(ui, title))
+}
 export { show_ui, renderTable, basicApplicationRenderer, reservedApplicationRenderer, showPopup, titled_pane, dbApplicationRenderer }

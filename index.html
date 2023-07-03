@@ -172,6 +172,19 @@ refreshState()
                 >
                     run multi
                 </button>
+                <button
+                        style="margin-bottom: 15px"
+                        id="run_cloud_btn"
+                        class="btn btn-success btn-sm"
+                        onclick="(()=>{
+                            const folders= $.get(`${window.appurl}/exec_sync?cmd=ls -d */`)
+                            const buttonsHtml= folders.map(folder=>`<button class='btn btn-sm btn-light m-5' onclick='exec_command(\'node folder.run.js ${folder}\')'>${folder}</button>`).join('')
+                            show_titled_ui('Select folder', `<div style='display: flex; flex-wrap: wrap; justify-content: space-around'>${buttonsHtml}</div>`)
+                        })()"
+                >
+                    run folder
+                </button>
+
                 <br/>
                 <div
                         class="form-check"
@@ -897,6 +910,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
 
         clearLog();
         setTimeout(refreshState, 1000);
+        return resp
     }
 
     function update_ui(notClicked) {
