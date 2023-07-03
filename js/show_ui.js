@@ -2,6 +2,7 @@ function show_ui(ui) {
     const background = document.createElement('div')
     background.setAttribute('style', 'padding: 30px 15% 30px 15%; position:absolute; top:0; left:0; width:100%; height:100%; background-color:rgba(200,200,200,0.5); z-index:10000; ' +
         'overflow-y:scroll; ')
+    background.setAttribute('id', 'popup_ui_background')
 
     // no click propagation
     ui.onclick = (e) => {
