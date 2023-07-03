@@ -177,7 +177,8 @@ refreshState()
                         id="run_cloud_btn"
                         class="btn btn-success btn-sm"
                         onclick="(()=>{
-                            const folders= $.get(`${window.appurl}/exec_sync?cmd=ls -d */`)
+                            let folders= $.get(`${window.appurl}/exec_sync?cmd=ls -d */`)
+                            folders= folders.split('\n')
                             const buttonsHtml= folders.map(folder=>`<button class='btn btn-sm btn-light m-5' onclick='exec_command(\'node folder.run.js ${folder}\')'>${folder}</button>`).join('')
                             show_titled_ui('Select folder', `<div style='display: flex; flex-wrap: wrap; justify-content: space-around'>${buttonsHtml}</div>`)
                         })()"
