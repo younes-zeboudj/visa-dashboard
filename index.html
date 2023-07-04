@@ -61,7 +61,9 @@
                 document.querySelector('[name=app_url]').value= 'http://localhost:8889';
                 window.appurl= 'http://localhost:8889'
                 if(!getCookie('appurl')) setCookie('appurl', 'http://localhost:8889')
-                refreshState(); return}
+                $('#tabs button:disabled').click()
+                refreshState(); return
+            }
             window.last_click= Date.now()
         })()" style="width: 17%; display: inline-block">App URL:</label>
         <input
