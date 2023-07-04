@@ -32,6 +32,11 @@ function show_ui(ui) {
 const basicApplicationRenderer = {
     'name': (element) => element.customers[0].FirstName + ' ' + element.customers[0].LastName,
     'country': (element) => element.country + ' ' + element.wilaya,
+    'Login': (element)=> `<span style="color:wheat;text-align:center;cursor:pointer" onclick='copyTextToClipboard(this.innerText)'>${
+        element.EmailId
+      }</span><b>/</b><span style="color:wheat;text-align:center;cursor:pointer" onclick='copyTextToClipboard(this.innerText)'>${
+        element.Password
+      }</span>`,
     'Mobile': (element) => element.customers[0].Mobile,
     'VISA': (element) => element.VisaCategoryId,
     'PASPS.': (element) => element.customers.length,
