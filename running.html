@@ -350,6 +350,15 @@
             )
               continue;
           } else continue;
+          if(!process.customers){
+            process.customers=[
+              {
+                FirstName:'undefined !',
+                LastName:'undefined !',
+                Mobile:'undefined !',
+              }
+            ]
+          }
           let row = ``;
           const { pid, ...process_commands } = process;
           const rowId = process.pid;
