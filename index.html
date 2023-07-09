@@ -182,9 +182,20 @@ refreshState()
                         onclick="(async ()=>{
                             let folders= await new Promise(resolve=>$.get(`${window.appurl}/exec_sync?cmd=ls -d */`, data=>resolve(data)))
                             folders= folders.split('\n').filter(folder=>folder.trim())
-                            const execCmd= (folder)=> `exec_command(\`node folder.run.js ${folder}\`); document.querySelector(\`#popup_ui_background\`).click()`
+                            const get_dupBdl= ()=> document.querySelector('#folder_dup_bdl').checked ? 'bdl' : ''
+                            const get_bdlOnly= ()=> document.querySelector('#folder_bdl_only').checked ? 'bdlo' : ''
+                            const execCmd= (folder)=> `exec_command(\`node folder.run.js ${folder} ${get_dupBdl()} ${get_bdlOnly()}\`); document.querySelector(\`#popup_ui_background\`).click() `
                             const buttonsHtml= folders.map(folder=>`<button class='btn btn-lg btn-light m-5' onclick='${execCmd(folder)}'>${folder}</button>`).join('')
-                            show_titled_ui($(`<div style='display: flex; flex-wrap: wrap; justify-content: space-around'>${buttonsHtml}</div>`)[0], 'Select folder')
+                            const runConfigHtml=`
+                            <div style='width:100%; text-align:center'>
+                                    <input type='checkbox' id='folder_dup_bdl' name='folder_dup_bdl' style='width: 20px; display: inline-block'/>
+                                    <label for='folder_dup_bdl'>DUP BDL</label>
+                                    <input type='checkbox' id='folder_bdl_only' name='folder_bdl_only' style='width: 20px; display: inline-block'/>
+                                    <label for='folder_bdl_only'>BDL Only</label>
+                                </div>
+                            
+                            `
+                            show_titled_ui($(`<div style='display: flex; flex-wrap: wrap; justify-content: space-around'>${runConfigHtml}${buttonsHtml}</div>`)[0], 'Select folder')
                         })()"
                 >
                     run folder
