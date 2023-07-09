@@ -182,9 +182,9 @@ refreshState()
                         onclick="(async ()=>{
                             let folders= await new Promise(resolve=>$.get(`${window.appurl}/exec_sync?cmd=ls -d */`, data=>resolve(data)))
                             folders= folders.split('\n').filter(folder=>folder.trim())
-                            const get_dupBdl= ()=> document.querySelector('#folder_dup_bdl').checked ? 'bdl' : ''
-                            const get_bdlOnly= ()=> document.querySelector('#folder_bdl_only').checked ? 'bdlo' : ''
-                            const execCmd= (folder)=> `exec_command(\`node folder.run.js ${folder} ${get_dupBdl()} ${get_bdlOnly()}\`); document.querySelector(\`#popup_ui_background\`).click() `
+                            window.get_dupBdl= ()=> document.querySelector('#folder_dup_bdl').checked ? 'bdl' : ''
+                            window.get_bdlOnly= ()=> document.querySelector('#folder_bdl_only').checked ? 'bdlo' : ''
+                            const execCmd= (folder)=> `exec_command(\`node folder.run.js ${folder} \${window.get_dupBdl()} \${window.get_bdlOnly()}\`); document.querySelector(\`#popup_ui_background\`).click() `
                             const buttonsHtml= folders.map(folder=>`<button class='btn btn-lg btn-light m-5' onclick='${execCmd(folder)}'>${folder}</button>`).join('')
                             const runConfigHtml=`
                             <div style='width:100%; text-align:center'>
