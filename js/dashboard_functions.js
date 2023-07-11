@@ -49,7 +49,7 @@ async function show_db_table(){
 
 function getenvs(appurl) {
 
-$.get(`${appurl}/ends`, (data) => {
+$.get(`${appurl}/envs`, (data) => {
     console.log(data);
     if (data) {
       const envs = data.split("\n");
