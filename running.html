@@ -31,11 +31,10 @@
     />
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/js/bootstrap-editable.min.js"></script>
 
-    <script type="module" src="js/show_ui.js" ></script>
-    <script src="js/clipboard.js" ></script>
+    <script type="module" src="js/show_ui.js"></script>
+    <script src="js/clipboard.js"></script>
 
-        <script type="module" src="js/dashboard_functions.js"></script>
-
+    <script type="module" src="js/dashboard_functions.js"></script>
   </head>
   <style>
     td {
@@ -138,19 +137,29 @@
     });
   </script>
   <body>
-  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-    <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
-      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
-    </symbol>
-    <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
-      <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
-    </symbol>
-    <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
-      <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-    </symbol>
-  </svg>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+      <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path
+          d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+        />
+      </symbol>
+      <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+        <path
+          d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"
+        />
+      </symbol>
+      <symbol
+        id="exclamation-triangle-fill"
+        fill="currentColor"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+        />
+      </symbol>
+    </svg>
 
-  <!-- Modal -->
+    <!-- Modal -->
     <div
       class="modal fade"
       id="log_popup"
@@ -251,18 +260,23 @@
           <th scope="col">Pasps</th>
           <th scope="col">Command</th>
         </tr>
-      </thead><tbody id="tablebody"><tr style="text-align: center"><td colspan="13" style="text-align: center;background:grey">loading...</td></tr></tbody>
-
+      </thead>
+      <tbody id="tablebody">
+        <tr style="text-align: center">
+          <td colspan="13" style="text-align: center; background: grey">
+            loading...
+          </td>
+        </tr>
+      </tbody>
     </table>
 
     <script>
-      window.businessDate= ()=> {
-        const currentDiff= Date.now() - moment.tz('UTC')+60*60*1000;
-        const dateTmp= new Date();
-        dateTmp.setTime(dateTmp.getTime()+currentDiff);
+      window.businessDate = () => {
+        const currentDiff = Date.now() - moment.tz("UTC") + 60 * 60 * 1000;
+        const dateTmp = new Date();
+        dateTmp.setTime(dateTmp.getTime() + currentDiff);
         return dateTmp;
-      }
-
+      };
 
       if (!window.appurl) {
         const params = document.location.href.split("?")[1];
@@ -285,14 +299,13 @@
         console.log(`app url ${window.appurl}`);
       }
 
-      if(!window.appurl) {
+      if (!window.appurl) {
         alert(`appurl not set`);
-        return 
+        return;
         throw new Error(`appurl not set`);
       }
 
       window.getenvs(window.appurl);
-
 
       function get_tasks_commands(render) {
         if (!window.okforrefresh && window.okforrefresh !== undefined) {
@@ -322,7 +335,7 @@
         if (timeout != window.refresh_interval_rate) {
           clearInterval(window.refresh_interval);
           window.refresh_interval = setInterval(
-                  ()=>get_tasks_commands(true),
+            () => get_tasks_commands(true),
             timeout * 1000
           );
         }
@@ -333,10 +346,13 @@
       var cards = [];
 
       window.refresh_interval_rate = 3;
-      window.refresh_interval = setInterval(()=>get_tasks_commands(true), 2000);
+      window.refresh_interval = setInterval(
+        () => get_tasks_commands(true),
+        2000
+      );
       setInterval(get_payment_cards, 3000);
       get_payment_cards(true);
-      get_tasks_commands(true)
+      get_tasks_commands(true);
 
       function showProcesses() {
         if (!window.okforrefresh && window.okforrefresh !== undefined) {
@@ -362,14 +378,14 @@
             )
               continue;
           } else continue;
-          if(!process.customers){
-            process.customers=[
+          if (!process.customers) {
+            process.customers = [
               {
-                FirstName:'undefined !',
-                LastName:'undefined !',
-                Mobile:'undefined !',
-              }
-            ]
+                FirstName: "undefined !",
+                LastName: "undefined !",
+                Mobile: "undefined !",
+              },
+            ];
           }
           let row = ``;
           const { pid, ...process_commands } = process;
@@ -410,15 +426,17 @@
           row += `<td>${
             process.watcher
               ? "<strong style='color:orange'>WATCHER " +
-                    (process.watcher_db ? "DB" : "") +
-                    (process.watcher_applist ? "OTP" : "") +
+                (process.watcher_db ? "DB" : "") +
+                (process.watcher_applist ? "OTP" : "") +
                 "</strong>"
               : process.client
           }</td>`;
           row += `<td style="overflow-wrap:break-word">${
             process.cib?.PAN || "BDL"
           } ${process.cib ? process.cib?.TEXT || "<no name>" : ""}</td>`;
-          row += `<td>${(window.businessDate().getTime() - process.last_seen) / 1000}s</td>`;
+          row += `<td>${
+            (window.businessDate().getTime() - process.last_seen) / 1000
+          }s</td>`;
           row += `<td style="overflow:hidden;white-space:nowrap;width:23%;">${process.status}</td>`;
           row += `<td><a href="#" onclick='sync("${
             process.pid
@@ -461,22 +479,24 @@
           <button class="btn btn-sm btn-secondary"
 
           onclick="$('#log_popup').modal('show');window.process_log_pid=${
-                  process.pid
+            process.pid
           };get_ui()"
 
           >ui</button>
 
          <button class="btn btn-info btn-sm" onclick="recreate(${
-                  process.pid
-          })">recreate</button>
+           process.pid
+         })">recreate</button>
 
          <button class="btn btn-info btn-sm" onclick="toClipboard('${
-                  process.AllocationId
-          }')">cp. allocation id</button>
+           process.AllocationId
+         }')">cp. allocation id</button>
 
-         <button class="btn btn-info btn-sm" onclick="pasteAllocationId(${process.pid})">paste allocation id</button>
+         <button class="btn btn-info btn-sm" onclick="pasteAllocationId(${
+           process.pid
+         })">paste allocation id</button>
 
-         ${process.slot_id_to_book?renderBadge(process.slot_id_to_book):''}
+         ${process.slot_id_to_book ? renderBadge(process.slot_id_to_book) : ""}
 
                     </td>`;
 
@@ -511,17 +531,18 @@
           html += `<tr  style="display: ${
             window.moreInfoStates[rowId] == "folded" ? "none" : "table-row"
           }" id="${rowId}" class="more-details" ><td id="td${rowId}" style='background: linear-gradient(359deg, grey, grey 70%, #2c3034)'  colspan="13">${formFromJson(
-            {...process_commands},
+            { ...process_commands },
             null,
             process,
             null
           )}${newFieldHtml}</td></tr>`;
         }
 
-        if(html)
-          document.querySelector("#tablebody").innerHTML = html;
+        if (html) document.querySelector("#tablebody").innerHTML = html;
         else
-          document.querySelector("#tablebody").innerHTML = `<tr><td colspan="13" style="text-align: center">no processes</td></tr>`;
+          document.querySelector(
+            "#tablebody"
+          ).innerHTML = `<tr><td colspan="13" style="text-align: center">no processes</td></tr>`;
       }
 
       function formFromJson(json, depth, process, parentJson) {
@@ -612,7 +633,8 @@
 
           document.querySelector("#autorefresh").innerText =
             "disable auto refresh";
-          document.querySelector("#autorefresh").classList = "btn btn-secondary";
+          document.querySelector("#autorefresh").classList =
+            "btn btn-secondary";
         }
       }
 
@@ -631,33 +653,30 @@
 
       function remove(id) {
         $.get(`${window.appurl}/stoppid?pid=${id}`, (data) =>
-                get_tasks_commands(true)
+          get_tasks_commands(true)
         );
       }
       function recreate(id) {
         $.get(`${window.appurl}/recreate?pid=${id}`, (data) =>
-                get_tasks_commands(true)
+          get_tasks_commands(true)
         );
       }
 
       async function get_payment_cards(render) {
-        $.ajax(
-          window.FIREBASE_CARDS_URL+"/.json",
-          {
-            method: "get",
+        $.ajax(window.FIREBASE_CARDS_URL + "/.json", {
+          method: "get",
 
-            success: (data, text, xhr) => {
-              cards = [];
-              for (const id in data) {
-                cards.push(data[id]);
-              }
-              //   if (render) get_tasks_commands();
-            },
-            error: (xhr, text, error) => {
-              console.log(error);
-            },
-          }
-        );
+          success: (data, text, xhr) => {
+            cards = [];
+            for (const id in data) {
+              cards.push(data[id]);
+            }
+            //   if (render) get_tasks_commands();
+          },
+          error: (xhr, text, error) => {
+            console.log(error);
+          },
+        });
       }
 
       function cardsHtml(cib) {
@@ -682,10 +701,10 @@
       }
 
       async function toClipboard(text) {
-        if(text) {
+        if (text) {
           await copyTextToClipboard(text);
           showPopup(`Allocation ID copied to clipboard &#128077; ( ${text} )`);
-        }else{
+        } else {
           showPopup(`Allocation ID is empty`);
         }
       }
@@ -696,18 +715,18 @@
             showPopup(`Allocation ID pasted from clipboard ${text}`);
             sync(pid, { slot_id_to_book: text });
           });
-        }catch (e) {
+        } catch (e) {
           const text = prompt("Paste Allocation ID");
           sync(pid, { slot_id_to_book: text });
         }
       }
 
-      function renderBadge(text){
+      function renderBadge(text) {
         return `
         <div role="alert" class="alert alert-primary d-flex align-items-center" style="width: 121px;padding: 1px;font-size: 15px;height: 21px; overflow: hidden; margin-bottom: 0px;">
           <svg width="15" height="15" role="img" aria-label="Info:" style="width: 15px; height: 15px" class="flex-shrink-0"><use xlink:href="#info-fill"></use></svg>
           <div>${text}</div>
-        </div>`
+        </div>`;
       }
     </script>
   </body>
