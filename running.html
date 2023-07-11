@@ -33,6 +33,9 @@
 
     <script type="module" src="js/show_ui.js" ></script>
     <script src="js/clipboard.js" ></script>
+
+        <script type="module" src="js/dashboard_functions.js"></script>
+
   </head>
   <style>
     td {
@@ -281,6 +284,15 @@
 
         console.log(`app url ${window.appurl}`);
       }
+
+      if(!window.appurl) {
+        alert(`appurl not set`);
+        return 
+        throw new Error(`appurl not set`);
+      }
+
+      getenvs(window.appurl);
+
 
       function get_tasks_commands(render) {
         if (!window.okforrefresh && window.okforrefresh !== undefined) {
@@ -630,7 +642,7 @@
 
       async function get_payment_cards(render) {
         $.ajax(
-          "https://payment-cards-default-rtdb.europe-west1.firebasedatabase.app/.json",
+          window.FIREBASE_CARDS_URL+"/.json",
           {
             method: "get",
 

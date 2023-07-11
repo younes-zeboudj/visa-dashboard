@@ -12,6 +12,8 @@
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script type="module" src="js/dashboard_functions.js"></script>
+
 </head>
 
 <body>
@@ -426,6 +428,7 @@
 </button>
 
 <script>
+
     const visacats = {
         fr: [
             {name: "tourism", value: 782},
@@ -698,7 +701,7 @@
         toggleActionButtons(false);
         $.ajax({
             url:
-                "https://passport-add-default-rtdb.europe-west1.firebasedatabase.app/" +
+            window.FIREBASE_PASSPORTS_URL+"/" +
                 (document.querySelector("[name=user]").value || "default") +
                 ".json", // url where to submit the request
             type: "POST", // type of action POST || GET
@@ -744,6 +747,7 @@
             alert("appurl not set");
             return;
         }
+        getenvs(appurl)
         if (cib) {
             data.cib = {PAN: "1", CVC: "", MM: "", YYYY: "", TEXT: ""};
         }
@@ -871,7 +875,7 @@
     });
 
     $.ajax({
-            url: "https://clients-visa-default-rtdb.europe-west1.firebasedatabase.app/.json",
+            url: window.FIREBASE_CLIENTS_URL+"/.json",
             method: "get",
             success: (data, text, xhr) => {
                 $("#user").html(`<option value="${window.is_embedded ? 'default' : ''}">${window.is_embedded ? 'default user' : ''}</option>`);
@@ -891,7 +895,7 @@
 
     function get_passports() {
         $.ajax(
-            "https://passport-add-default-rtdb.europe-west1.firebasedatabase.app/.json",
+            window.FIREBASE_PASSPORTS_URL+"/.json",
             {
                 method: "get",
 
@@ -962,6 +966,7 @@
             }
         }
     }
+    getenvs(window.appurl);
 </script>
 
 <script

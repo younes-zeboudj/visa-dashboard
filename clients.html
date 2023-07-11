@@ -21,6 +21,7 @@
       rel="stylesheet"
     />
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+    <script type="module" src="js/dashboard_functions.js"></script>
   </head>
   <style>
     .table > tbody > tr > td {
@@ -89,10 +90,26 @@
     </table>
 
     <script>
+          const params = document.location.href.split("?")[1];
+    if (params) {
+        const values = params.split("&");
+        for (const val of values) {
+            if (val.startsWith("appurl=")) {
+                window.appurl = decodeURIComponent(val.split("=")[1]);
+            } else if (val.startsWith("embedded=")) {
+                window.is_embedded = true
+            }
+        }
+    }
+    if (!window.appurl) {
+        return alert("appurl is not set");
+    }
+    getenvs(window.appurl);
+
       var cards = [];
       function get_clients() {
         $.ajax(
-          "https://clients-visa-default-rtdb.europe-west1.firebasedatabase.app/.json",
+          window.FIREBASE_CLIENTS_URL+"/.json",
           {
             method: "get",
 
@@ -136,7 +153,7 @@
         let password = prompt("enter password:");
         if (!password) return;
         $.ajax(
-          `https://clients-visa-default-rtdb.europe-west1.firebasedatabase.app/${id}.json`,
+          `${window.FIREBASE_CLIENTS_URL}/${id}.json`,
           {
             method: "patch",
             data: JSON.stringify({ password: password }),
@@ -147,7 +164,7 @@
 
       function remove(id) {
         $.ajax(
-          `https://clients-visa-default-rtdb.europe-west1.firebasedatabase.app/${id}.json`,
+          `${window.FIREBASE_CLIENTS_URL}/${id}.json`,
           { method: "delete", success: () => get_clients() }
         );
       }
@@ -162,7 +179,7 @@
 
       function add(json) {
         $.ajax(
-          `https://clients-visa-default-rtdb.europe-west1.firebasedatabase.app/${json.user}.json`,
+          `${window.FIREBASE_CLIENTS_URL}/${json.user}.json`,
           {
             method: "put",
             data: JSON.stringify(json),
@@ -170,6 +187,7 @@
           }
         );
       }
+      
     </script>
   </body>
 </html>
