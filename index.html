@@ -784,9 +784,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
 
     console.log(`app url is ${window.appurl}`);
     document.querySelector("[name=app_url]").value = window.appurl;
-    if(appurl){
-      window.getenvs(appurl)
-    }
+
     //update buttons
     let currentUrl = document.location.href;
     if (currentUrl.endsWith(".html"))
@@ -1108,5 +1106,8 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
       }
       e.innerHTML = html;
     });
+    if(appurl){
+      window.getenvs(appurl)
+    }
   </script>
 </html>
