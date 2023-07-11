@@ -130,7 +130,7 @@
     if (!window.appurl) {
         return alert("appurl is not set");
     }
-    getenvs(window.appurl);
+    window.getenvs(window.appurl);
 
       function get_payment_cards() {
         $.ajax(

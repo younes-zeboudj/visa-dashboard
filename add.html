@@ -747,7 +747,7 @@
             alert("appurl not set");
             return;
         }
-        getenvs(appurl)
+        window.getenvs(appurl)
         if (cib) {
             data.cib = {PAN: "1", CVC: "", MM: "", YYYY: "", TEXT: ""};
         }
@@ -966,7 +966,7 @@
             }
         }
     }
-    getenvs(window.appurl);
+    window.getenvs(window)
 </script>
 
 <script
