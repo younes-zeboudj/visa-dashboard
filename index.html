@@ -1107,7 +1107,15 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
       e.innerHTML = html;
     });
     if(appurl){
+        if(window.getenvs)
       window.getenvs(appurl)
+      else window.getenvsint= setInterval(()=>{
+        if(window.getenvs){
+          window.getenvs(appurl)
+          clearInterval(window.getenvsint)
+        }else console.log("waiting for window.getenvs")
+      },1000)
+      
     }
   </script>
 </html>
