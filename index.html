@@ -839,7 +839,6 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
     async function startapp() {
       const resp = await new Promise((resolve, reject) => {
         $.ajax(`${window.appurl}/launch`, {
-        $.ajax(`${window.appurl}/launch`, {
           success: (data, textstatus, xhr) => {
             console.log(`received resp ${data}`);
             resolve(data);
