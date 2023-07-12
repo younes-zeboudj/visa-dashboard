@@ -6,7 +6,7 @@ import {
     show_ui,
     titled_pane
 } from "./show_ui.js";
-import {get_db_apps, get_success_bdl_files} from "./get_data.js";
+import {get_all_successes, get_db_apps, get_success_bdl_files} from "./get_data.js";
 
 async function show_bdl_success_table(){
     const data = await get_success_bdl_files()
@@ -23,14 +23,14 @@ async function show_bdl_success_table(){
 
 
 async function show_successes_table(){
-    const data = await get_success_bdl_files()
+    const data = await get_all_successes()
     const renderers = {
         ...basicApplicationRenderer,
         ...reservedApplicationRenderer
     }
 
     const tablehtml= renderTable(data, renderers)
-    const pane = titled_pane(tablehtml, 'BDL Success Files')
+    const pane = titled_pane(tablehtml, 'Success')
     show_ui(pane)
 }
 
