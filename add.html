@@ -966,11 +966,23 @@
         setTimeout(() => $("#server_resp").hide(), 3000);
       }
 
-      const params = document.location.href.senvded=")) {
-            window.is_embedded = true;
-          }
+      const params = document.location.href.split("?")[1];
+
+      if (params) {
+        const values = params.split("&");
+        for (const val of values) {
+            if (val.startsWith("appurl=")) {
+                window.appurl = decodeURIComponent(val.split("=")[1]);
+            } else if (val.startsWith("embedded=")) {
+                window.is_embedded = true
+            }
         }
-      }
+    }
+if(!window.appurl) 
+{
+  console.log("no appurl");
+  throw new Error("no appurl");
+}
       if (window.getenvs) window.getenvs(window.appurl);
       else
         window.getenvsint = setInterval(() => {
