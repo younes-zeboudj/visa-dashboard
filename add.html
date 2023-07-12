@@ -858,9 +858,9 @@
               ["as", "gr"].includes(
                 document.forms.general.elements.country.value
               )
-            )
+            
               $("#gr_as_div").show();
-
+                  }
             document.querySelectorAll('[name="VisaCategoryId"]').forEach(
               (e) =>
                 (e.onclick = function (a) {
@@ -875,7 +875,7 @@
 
         document.querySelector("[value=fr]").click();
         // document.querySelector("#countrypan").style = "display:none;";
-      }
+      
 
       setupElementsAndEvents();
 
