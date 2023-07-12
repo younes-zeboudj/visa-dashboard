@@ -886,6 +886,12 @@
         }
       });
 
+      while(!window.FIREBASE_CLIENTS_URL) {
+        console.log("waiting for FIREBASE_CLIENTS_URL");
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      }
+
       $.ajax({
         url: window.FIREBASE_CLIENTS_URL + "/.json",
         method: "get",
