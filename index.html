@@ -189,7 +189,7 @@ refreshState()
                                     <input type='checkbox' id='folder_bdl_only' name='folder_bdl_only' style='width: 20px; display: inline-block'/>
                                     <label for='folder_bdl_only'>BDL Only</label>
                                 </div>
-                            
+
                             `
                             show_titled_ui($(`<div style='display: flex; flex-wrap: wrap; justify-content: space-around'>${runConfigHtml}${buttonsHtml}</div>`)[0], 'Select folder')
                         })()"
@@ -660,7 +660,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
               );
 
               const iframe = $(
-                `<iframe frameborder="0" scrolling="no"  onload="resizeIframe(this)" style="border: 3px #0A9B6A solid; position: absolute; border-radius: 10px; transform:translate(10%, 10%); width:80%;" src="/add.html?embedded=true${
+                `<iframe frameborder="0"  onload="resizeIframe(this)" style="border: 3px #0A9B6A solid; position: absolute; border-radius: 10px; transform:translate(10%, 10%); width:80%;" src="/add.html?embedded=true${
                   window.appurl ? "&appurl=" + window.appurl : ""
                 }" ></iframe>`
               )[0];
@@ -838,6 +838,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
 
     async function startapp() {
       const resp = await new Promise((resolve, reject) => {
+        $.ajax(`${window.appurl}/launch`, {
         $.ajax(`${window.appurl}/launch`, {
           success: (data, textstatus, xhr) => {
             console.log(`received resp ${data}`);
@@ -1126,6 +1127,6 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
       }
       e.innerHTML = html;
     });
-  
+
   </script>
 </html>

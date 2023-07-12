@@ -873,10 +873,10 @@ if (!window.appurl) {
                       }_vc">${cat.name}</label>
                     </div>`);
                 check = false;
-              ["as", "gr"].includes(
+if(["as", "gr"].includes(
                 document.forms.general.elements.country.value
-              )
-            
+              ))
+
               $("#gr_as_div").show();
                   }
             document.querySelectorAll('[name="VisaCategoryId"]').forEach(
@@ -995,7 +995,7 @@ if (!window.appurl) {
         setTimeout(() => $("#server_resp").hide(), 3000);
       }
 
-if(!window.appurl) 
+if(!window.appurl)
 {
   console.log("no appurl");
   throw new Error("no appurl");
@@ -1008,7 +1008,7 @@ if(!window.appurl)
             clearInterval(window.getenvsint);
           } else console.log("waiting for window.getenvs");
         }, 1000);
-      
+
     </script>
 
     <script
