@@ -63,4 +63,5 @@ $.get(`${appurl}/envs`, (data) => {
 
 window.getenvs = getenvs
 window.show_bdl_success_table = show_bdl_success_table
+window.show_successes_table = show_successes_table
 window.show_db_table = show_db_table
