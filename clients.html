@@ -102,7 +102,9 @@
         }
       }
       if (!window.appurl) {
-        return alert("appurl is not set");
+         alert("appurl is not set");
+         throw new Error("appurl not set");
+
       }
       if (window.getenvs) window.getenvs(window.appurl);
       else
