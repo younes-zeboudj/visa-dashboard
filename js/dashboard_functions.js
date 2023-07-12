@@ -57,6 +57,7 @@ $.get(`${appurl}/envs`, (data) => {
         const vals = env.split("=");
         window[vals[0]] = vals.slice(1).join("=");
       });
+      if (window.get_envs_cb) window.get_envs_cb();
     }
   });
 }
