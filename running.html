@@ -313,7 +313,7 @@
             clearInterval(window.getenvsint);
           } else console.log("waiting for window.getenvs");
         }, 1000);
-        
+
       function get_tasks_commands(render) {
         if (!window.okforrefresh && window.okforrefresh !== undefined) {
           console.log(`refresh disabled`);
@@ -521,7 +521,8 @@
           onkeydown="((evt)=>{
                 evt = evt || window.event;
     var charCode = evt.keyCode || evt.which;
-                  if(charCode==13){
+                  if(charCode==13){      window.getenvs(window.appurl);
+
 
                   sync(${process.pid}, {
                     [document.querySelector('#newFK${rowId}').value]: (this.value=='false'||this.value=='true'?this.value=='true':this.value)
