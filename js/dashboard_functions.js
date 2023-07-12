@@ -27,7 +27,6 @@ async function show_successes_table(){
     const data = await get_all_successes()
     const renderers = {
         ...basicApplicationRenderer,
-        ...reservedApplicationRenderer
     }
 
     const tablehtml= renderTable(data, renderers)
