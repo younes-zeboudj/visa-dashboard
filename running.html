@@ -670,6 +670,9 @@
       }
 
       async function get_payment_cards(render) {
+        while (!window.FIREBASE_CARDS_URL) {
+          await new Promise((r) => setTimeout(r, 1000));
+        }
         $.ajax(window.FIREBASE_CARDS_URL + "/.json", {
           method: "get",
 

@@ -10,6 +10,7 @@ import {get_all_successes, get_db_apps, get_success_bdl_files} from "./get_data.
 
 async function show_bdl_success_table(){
     const data = await get_success_bdl_files()
+    console.log(`success bdl files: ${JSON.stringify(data)}`) // eslint-disable-line no-console
     const renderers = {
         ...basicApplicationRenderer,
         ...reservedApplicationRenderer
