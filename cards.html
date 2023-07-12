@@ -130,8 +130,16 @@
     if (!window.appurl) {
         return alert("appurl is not set");
     }
-    window.getenvs(window.appurl);
-
+    if(window.appurl){
+        if(window.getenvs)
+      window.getenvs(window.appurl)
+      else window.getenvsint= setInterval(()=>{
+        if(window.getenvs){
+          window.getenvs(window.appurl)
+          clearInterval(window.getenvsint)
+        }else console.log("waiting for window.getenvs")
+      },1000)
+    }
       function get_payment_cards() {
         $.ajax(
           window.FIREBASE_CARDS_URL+"/.json",

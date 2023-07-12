@@ -758,7 +758,16 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
       }
       document.cookie = name + "=" + (value || "") + expires + "; path=/";
       if (name === "appurl") {
-        window.getenvs(value);
+        if(window.appurl){
+        if(window.getenvs)
+      window.getenvs(window.appurl)
+      else window.getenvsint= setInterval(()=>{
+        if(window.getenvs){
+          window.getenvs(window.appurl)
+          clearInterval(window.getenvsint)
+        }else console.log("waiting for window.getenvs")
+      },1000)
+    }
       }
     }
 
@@ -784,6 +793,16 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
 
     console.log(`app url is ${window.appurl}`);
     document.querySelector("[name=app_url]").value = window.appurl;
+    if(window.appurl){
+        if(window.getenvs)
+      window.getenvs(window.appurl)
+      else window.getenvsint= setInterval(()=>{
+        if(window.getenvs){
+          window.getenvs(window.appurl)
+          clearInterval(window.getenvsint)
+        }else console.log("waiting for window.getenvs")
+      },1000)
+    }
 
     //update buttons
     let currentUrl = document.location.href;
@@ -1106,16 +1125,6 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
       }
       e.innerHTML = html;
     });
-    if(appurl){
-        if(window.getenvs)
-      window.getenvs(appurl)
-      else window.getenvsint= setInterval(()=>{
-        if(window.getenvs){
-          window.getenvs(appurl)
-          clearInterval(window.getenvsint)
-        }else console.log("waiting for window.getenvs")
-      },1000)
-      
-    }
+  
   </script>
 </html>
