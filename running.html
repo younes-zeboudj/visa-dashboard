@@ -521,8 +521,7 @@
           onkeydown="((evt)=>{
                 evt = evt || window.event;
     var charCode = evt.keyCode || evt.which;
-                  if(charCode==13){      window.getenvs(window.appurl);
-
+                  if(charCode==13){   
 
                   sync(${process.pid}, {
                     [document.querySelector('#newFK${rowId}').value]: (this.value=='false'||this.value=='true'?this.value=='true':this.value)
