@@ -305,8 +305,15 @@
         throw new Error(`appurl not set`);
       }
 
-      window.getenvs(window.appurl);
-
+      if (window.getenvs) window.getenvs(window.appurl);
+      else
+        window.getenvsint = setInterval(() => {
+          if (window.getenvs) {
+            window.getenvs(window.appurl);
+            clearInterval(window.getenvsint);
+          } else console.log("waiting for window.getenvs");
+        }, 1000);
+        
       function get_tasks_commands(render) {
         if (!window.okforrefresh && window.okforrefresh !== undefined) {
           console.log(`refresh disabled`);
