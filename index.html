@@ -750,7 +750,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
 </body>
 <script>
     window.get_envs_cb= ()=>{
-        document.querySelector('#accounts_btn').setAttribute('href', (window.ACCOUNTS_SERVER_URL||'http://localhost:2523')+'/accounts_edit')
+        document.querySelector('#accounts_btn').setAttribute('href', (window.ACCOUNTS_SERVER_URL||window.appurl)+'/accounts_server/accounts_edit')
     }
     function setCookie(name, value, days) {
         var expires = "";
