@@ -650,6 +650,8 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
                             <option value="as">as</option>
                             <option value="mt">mt</option>
                             <option value="mopt">mopt</option>
+                            <option value="gc">gc</option>
+                            <option value="ch">ch</option>
                         </select>
                     </div>
                 </div>
@@ -1113,6 +1115,17 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
             {name: "rabat 5544", value: 5544},
             {name: "rabat 5862", value: 5862},
         ],
+        gc: [
+            {name: "short stay", value: 3030}
+        ],
+        ch: [
+            {name: "affaire", value: 6647},
+            {name: "autre", value: 7479},
+            {name: "medical", value: 8063},
+            {name: "tourism", value: 7478},
+            {name: "famille", value: 6649},
+            {name: "officiel", value: 6650},
+        ]
     };
 
     document.querySelectorAll(".visatypes").forEach((e) => {

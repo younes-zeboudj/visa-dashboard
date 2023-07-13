@@ -60,9 +60,11 @@
         <option  value="data/proxy/mt/list.mt.txt">Proxies mt</option>
         <option  value="data/proxy/as/list.as.txt">Proxies as</option>
         <option  value="data/proxy/mopt/list.mopt.txt">Proxies mopt</option>
+        <option  value="data/proxy/gc/list.mopt.txt">Proxies gc</option>
+        <option  value="data/proxy/ch/list.mopt.txt">Proxies ch</option>
     </select>
     <textarea  onkeyup="document.querySelector('#save_btn').disabled=false" id="content" style="width: 100%; height: 500px;margin-top: 5px;overflow-y: scroll;"></textarea>
-    
+
 
 
     <script>
@@ -87,7 +89,7 @@
         console.log(`app url ${window.appurl}`);
       }
 
-      
+
 
        async function updateEditor(){
         $('#save_btn').attr('disabled', false)
@@ -102,7 +104,7 @@
 
 
         // get json
-        // const updatedJson = 
+        // const updatedJson =
        }
     updateEditor()
     </script>
