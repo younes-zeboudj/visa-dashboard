@@ -417,9 +417,9 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
             "
             >
                 <a
+
                         id='accounts_btn'
                         style="text-decoration: none; color: #000"
-                        target="_blank"
                         href="#"
                 >Edit accounts</a
                 >
@@ -752,7 +752,7 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
 </body>
 <script>
     window.get_envs_cb= ()=>{
-        document.querySelector('#accounts_btn').setAttribute('href', (window.ACCOUNTS_SERVER_URL||window.appurl)+'/accounts_server/accounts_edit')
+        document.querySelector('#accounts_btn').setAttribute('href', (window.ACCOUNTS_SERVER_URL?window.ACCOUNTS_SERVER_URL+'/accounts_edit':window.appurl+'/accounts_server/accounts_edit'))
     }
     function setCookie(name, value, days) {
         var expires = "";
