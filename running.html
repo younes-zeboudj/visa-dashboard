@@ -521,7 +521,7 @@
 
 
           <button
-          disabled="${(!process.manual_cap_intervene)}"
+          ${process.manual_cap_intervene?'':'disabled'}
           class="btn btn-sm btn-secondary"
           style="${process.manual_cap_intervene?'color:red;border:1px solid red;':''}"
           onclick="$('#log_popup').modal('show');window.process_log_pid=${
