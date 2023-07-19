@@ -110,10 +110,37 @@
 
       if (window.process_log_pid) {
         $("#processlog").html(
-          `<img src="${window.appurl}/screenshot?pid=${
-            window.process_log_pid
-          }&ts=${Date.now()}" width="100%" height="100%" />`
+                `<img src="${window.appurl}/screenshot?pid=${
+                        window.process_log_pid
+                }&ts=${Date.now()}" width="100%" height="100%" />`
         );
+      }
+    }
+    function get_cap(arg) {
+      if (!arg) {
+        console.log(`21`);
+        window.get_ui_interval = setInterval(() => get_ui(true), 3000);
+
+        if (window.get_log_interval) {
+          clearInterval(window.get_log_interval);
+          window.get_log_interval = undefined;
+        }
+      }
+
+      if (window.process_log_pid) {
+        $("#processlog").html(`
+            <div style="display:flex; align-items: center; flex-direction: column">
+          <img src="${window.appurl}/capimage?pid=${
+                                  window.process_log_pid
+                          }&ts=${Date.now()}" width="100%" height="100%" />
+
+          <input type="text" id="manual_cap_val" />
+
+          <button class="btn btn-light" onclick="sync(${window.process_log_pid}, {
+              'captcha': document.querySelector('#manual_cap_val').value
+          })">send</button>
+          </div>
+        `);
       }
     }
 
@@ -486,10 +513,19 @@
           <button class="btn btn-sm btn-secondary"
 
           onclick="$('#log_popup').modal('show');window.process_log_pid=${
-            process.pid
+                  process.pid
           };get_ui()"
 
           >ui</button>
+
+
+          <button class="btn btn-sm btn-secondary" style="${process.manual_cap?'color:red;border:1px solid red;':''}"
+
+          onclick="$('#log_popup').modal('show');window.process_log_pid=${
+                  process.pid
+          };get_capfile()"
+
+          >cap</button>
 
          <button class="btn btn-info btn-sm" onclick="recreate(${
            process.pid
@@ -521,7 +557,7 @@
           onkeydown="((evt)=>{
                 evt = evt || window.event;
     var charCode = evt.keyCode || evt.which;
-                  if(charCode==13){   
+                  if(charCode==13){
 
                   sync(${process.pid}, {
                     [document.querySelector('#newFK${rowId}').value]: (this.value=='false'||this.value=='true'?this.value=='true':this.value)
