@@ -116,7 +116,7 @@
         );
       }
     }
-    function get_cap(arg) {
+    function get_capfile(arg) {
       if (!arg) {
         console.log(`21`);
         window.get_ui_interval = setInterval(() => get_ui(true), 3000);
@@ -519,7 +519,7 @@
           >ui</button>
 
 
-          <button class="btn btn-sm btn-secondary" style="${process.manual_cap?'color:red;border:1px solid red;':''}"
+          <button class="btn btn-sm btn-secondary" style="${process.manual_cap_intervene?'color:red;border:1px solid red;':''}"
 
           onclick="$('#log_popup').modal('show');window.process_log_pid=${
                   process.pid
