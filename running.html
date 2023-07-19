@@ -510,6 +510,7 @@
           };get_log();"
 
           >log</button>
+
           <button class="btn btn-sm btn-secondary"
 
           onclick="$('#log_popup').modal('show');window.process_log_pid=${
@@ -519,8 +520,10 @@
           >ui</button>
 
 
-          <button disabled="${process.manual_cap_intervene?false:true}" class="btn btn-sm btn-secondary" style="${process.manual_cap_intervene?'color:red;border:1px solid red;':''}"
-
+          <button
+          disabled="${(!process.manual_cap_intervene)}"
+          class="btn btn-sm btn-secondary"
+          style="${process.manual_cap_intervene?'color:red;border:1px solid red;':''}"
           onclick="$('#log_popup').modal('show');window.process_log_pid=${
                   process.pid
           };get_capfile()"
