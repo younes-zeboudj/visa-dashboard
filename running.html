@@ -137,7 +137,7 @@
           <input type="text" id="manual_cap_val" />
 
           <button class="btn btn-light" onclick="sync(${window.process_log_pid}, {
-              'captcha': document.querySelector('#manual_cap_val').value
+              'captcha_val': document.querySelector('#manual_cap_val').value
           })">send</button>
           </div>
         `);
@@ -519,7 +519,7 @@
           >ui</button>
 
 
-          <button class="btn btn-sm btn-secondary" style="${process.manual_cap_intervene?'color:red;border:1px solid red;':''}"
+          <button disabled="${process.manual_cap_intervene?false:true}" class="btn btn-sm btn-secondary" style="${process.manual_cap_intervene?'color:red;border:1px solid red;':''}"
 
           onclick="$('#log_popup').modal('show');window.process_log_pid=${
                   process.pid
