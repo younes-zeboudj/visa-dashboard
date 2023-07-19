@@ -102,9 +102,9 @@
         console.log(`21`);
         window.get_ui_interval = setInterval(() => get_ui(true), 3000);
 
-        if (window.get_log_interval) {
-          clearInterval(window.get_log_interval);
-          window.get_log_interval = undefined;
+        if (window.get_ui_interval) {
+          clearInterval(window.get_ui_interval);
+          window.get_ui_interval = undefined;
         }
       }
 
@@ -119,11 +119,11 @@
     function get_capfile(arg) {
       if (!arg) {
         console.log(`21`);
-        window.get_ui_interval = setInterval(() => get_ui(true), 3000);
+        window.get_capfile_interval = setInterval(() => get_capfile(true), 3000);
 
-        if (window.get_log_interval) {
-          clearInterval(window.get_log_interval);
-          window.get_log_interval = undefined;
+        if (window.get_capfile_interval) {
+          clearInterval(window.get_capfile_interval);
+          window.get_capfile_interval = undefined;
         }
       }
 
