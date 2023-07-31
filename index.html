@@ -363,6 +363,13 @@ cmd.setAttribute('command', cmd.getAttribute('command').replace(' debug', ''))
                 update
             </button>
 
+            <button
+                    class="btn btn-danger btn-sm"
+                    onclick="$.get(window.appurl+'/rmall')"
+            >
+                kill all
+            </button>
+
             <br/>
             <button
                     id="restart_proxy"
