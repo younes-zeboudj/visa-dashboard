@@ -9,4 +9,9 @@ app.get('/exec', (req, res)=>{
 app.get('/stop', (req, res)=>{
     process.exit(0)
 })
+
+//serve html files in current directory
+app.use(express.static(__dirname, {index: 'index.html',extensions:['html']}))
+
+
 app.listen(parseInt(process.argv[2]) || 8787, ()=>console.log('listening'))
